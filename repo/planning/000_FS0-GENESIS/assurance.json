@@ -28,6 +28,10 @@
         "GEN-NR-018",
         "GEN-NR-019",
         "GEN-NR-020",
+        "GEN-NR-044",
+        "GEN-NR-045",
+        "GEN-NR-046",
+        "GEN-NR-047",
         "GEN-NR-021"
       ],
       "stage": [
@@ -40,6 +44,9 @@
       "requirement_ids": [
         "GEN-NR-021",
         "GEN-NR-025",
+        "GEN-NR-048",
+        "GEN-NR-049",
+        "GEN-NR-050",
         "GEN-NR-026"
       ],
       "stage": [

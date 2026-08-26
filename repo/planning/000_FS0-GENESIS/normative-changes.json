@@ -323,7 +323,71 @@
       "operation": "create",
       "requirement": {
         "id": "GEN-NR-020",
-        "statement": "Each Plan SHALL define implementation sequencing, invariants, validation intent, Assurance intent, and completion conditions.",
+        "statement": "Each Plan SHALL define implementation sequencing.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "mechanical"
+          },
+          "assurance": {
+            "applicability": "required"
+          }
+        }
+      }
+    },
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "GEN-NR-044",
+        "statement": "Each Plan SHALL define implementation invariants.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "mechanical"
+          },
+          "assurance": {
+            "applicability": "required"
+          }
+        }
+      }
+    },
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "GEN-NR-045",
+        "statement": "Each Plan SHALL define validation intent.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "mechanical"
+          },
+          "assurance": {
+            "applicability": "required"
+          }
+        }
+      }
+    },
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "GEN-NR-046",
+        "statement": "Each Plan SHALL define Assurance intent.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "mechanical"
+          },
+          "assurance": {
+            "applicability": "required"
+          }
+        }
+      }
+    },
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "GEN-NR-047",
+        "statement": "Each Plan SHALL define completion conditions.",
         "lifecycle": "candidate-create",
         "evaluation": {
           "conformance": {
@@ -406,7 +470,55 @@
       "operation": "create",
       "requirement": {
         "id": "GEN-NR-025",
-        "statement": "Build verification SHALL establish syntactic validity, mechanical Conformance, operational completion for the functional set, and fidelity to the accepted Plan.",
+        "statement": "Build verification SHALL establish syntactic validity.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "mechanical"
+          },
+          "assurance": {
+            "applicability": "required"
+          }
+        }
+      }
+    },
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "GEN-NR-048",
+        "statement": "Build verification SHALL establish mechanical Conformance.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "mechanical"
+          },
+          "assurance": {
+            "applicability": "required"
+          }
+        }
+      }
+    },
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "GEN-NR-049",
+        "statement": "Build verification SHALL establish operational completion for the functional set.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "mechanical"
+          },
+          "assurance": {
+            "applicability": "required"
+          }
+        }
+      }
+    },
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "GEN-NR-050",
+        "statement": "Build verification SHALL establish fidelity to the accepted Plan.",
         "lifecycle": "candidate-create",
         "evaluation": {
           "conformance": {
@@ -558,7 +670,75 @@
       "operation": "create",
       "requirement": {
         "id": "GEN-NR-034",
-        "statement": "Canonical Conformance execution SHALL detect missing mechanical requirement coverage, invalid assertion ownership, unreachable gating assertions, missing assertion results, and assertion failure.",
+        "statement": "Canonical Conformance execution SHALL detect missing mechanical requirement coverage.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "mechanical"
+          },
+          "assurance": {
+            "applicability": "none",
+            "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+          }
+        }
+      }
+    },
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "GEN-NR-051",
+        "statement": "Canonical Conformance execution SHALL detect invalid assertion ownership.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "mechanical"
+          },
+          "assurance": {
+            "applicability": "none",
+            "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+          }
+        }
+      }
+    },
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "GEN-NR-052",
+        "statement": "Canonical Conformance execution SHALL detect unreachable gating assertions.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "mechanical"
+          },
+          "assurance": {
+            "applicability": "none",
+            "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+          }
+        }
+      }
+    },
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "GEN-NR-053",
+        "statement": "Canonical Conformance execution SHALL detect missing assertion results.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "mechanical"
+          },
+          "assurance": {
+            "applicability": "none",
+            "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+          }
+        }
+      }
+    },
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "GEN-NR-054",
+        "statement": "Canonical Conformance execution SHALL detect assertion failure.",
         "lifecycle": "candidate-create",
         "evaluation": {
           "conformance": {

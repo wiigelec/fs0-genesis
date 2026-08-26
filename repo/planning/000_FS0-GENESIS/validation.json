@@ -104,12 +104,6 @@
       "gating": true
     },
     {
-      "id": "GEN-ASSERT-020",
-      "requirement_id": "GEN-NR-020",
-      "predicate": "Each Plan SHALL define implementation sequencing, invariants, validation intent, Assurance intent, and completion conditions.",
-      "gating": true
-    },
-    {
       "id": "GEN-ASSERT-021",
       "requirement_id": "GEN-NR-021",
       "predicate": "An accepted Plan SHALL authorize Build only within the implementation scope declared by that Plan.",
@@ -131,12 +125,6 @@
       "id": "GEN-ASSERT-024",
       "requirement_id": "GEN-NR-024",
       "predicate": "Build SHALL produce a machine-readable manifest of realized repository mutations.",
-      "gating": true
-    },
-    {
-      "id": "GEN-ASSERT-025",
-      "requirement_id": "GEN-NR-025",
-      "predicate": "Build verification SHALL establish syntactic validity, mechanical Conformance, operational completion for the functional set, and fidelity to the accepted Plan.",
       "gating": true
     },
     {
@@ -179,12 +167,6 @@
       "id": "GEN-ASSERT-033",
       "requirement_id": "GEN-NR-033",
       "predicate": "Each gating Conformance assertion SHALL be reachable from canonical Conformance execution.",
-      "gating": true
-    },
-    {
-      "id": "GEN-ASSERT-034",
-      "requirement_id": "GEN-NR-034",
-      "predicate": "Canonical Conformance execution SHALL detect missing mechanical requirement coverage, invalid assertion ownership, unreachable gating assertions, missing assertion results, and assertion failure.",
       "gating": true
     },
     {
@@ -240,6 +222,90 @@
       "requirement_id": "GEN-NR-043",
       "predicate": "LICENSE exists at repository root and contains the complete GNU General Public License version 3 text.",
       "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-020",
+      "requirement_id": "GEN-NR-020",
+      "predicate": "Each Plan SHALL define implementation sequencing.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-044",
+      "requirement_id": "GEN-NR-044",
+      "predicate": "Each Plan SHALL define implementation invariants.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-045",
+      "requirement_id": "GEN-NR-045",
+      "predicate": "Each Plan SHALL define validation intent.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-046",
+      "requirement_id": "GEN-NR-046",
+      "predicate": "Each Plan SHALL define Assurance intent.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-047",
+      "requirement_id": "GEN-NR-047",
+      "predicate": "Each Plan SHALL define completion conditions.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-025",
+      "requirement_id": "GEN-NR-025",
+      "predicate": "Build verification SHALL establish syntactic validity.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-048",
+      "requirement_id": "GEN-NR-048",
+      "predicate": "Build verification SHALL establish mechanical Conformance.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-049",
+      "requirement_id": "GEN-NR-049",
+      "predicate": "Build verification SHALL establish operational completion for the functional set.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-050",
+      "requirement_id": "GEN-NR-050",
+      "predicate": "Build verification SHALL establish fidelity to the accepted Plan.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-034",
+      "requirement_id": "GEN-NR-034",
+      "predicate": "Canonical Conformance execution SHALL detect missing mechanical requirement coverage.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-051",
+      "requirement_id": "GEN-NR-051",
+      "predicate": "Canonical Conformance execution SHALL detect invalid assertion ownership.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-052",
+      "requirement_id": "GEN-NR-052",
+      "predicate": "Canonical Conformance execution SHALL detect unreachable gating assertions.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-053",
+      "requirement_id": "GEN-NR-053",
+      "predicate": "Canonical Conformance execution SHALL detect missing assertion results.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-054",
+      "requirement_id": "GEN-NR-054",
+      "predicate": "Canonical Conformance execution SHALL detect assertion failure.",
+      "gating": true
     }
   ],
   "implementation_groups": [
@@ -281,6 +347,10 @@
         "GEN-ASSERT-018",
         "GEN-ASSERT-019",
         "GEN-ASSERT-020",
+        "GEN-ASSERT-044",
+        "GEN-ASSERT-045",
+        "GEN-ASSERT-046",
+        "GEN-ASSERT-047",
         "GEN-ASSERT-021",
         "GEN-ASSERT-039"
       ]
@@ -294,6 +364,9 @@
         "GEN-ASSERT-023",
         "GEN-ASSERT-024",
         "GEN-ASSERT-025",
+        "GEN-ASSERT-048",
+        "GEN-ASSERT-049",
+        "GEN-ASSERT-050",
         "GEN-ASSERT-026",
         "GEN-ASSERT-040"
       ]
@@ -309,6 +382,10 @@
         "GEN-ASSERT-031",
         "GEN-ASSERT-033",
         "GEN-ASSERT-034",
+        "GEN-ASSERT-051",
+        "GEN-ASSERT-052",
+        "GEN-ASSERT-053",
+        "GEN-ASSERT-054",
         "GEN-ASSERT-035",
         "GEN-ASSERT-037",
         "GEN-ASSERT-038"
