@@ -70,6 +70,22 @@
     {
       "id": "GEN-INV-017",
       "statement": "Genesis preserves exact Design revisions as content-addressed historical input snapshots solely to make the root portable without prototype history; those snapshots are non-authoritative and do not establish duplication as the ordinary successor Planning model."
+    },
+    {
+      "id": "GEN-INV-018",
+      "statement": "The initial commit of the derived FS0-GENESIS repository is the repository provenance horizon: post-Genesis lineage begins at that revision and does not require prototype or pre-root Git ancestry."
+    },
+    {
+      "id": "GEN-INV-019",
+      "statement": "GitHub issues, pull requests, reviews, workflow runs, and merge state provide governed provenance and evidence surfaces but do not independently own normative authority."
+    },
+    {
+      "id": "GEN-INV-020",
+      "statement": "The repository persists Conformance evidence identities/obligations and Assurance correspondence/obligation definitions, while per-candidate Assurance findings and execution receipts remain on governed issue/PR evidence surfaces."
+    },
+    {
+      "id": "GEN-INV-021",
+      "statement": "Continuous integration is a thin exact-candidate orchestration layer over repo/scripts/validate and shall not become a competing Conformance authority or validator."
     }
   ]
 }

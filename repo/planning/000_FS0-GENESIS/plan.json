@@ -24,6 +24,8 @@
       "Assurance obligations"
     ],
     "design_binding_source": "functional-set.json",
-    "genesis_design_binding": "portable-content-addressed-snapshots"
+    "genesis_design_binding": "portable-content-addressed-snapshots",
+    "repository_provenance_horizon": "initial-derived-fs0-genesis-commit",
+    "historical_evidence_surface": "governed issue/pull-request lifecycle evidence after repository creation; the initial derived commit is the first repository-native provenance point"
   }
 }

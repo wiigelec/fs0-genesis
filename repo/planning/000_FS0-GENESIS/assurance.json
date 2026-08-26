@@ -63,7 +63,8 @@
       "requirement_ids": [
         "GEN-NR-038",
         "GEN-NR-039",
-        "GEN-NR-040"
+        "GEN-NR-040",
+        "GEN-NR-063"
       ],
       "stage": [
         "planning",
@@ -76,7 +77,9 @@
       "requirement_ids": [
         "GEN-NR-041",
         "GEN-NR-042",
-        "GEN-NR-043"
+        "GEN-NR-043",
+        "GEN-NR-061",
+        "GEN-NR-062"
       ],
       "stage": [
         "planning",
@@ -101,6 +104,12 @@
       "PASS",
       "FAIL",
       "INCOMPLETE"
-    ]
+    ],
+    "storage": {
+      "case_payload_surface": "governed-issue-and-pull-request",
+      "repository_persistence": "canonical Assurance correspondence, obligation definitions, and structural contracts only",
+      "candidate_binding": "each acceptance-relevant case resolves to governed work and the exact candidate revision reviewed",
+      "genesis_bootstrap_exception": "the initial derived Genesis commit is the first repository provenance point; where no predecessor PR surface exists, the governed bootstrap issue and exact G0 revision provide the root evidence binding"
+    }
   }
 }

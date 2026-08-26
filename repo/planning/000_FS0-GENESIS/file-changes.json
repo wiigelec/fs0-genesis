@@ -168,14 +168,21 @@
         "GEN-NR-021",
         "GEN-NR-026",
         "GEN-NR-039",
-        "GEN-NR-040"
+        "GEN-NR-040",
+        "GEN-NR-061",
+        "GEN-NR-062",
+        "GEN-NR-063"
       ],
       "purpose": "Provide minimal explicit Planning/Build acceptance and accepted-state advancement.",
       "implementation": [
         "Model acceptance as an explicit decision distinct from Conformance or Assurance success.",
         "Apply accepted normative changes to the persistent authority registry during accepted state construction.",
         "Advance accepted state only after required stage evidence is satisfied.",
-        "Do not implement the complete later Governance lifecycle."
+        "Do not implement the complete later Governance lifecycle.",
+        "Treat the initial derived Genesis repository commit as the root repository provenance revision and require no repository predecessor before it.",
+        "After the root revision exists, resolve governed work through stable issue identity, exact candidate revision, and pull-request review surface when a pull request exists.",
+        "Verify that any pull-request review surface used for governed acceptance identifies the exact candidate branch and commit revision under review.",
+        "Treat issue state, pull-request state, merge state, workflow state, and review comments as Governance provenance or evidence only; none independently creates normative authority."
       ]
     },
     {
@@ -195,7 +202,8 @@
         "GEN-NR-052",
         "GEN-NR-053",
         "GEN-NR-054",
-        "GEN-NR-035"
+        "GEN-NR-035",
+        "GEN-NR-060"
       ],
       "purpose": "Create persistent Conformance registries for assertions, implementations, and orchestration.",
       "implementation": [
@@ -203,7 +211,9 @@
         "Maintain implementation bindings as the only persisted assertion-to-implementation relationship.",
         "Allow one implementation to bind multiple assertions.",
         "Maintain orchestration as implementation reachability without separately duplicating assertion membership.",
-        "Derive correspondence from accepted requirement applicability plus assertion ownership."
+        "Derive correspondence from accepted requirement applicability plus assertion ownership.",
+        "Maintain governed evidence-obligation and evidence-identity metadata needed for evidence closure.",
+        "Keep repository Conformance evidence records as correspondence/registry metadata; do not persist per-candidate CI logs or review receipts as maintained repository evidence payloads."
       ]
     },
     {
@@ -222,7 +232,8 @@
         "GEN-NR-052",
         "GEN-NR-053",
         "GEN-NR-054",
-        "GEN-NR-035"
+        "GEN-NR-035",
+        "GEN-NR-060"
       ],
       "purpose": "Implement the shared canonical Conformance engine.",
       "implementation": [
@@ -230,7 +241,8 @@
         "Check applicability/coverage, assertion ownership, implementation binding, and orchestration reachability.",
         "Execute implementations and require exactly one result for each required executed assertion.",
         "Emit structured assertion-level findings.",
-        "Return PASS, FAIL, or INCOMPLETE with configuration/runtime defects distinguished from assertion failure."
+        "Return PASS, FAIL, or INCOMPLETE with configuration/runtime defects distinguished from assertion failure.",
+        "Check evidence closure by resolving every executable assertion to its governed evidence obligations and declared evidence identities."
       ]
     },
     {
@@ -256,14 +268,16 @@
         "GEN-NR-036",
         "GEN-NR-037",
         "GEN-NR-038",
-        "GEN-NR-039"
+        "GEN-NR-039",
+        "GEN-NR-063"
       ],
       "purpose": "Create minimal persistent Assurance correspondence and review-obligation state.",
       "implementation": [
         "Derive Assurance applicability from accepted requirements without duplicating normative text.",
         "Maintain review obligations separately from requirement identity.",
-        "Represent review cases with explicit authorizing authority, review subject, exercised obligations, evidence references, and findings.",
-        "Keep findings bounded to the review case."
+        "Keep findings bounded to the review case.",
+        "Maintain repository Assurance correspondence, review-obligation definitions, and review-case structural contracts without using the repository as the historical case-evidence store.",
+        "Define the required structure by which governed issue/PR review receipts identify authorizing authority, exact candidate revision, exercised obligations, evidence references, findings, and disposition."
       ]
     },
     {
@@ -274,14 +288,17 @@
         "GEN-NR-036",
         "GEN-NR-037",
         "GEN-NR-038",
-        "GEN-NR-039"
+        "GEN-NR-039",
+        "GEN-NR-063"
       ],
       "purpose": "Support minimal Planning and Build Assurance needed for successor framework work.",
       "implementation": [
         "Load review obligations applicable to the governed stage.",
         "Validate review-case structure mechanically while preserving semantic judgment for the reviewer.",
         "Record attributable findings and case disposition.",
-        "Do not convert findings into normative authority."
+        "Do not convert findings into normative authority.",
+        "Consume and validate structured Assurance review receipts from the governed issue/pull-request evidence surface rather than persisting case findings as maintained repository state.",
+        "Require acceptance-relevant findings to remain resolvable to the exact candidate revision, review case, exercised obligations, and evidence basis."
       ]
     },
     {
@@ -305,7 +322,8 @@
         "Compute the authorized mutation set from file changes.",
         "Reject observed mutations outside that set.",
         "Produce a machine-readable mutation manifest.",
-        "Invoke the same Conformance engine used by repo/scripts/validate and collect required Assurance evidence before acceptance."
+        "Invoke the same Conformance engine used by repo/scripts/validate and collect required Assurance evidence before acceptance.",
+        "Bind Build verification and collected Conformance/Assurance evidence to the exact candidate repository revision being considered for acceptance."
       ]
     },
     {
@@ -314,13 +332,17 @@
       "operation": "create",
       "requirement_ids": [
         "GEN-NR-015",
-        "GEN-NR-040"
+        "GEN-NR-040",
+        "GEN-NR-061",
+        "GEN-NR-062"
       ],
       "purpose": "Represent the first and successor accepted repository states without dependence on prototype provenance.",
       "implementation": [
         "Represent accepted repository revision and acceptance identity needed for internal successor lineage.",
         "Do not require source-repository URL, prototype commit ancestry, or external pre-Genesis repository ancestry for authority.",
-        "Permit successor Planning to bind one exact accepted repository state."
+        "Permit successor Planning to bind one exact accepted repository state.",
+        "Record the initial derived Genesis commit as the root repository revision for post-Genesis lineage.",
+        "Resolve all successor accepted-state lineage from that root forward without requiring prototype or pre-root Git ancestry."
       ]
     },
     {
@@ -346,7 +368,11 @@
         "GEN-NR-056",
         "GEN-NR-057",
         "GEN-NR-058",
-        "GEN-NR-059"
+        "GEN-NR-059",
+        "GEN-NR-060",
+        "GEN-NR-061",
+        "GEN-NR-062",
+        "GEN-NR-063"
       ],
       "purpose": "Provide focused implementation evidence for Genesis framework mechanisms.",
       "implementation": [
@@ -354,7 +380,11 @@
         "Do not treat broad test-suite success as a substitute for requirement-owned assertions.",
         "Include a successor-framework functional-set fixture proving normal post-Genesis workflow.",
         "Test that a copied Genesis tree with no prototype Git history can verify all Design inputs from preserved snapshots, and that the successor fixture may use repository-native exact revision binding without duplicated Design content.",
-        "Include a boundary test demonstrating that Genesis snapshot resolution does not cause the preserved snapshot to replace the maintained Design Proposal as the canonical Design semantic source."
+        "Include a boundary test demonstrating that Genesis snapshot resolution does not cause the preserved snapshot to replace the maintained Design Proposal as the canonical Design semantic source.",
+        "Test evidence closure independently from assertion execution success.",
+        "Test that the derived repository initial commit is the provenance root and that no post-Genesis lineage resolution requires ancestry before that commit.",
+        "Test governed issue/PR candidate binding and historical Assurance receipt resolution without persisting case evidence payloads under repo/.",
+        "Test that local repo/scripts/validate remains usable without GitHub API access; remote CI and Governance binding add candidate-context evidence without becoming a second validator."
       ]
     },
     {
@@ -401,6 +431,29 @@
         "Populate LICENSE with the complete GNU General Public License version 3 text.",
         "Treat LICENSE as legal distribution/reuse text, not repository-framework normative authority.",
         "Do not derive framework semantics from the license text."
+      ]
+    },
+    {
+      "id": "GEN-FILE-016",
+      "path": ".github/workflows/fs0-conformance.yml",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-026",
+        "GEN-NR-035",
+        "GEN-NR-039",
+        "GEN-NR-040",
+        "GEN-NR-061",
+        "GEN-NR-062"
+      ],
+      "purpose": "Provide thin read-only continuous integration that evaluates the exact repository candidate through canonical Conformance and supplies remote execution evidence to the governed lifecycle.",
+      "implementation": [
+        "Run on pull_request, push, and workflow_dispatch.",
+        "Use read-only contents, issues, and pull-request permissions.",
+        "Determine the exact candidate commit SHA from pull-request head SHA or the pushed revision and check out exactly that revision with persisted credentials disabled.",
+        "When pull-request context exists, verify governed-work and pull-request candidate binding before canonical Conformance execution.",
+        "Invoke repo/scripts/validate --verbose as the sole repository Conformance execution path; define no independent normative predicates in workflow YAML.",
+        "Leave workflow results and detailed execution logs on the hosting platform as evidence referenced by governed issue/PR receipts rather than committing CI evidence payloads into repo/.",
+        "For the initial derived Genesis commit, permit push-triggered canonical Conformance evidence bound directly to G0 because no predecessor pull-request surface can exist before the repository provenance root."
       ]
     }
   ]

@@ -324,6 +324,24 @@
       "requirement_id": "GEN-NR-057",
       "predicate": "Genesis validation SHALL resolve selected Design statement identities against the digest-verified preserved Design Proposal snapshot.",
       "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-060",
+      "requirement_id": "GEN-NR-060",
+      "predicate": "Each executable Conformance assertion SHALL satisfy the governed evidence obligations applicable to that assertion.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-061",
+      "requirement_id": "GEN-NR-061",
+      "predicate": "The initial commit of the derived FS0-GENESIS repository SHALL establish the root repository revision for post-Genesis provenance.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-062",
+      "requirement_id": "GEN-NR-062",
+      "predicate": "Post-Genesis repository provenance SHALL NOT depend on repository ancestry preceding the initial derived FS0-GENESIS repository commit.",
+      "gating": true
     }
   ],
   "implementation_groups": [
@@ -409,7 +427,8 @@
         "GEN-ASSERT-054",
         "GEN-ASSERT-035",
         "GEN-ASSERT-037",
-        "GEN-ASSERT-038"
+        "GEN-ASSERT-038",
+        "GEN-ASSERT-060"
       ]
     },
     {
@@ -420,6 +439,15 @@
         "GEN-ASSERT-041",
         "GEN-ASSERT-042",
         "GEN-ASSERT-043"
+      ]
+    },
+    {
+      "id": "GEN-IMPL-GOVERNANCE",
+      "kind": "python",
+      "entrypoint": "repo_spec.conformance.governance",
+      "assertion_ids": [
+        "GEN-ASSERT-061",
+        "GEN-ASSERT-062"
       ]
     }
   ],

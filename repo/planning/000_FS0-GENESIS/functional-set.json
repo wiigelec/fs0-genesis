@@ -232,7 +232,17 @@
         "DP020-DETAIL-193",
         "DP020-DETAIL-194",
         "DP020-DETAIL-195",
-        "DP020-DETAIL-196"
+        "DP020-DETAIL-196",
+        "DP020-DETAIL-074",
+        "DP020-DETAIL-075",
+        "DP020-DETAIL-076",
+        "DP020-DETAIL-077",
+        "DP020-DETAIL-078",
+        "DP020-DETAIL-079",
+        "DP020-DETAIL-080",
+        "DP020-DETAIL-084",
+        "DP020-DETAIL-085",
+        "DP020-DETAIL-086"
       ],
       "binding": {
         "kind": "genesis-portable-snapshot",
@@ -337,7 +347,17 @@
         "DP030-DETAIL-183",
         "DP030-DETAIL-184",
         "DP030-DETAIL-185",
-        "DP030-DETAIL-186"
+        "DP030-DETAIL-186",
+        "DP030-DETAIL-096",
+        "DP030-DETAIL-097",
+        "DP030-DETAIL-098",
+        "DP030-DETAIL-099",
+        "DP030-DETAIL-100",
+        "DP030-DETAIL-101",
+        "DP030-DETAIL-102",
+        "DP030-DETAIL-134",
+        "DP030-DETAIL-135",
+        "DP030-DETAIL-136"
       ],
       "binding": {
         "kind": "genesis-portable-snapshot",
@@ -398,7 +418,13 @@
         "DP040-DETAIL-082",
         "DP040-DETAIL-085",
         "DP040-DETAIL-086",
-        "DP040-DETAIL-087"
+        "DP040-DETAIL-087",
+        "DP040-DETAIL-067",
+        "DP040-DETAIL-068",
+        "DP040-DETAIL-069",
+        "DP040-DETAIL-070",
+        "DP040-DETAIL-081",
+        "DP040-DETAIL-083"
       ],
       "binding": {
         "kind": "genesis-portable-snapshot",
@@ -423,7 +449,11 @@
       "one canonical repository Conformance execution surface",
       "minimal governed Assurance obligations and bounded review cases",
       "self-hosting successor-framework functional-set capability",
-      "portable repository-root README, agent guidance, and license artifacts"
+      "portable repository-root README, agent guidance, and license artifacts",
+      "Conformance evidence closure and integration evidence for canonical validation",
+      "governed issue and pull-request evidence surfaces for lifecycle provenance and Assurance receipts",
+      "the initial derived Genesis repository commit as the post-Genesis repository provenance horizon",
+      "thin exact-candidate continuous integration over canonical repository Conformance"
     ],
     "excludes": [
       "complete realization of DP-020 Governance",

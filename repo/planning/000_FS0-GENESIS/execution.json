@@ -54,6 +54,13 @@
     },
     {
       "order": 7,
+      "id": "ci-evidence-substrate",
+      "file_change_ids": [
+        "GEN-FILE-016"
+      ]
+    },
+    {
+      "order": 8,
       "id": "assurance-substrate",
       "file_change_ids": [
         "GEN-FILE-011",
@@ -61,7 +68,7 @@
       ]
     },
     {
-      "order": 8,
+      "order": 9,
       "id": "build-state-substrate",
       "file_change_ids": [
         "GEN-FILE-013",
@@ -69,14 +76,14 @@
       ]
     },
     {
-      "order": 9,
+      "order": 10,
       "id": "evidence",
       "file_change_ids": [
         "GEN-FILE-015"
       ]
     },
     {
-      "order": 10,
+      "order": 11,
       "id": "successor-proof",
       "action": "Exercise one ordinary successor framework functional set using only the established framework lifecycle; no Genesis-specific semantic bypass is permitted."
     }

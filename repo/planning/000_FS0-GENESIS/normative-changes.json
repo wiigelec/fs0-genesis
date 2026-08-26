@@ -980,6 +980,72 @@
           }
         }
       }
+    },
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "GEN-NR-060",
+        "statement": "Each executable Conformance assertion SHALL satisfy the governed evidence obligations applicable to that assertion.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "mechanical"
+          },
+          "assurance": {
+            "applicability": "none",
+            "rationale": "Evidence-closure existence and correspondence are mechanically decidable; semantic evidence sufficiency remains an Assurance responsibility where separately required."
+          }
+        }
+      }
+    },
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "GEN-NR-061",
+        "statement": "The initial commit of the derived FS0-GENESIS repository SHALL establish the root repository revision for post-Genesis provenance.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "mechanical"
+          },
+          "assurance": {
+            "applicability": "required"
+          }
+        }
+      }
+    },
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "GEN-NR-062",
+        "statement": "Post-Genesis repository provenance SHALL NOT depend on repository ancestry preceding the initial derived FS0-GENESIS repository commit.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "mechanical"
+          },
+          "assurance": {
+            "applicability": "required"
+          }
+        }
+      }
+    },
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "GEN-NR-063",
+        "statement": "An Assurance finding used for Planning or Build acceptance SHALL remain historically resolvable to its review case, authorizing authority, reviewed candidate revision, exercised obligations, and evidence basis.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "none",
+            "rationale": "Historical semantic-review resolution is enforced through governed Assurance and Governance lifecycle evidence rather than continuously re-evaluated as a repository-local mechanical predicate."
+          },
+          "assurance": {
+            "applicability": "required"
+          }
+        }
+      }
     }
   ],
   "invariants": [

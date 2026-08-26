@@ -17,6 +17,14 @@
     "LICENSE exists at repository root with the complete GNU General Public License version 3 text required for portable reuse.",
     "Every Genesis Design input resolves to a preserved snapshot whose SHA-256 digest matches its exact bytes and whose selected statement identities resolve within that snapshot.",
     "Genesis Design-input verification succeeds from a copied repository tree without requiring the prototype repository, prototype commit objects, or prototype branch ancestry.",
-    "The ordinary successor-framework proof does not require duplicated Design Proposal snapshots when a governed repository-native exact revision binding is resolvable."
+    "The ordinary successor-framework proof does not require duplicated Design Proposal snapshots when a governed repository-native exact revision binding is resolvable.",
+    "Canonical repository Conformance establishes evidence closure: every executable assertion resolves to and satisfies its governed evidence obligations.",
+    "The derived FS0-GENESIS repository initial commit is recorded as the root repository provenance revision and post-Genesis lineage resolution requires no ancestry before that commit.",
+    "The basic CI workflow checks out the exact candidate revision, invokes repo/scripts/validate as the sole canonical Conformance entry point, and contains no independent normative predicate logic.",
+    "For pull-request candidates, remote Governance binding verifies that the governed review surface identifies the exact candidate revision before its CI result is used as acceptance evidence.",
+    "Conformance evidence registry data persisted under repo/ contains evidence identity/obligation correspondence rather than per-run CI evidence payloads.",
+    "Planning and Build Assurance findings used for acceptance remain historically resolvable from governed issue/PR evidence surfaces to exact candidate revision, review case, obligations, evidence basis, and disposition.",
+    "No maintained repository Assurance artifact is used as the per-candidate historical finding or review-receipt store.",
+    "Local repo/scripts/validate remains operable without GitHub API availability; hosting-platform evidence augments governed lifecycle provenance rather than replacing canonical local Conformance."
   ]
 }
