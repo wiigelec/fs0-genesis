@@ -95,23 +95,7 @@
       "stop on validation failure, conflicting dirty state, authority conflict, or remote race",
       "inspect the uploaded result JSON before authorizing the next mutation",
       "emit standardized verbose terminal output conforming to fs0-script-transfer-terminal-v2"
-    ],
-    "bootstrap_cutover": {
-      "canonical_entrypoint": "repo/scripts/bootstrap-cutover",
-      "invocation": "./repo/scripts/bootstrap-cutover",
-      "acceptance": "merging the designated validated bootstrap-cutover pull request is the external semantic audit and explicit bootstrap acceptance",
-      "transport_boundary": "the helper uses gh only for GitHub API operations and POSIX git for Git transport",
-      "success_conditions": [
-        "bootstrap provenance issue created",
-        "temporary bootstrap-cutover branch created from main",
-        "complete cutover candidate generated and canonical validation passes",
-        "candidate branch committed and pushed non-force",
-        "designated pull request opened against main",
-        "authorized user reviews and merges the pull request",
-        "resulting main revision is the first accepted FS0 repository state"
-      ],
-      "failure_behavior": "leave the bootstrap provenance issue open when any step before final verified success fails"
-    }
+    ]
   },
   "result_record": {
     "recommended_fields": [
@@ -138,9 +122,9 @@
     ]
   },
   "lifecycle": {
-    "bootstrap_behavior": "seed-if-absent-on-initial-bootstrap",
-    "post_bootstrap_behavior": "unmanaged",
-    "bootstrap_check_behavior": "ignored",
-    "maintenance_bootstrap_behavior": "preserve-existing-user-copy"
+    "initialization_behavior": "seed-if-absent-on-initial-repository-setup",
+    "ongoing_behavior": "unmanaged",
+    "handoff_validation_behavior": "ignored-by-repository-framework-validation",
+    "maintenance_behavior": "preserve-existing-user-copy"
   }
 }
