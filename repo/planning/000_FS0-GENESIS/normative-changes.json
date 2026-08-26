@@ -1046,6 +1046,23 @@
           }
         }
       }
+    },
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "GEN-NR-064",
+        "statement": "Every maintained Conformance primitive SHALL resolve through direct or transitive governed provenance to at least one accepted normative requirement.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "mechanical"
+          },
+          "assurance": {
+            "applicability": "none",
+            "rationale": "Conformance primitive provenance is a mechanically decidable closure property; semantic authority remains owned by the accepted normative requirements."
+          }
+        }
+      }
     }
   ],
   "invariants": [

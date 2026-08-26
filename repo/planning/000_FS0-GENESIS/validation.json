@@ -342,6 +342,12 @@
       "requirement_id": "GEN-NR-062",
       "predicate": "Post-Genesis repository provenance SHALL NOT depend on repository ancestry preceding the initial derived FS0-GENESIS repository commit.",
       "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-064",
+      "requirement_id": "GEN-NR-064",
+      "predicate": "Every maintained Conformance primitive SHALL resolve through direct or transitive governed provenance to at least one accepted normative requirement.",
+      "gating": true
     }
   ],
   "implementation_groups": [
@@ -428,7 +434,8 @@
         "GEN-ASSERT-035",
         "GEN-ASSERT-037",
         "GEN-ASSERT-038",
-        "GEN-ASSERT-060"
+        "GEN-ASSERT-060",
+        "GEN-ASSERT-064"
       ]
     },
     {
@@ -459,7 +466,8 @@
       "GEN-IMPL-PLAN",
       "GEN-IMPL-BUILD",
       "GEN-IMPL-CONFORMANCE",
-      "GEN-IMPL-PORTABILITY"
+      "GEN-IMPL-PORTABILITY",
+      "GEN-IMPL-GOVERNANCE"
     ]
   },
   "required_engine_defects": [
@@ -474,6 +482,7 @@
     "missing assertion result",
     "duplicate assertion result",
     "undeclared assertion result",
-    "implementation returning result for assertion it does not own"
+    "implementation returning result for assertion it does not own",
+    "maintained Conformance primitive without accepted normative provenance"
   ]
 }

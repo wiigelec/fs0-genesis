@@ -203,7 +203,8 @@
         "GEN-NR-053",
         "GEN-NR-054",
         "GEN-NR-035",
-        "GEN-NR-060"
+        "GEN-NR-060",
+        "GEN-NR-064"
       ],
       "purpose": "Create persistent Conformance registries for assertions, implementations, and orchestration.",
       "implementation": [
@@ -213,7 +214,8 @@
         "Maintain orchestration as implementation reachability without separately duplicating assertion membership.",
         "Derive correspondence from accepted requirement applicability plus assertion ownership.",
         "Maintain governed evidence-obligation and evidence-identity metadata needed for evidence closure.",
-        "Keep repository Conformance evidence records as correspondence/registry metadata; do not persist per-candidate CI logs or review receipts as maintained repository evidence payloads."
+        "Keep repository Conformance evidence records as correspondence/registry metadata; do not persist per-candidate CI logs or review receipts as maintained repository evidence payloads.",
+        "Require every maintained Conformance primitive, including assertions, implementations/support, evidence metadata, and orchestration, to resolve through direct or transitive governed provenance to accepted normative authority."
       ]
     },
     {
@@ -233,7 +235,8 @@
         "GEN-NR-053",
         "GEN-NR-054",
         "GEN-NR-035",
-        "GEN-NR-060"
+        "GEN-NR-060",
+        "GEN-NR-064"
       ],
       "purpose": "Implement the shared canonical Conformance engine.",
       "implementation": [
@@ -242,7 +245,8 @@
         "Execute implementations and require exactly one result for each required executed assertion.",
         "Emit structured assertion-level findings.",
         "Return PASS, FAIL, or INCOMPLETE with configuration/runtime defects distinguished from assertion failure.",
-        "Check evidence closure by resolving every executable assertion to its governed evidence obligations and declared evidence identities."
+        "Check evidence closure by resolving every executable assertion to its governed evidence obligations and declared evidence identities.",
+        "Reject maintained Conformance assertions, implementations/support, evidence records, or orchestration that lack direct or transitive governed provenance to accepted normative authority."
       ]
     },
     {
@@ -372,7 +376,8 @@
         "GEN-NR-060",
         "GEN-NR-061",
         "GEN-NR-062",
-        "GEN-NR-063"
+        "GEN-NR-063",
+        "GEN-NR-064"
       ],
       "purpose": "Provide focused implementation evidence for Genesis framework mechanisms.",
       "implementation": [
@@ -384,7 +389,8 @@
         "Test evidence closure independently from assertion execution success.",
         "Test that the derived repository initial commit is the provenance root and that no post-Genesis lineage resolution requires ancestry before that commit.",
         "Test governed issue/PR candidate binding and historical Assurance receipt resolution without persisting case evidence payloads under repo/.",
-        "Test that local repo/scripts/validate remains usable without GitHub API access; remote CI and Governance binding add candidate-context evidence without becoming a second validator."
+        "Test that local repo/scripts/validate remains usable without GitHub API access; remote CI and Governance binding add candidate-context evidence without becoming a second validator.",
+        "Test authority closure by introducing orphan assertion, implementation/support, evidence, and orchestration primitives and requiring canonical Conformance to reject each."
       ]
     },
     {
@@ -443,7 +449,8 @@
         "GEN-NR-039",
         "GEN-NR-040",
         "GEN-NR-061",
-        "GEN-NR-062"
+        "GEN-NR-062",
+        "GEN-NR-060"
       ],
       "purpose": "Provide thin read-only continuous integration that evaluates the exact repository candidate through canonical Conformance and supplies remote execution evidence to the governed lifecycle.",
       "implementation": [
