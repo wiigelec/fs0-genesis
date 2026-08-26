@@ -1,0 +1,39 @@
+{
+  "schema_version": "1",
+  "artifact_type": "framework-contract",
+  "authority_namespace": "repo/",
+  "authority_separation": {
+    "framework_and_product_authority_are_distinct": true,
+    "implicit_authority_creation_prohibited": true,
+    "persistent_normative_change_route": "Governance"
+  },
+  "keystones": [
+    {
+      "id": "Governance",
+      "authority_domain": "accepted normative change, governed lifecycle, acceptance, and accepted-state advancement",
+      "prohibited_authority": [
+        "independent semantic invention outside accepted repository-framework authority",
+        "mechanical Conformance substitution",
+        "Assurance semantic-review substitution"
+      ]
+    },
+    {
+      "id": "Conformance",
+      "authority_domain": "mechanical enforcement of accepted normative authority",
+      "prohibited_authority": [
+        "creation or amendment of normative semantics",
+        "creation of Governance acceptance",
+        "replacement of Assurance semantic judgment"
+      ]
+    },
+    {
+      "id": "Assurance",
+      "authority_domain": "bounded semantic review and evidence for governed decisions",
+      "prohibited_authority": [
+        "creation or amendment of persistent normative authority",
+        "replacement of canonical mechanical Conformance",
+        "independent Governance acceptance"
+      ]
+    }
+  ]
+}

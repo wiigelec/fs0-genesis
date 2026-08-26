@@ -1,0 +1,874 @@
+{
+  "schema_version": "1",
+  "artifact_type": "accepted-requirement-registry",
+  "requirements": [
+    {
+      "id": "GEN-NR-001",
+      "statement": "Accepted repository-framework normative authority SHALL reside within repo/.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-002",
+      "statement": "Each accepted normative requirement SHALL have one stable machine-resolvable identity.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-003",
+      "statement": "The repository framework SHALL define Governance, Conformance, and Assurance as exactly three authority-bearing keystones.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-004",
+      "statement": "Each keystone SHALL exercise only authority delegated by accepted repository-framework authority.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-005",
+      "statement": "Implementation behavior, validation behavior, review findings, generated artifacts, workflow convention, historical repository state, and product behavior SHALL NOT independently create repository-framework normative authority.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "none",
+          "rationale": "Whether observed behavior semantically creates authority cannot be decided mechanically in Genesis."
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-006",
+      "statement": "Persistent changes to accepted normative authority SHALL occur only through Governance.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-007",
+      "statement": "Framework authority and product authority SHALL remain distinct.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-008",
+      "statement": "Each planning-ready Design Proposal SHALL be maintained Markdown with one stable DP-NNN document identity.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-009",
+      "statement": "Each addressable Design statement SHALL have one stable Design statement identity.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-010",
+      "statement": "Design statement identities SHALL remain non-normative addresses.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "none",
+          "rationale": "The semantic non-authority of a Design address is established by framework authority and reviewed by Assurance."
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-011",
+      "statement": "Planning SHALL bind every consumed Design Proposal to one exact and retrievable Design Proposal revision.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-012",
+      "statement": "Each functional set SHALL select its bounded Design scope using Design statement identities.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-013",
+      "statement": "The repository framework SHALL contain exactly one functional set identified as FS0-GENESIS with kind genesis.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-014",
+      "statement": "FS0-GENESIS SHALL have no accepted framework predecessor.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-015",
+      "statement": "Each successor framework functional set SHALL identify one exact accepted repository predecessor.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-016",
+      "statement": "Each functional-set directory SHALL contain functional-set.json and plan.json.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-017",
+      "statement": "Planning SHALL own repository normative distillation and implementation intent.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "none",
+          "rationale": "Ownership of normative distillation and implementation intent is a semantic responsibility boundary."
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-018",
+      "statement": "Each Plan SHALL declare the normative changes proposed by that Plan without making the Plan the persistent owner of accepted normative authority.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-019",
+      "statement": "Each Plan SHALL identify every repository mutation path authorized for its Build.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-020",
+      "statement": "Each Plan SHALL define implementation sequencing.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-044",
+      "statement": "Each Plan SHALL define implementation invariants.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-045",
+      "statement": "Each Plan SHALL define validation intent.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-046",
+      "statement": "Each Plan SHALL define Assurance intent.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-047",
+      "statement": "Each Plan SHALL define completion conditions.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-021",
+      "statement": "An accepted Plan SHALL authorize Build only within the implementation scope declared by that Plan.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-022",
+      "statement": "Build SHALL consume exactly one accepted Plan.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-023",
+      "statement": "Build SHALL NOT mutate repository paths outside the accepted Plan's authorized mutation set.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-024",
+      "statement": "Build SHALL produce a machine-readable manifest of realized repository mutations.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-025",
+      "statement": "Build verification SHALL establish syntactic validity.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-048",
+      "statement": "Build verification SHALL establish mechanical Conformance.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-049",
+      "statement": "Build verification SHALL establish operational completion for the functional set.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-050",
+      "statement": "Build verification SHALL establish fidelity to the accepted Plan.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-026",
+      "statement": "Build acceptance SHALL require all applicable Conformance and Assurance obligations for the candidate realization to be satisfied.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-027",
+      "statement": "Each active normative requirement SHALL have exactly one canonical Conformance applicability determination.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-028",
+      "statement": "Each active normative requirement with mechanical Conformance applicability SHALL resolve to at least one executable assertion.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-029",
+      "statement": "An active normative requirement with Conformance applicability none SHALL resolve to no Conformance assertion and SHALL record a rationale when the absence of mechanical responsibility is not self-evident.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-030",
+      "statement": "Each Conformance assertion SHALL identify exactly one accepted normative requirement as its direct semantic owner.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-031",
+      "statement": "Conformance assertion identity SHALL remain distinct from implementation identity.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-032",
+      "statement": "Multiple Conformance assertions MAY share one implementation while retaining distinct assertion identities, requirement ownership, and findings.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "none",
+          "rationale": "This is a permissive architectural capability; absence of sharing is not nonconformance."
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-033",
+      "statement": "Each gating Conformance assertion SHALL be reachable from canonical Conformance execution.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-034",
+      "statement": "Canonical Conformance execution SHALL detect missing mechanical requirement coverage.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-051",
+      "statement": "Canonical Conformance execution SHALL detect invalid assertion ownership.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-052",
+      "statement": "Canonical Conformance execution SHALL detect unreachable gating assertions.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-053",
+      "statement": "Canonical Conformance execution SHALL detect missing assertion results.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-054",
+      "statement": "Canonical Conformance execution SHALL detect assertion failure.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-035",
+      "statement": "repo/scripts/validate SHALL be the canonical public repository Conformance execution entry point.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-036",
+      "statement": "Each active normative requirement SHALL have exactly one canonical Assurance applicability determination.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-037",
+      "statement": "Each active normative requirement with required Assurance applicability SHALL resolve to at least one governed review obligation.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-038",
+      "statement": "An Assurance finding SHALL remain bounded to its review case and SHALL NOT independently create or amend persistent normative authority.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-039",
+      "statement": "Planning acceptance SHALL require all applicable Planning Conformance and Assurance obligations to be satisfied.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-040",
+      "statement": "Build acceptance SHALL advance exactly one explicit accepted repository state.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-041",
+      "statement": "The repository root SHALL contain README.md that identifies the repository as the portable repo-spec framework seed, explains FS0-GENESIS at a high level, identifies the canonical validation entry point, and states that normal framework development continues through successor functional sets.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-042",
+      "statement": "The repository root SHALL contain AGENTS.md that directs human and AI contributors to respect accepted repository authority, preserve Design/Planning/Build responsibility boundaries, avoid inventing missing semantics or authority, and use canonical Conformance before claiming completion.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-043",
+      "statement": "The repository root SHALL contain LICENSE with the complete GNU General Public License version 3 text as the durable repository licensing artifact required for portable reuse of the Genesis seed.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-055",
+      "statement": "FS0-GENESIS SHALL preserve an exact immutable snapshot of every Design Proposal revision it consumes within its portable planning artifacts.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Snapshot presence is mechanically verifiable; semantic portability boundaries are covered separately."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-056",
+      "statement": "Each preserved Genesis Design Proposal snapshot SHALL be identified by a SHA-256 digest of its exact bytes.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-057",
+      "statement": "Genesis validation SHALL resolve selected Design statement identities against the digest-verified preserved Design Proposal snapshot.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-058",
+      "statement": "The Genesis Design snapshot mechanism SHALL NOT require ordinary successor functional sets or Plans to duplicate Design Proposal content.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "none",
+          "rationale": "Whether Genesis bootstrap representation has been incorrectly generalized into successor Planning semantics is a semantic architecture boundary reviewed by Assurance."
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-059",
+      "statement": "A preserved Genesis Design Proposal snapshot SHALL NOT replace the maintained Design Proposal as the canonical Design semantic source.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "none",
+          "rationale": "Whether a historical Genesis snapshot has displaced the maintained Design Proposal as the canonical semantic source is a semantic authority boundary rather than a stable purely mechanical predicate."
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-060",
+      "statement": "Each executable Conformance assertion SHALL satisfy the governed evidence obligations applicable to that assertion.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Evidence-closure existence and correspondence are mechanically decidable; semantic evidence sufficiency remains an Assurance responsibility where separately required."
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-061",
+      "statement": "The initial commit of the derived FS0-GENESIS repository SHALL establish the root repository revision for post-Genesis provenance.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-062",
+      "statement": "Post-Genesis repository provenance SHALL NOT depend on repository ancestry preceding the initial derived FS0-GENESIS repository commit.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-063",
+      "statement": "An Assurance finding used for Planning or Build acceptance SHALL remain historically resolvable to its review case, authorizing authority, reviewed candidate revision, exercised obligations, and evidence basis.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "none",
+          "rationale": "Historical semantic-review resolution is enforced through governed Assurance and Governance lifecycle evidence rather than continuously re-evaluated as a repository-local mechanical predicate."
+        },
+        "assurance": {
+          "applicability": "required"
+        }
+      }
+    },
+    {
+      "id": "GEN-NR-064",
+      "statement": "Every maintained Conformance primitive SHALL resolve through direct or transitive governed provenance to at least one accepted normative requirement.",
+      "lifecycle": "candidate-create",
+      "evaluation": {
+        "conformance": {
+          "applicability": "mechanical"
+        },
+        "assurance": {
+          "applicability": "none",
+          "rationale": "Conformance primitive provenance is a mechanically decidable closure property; semantic authority remains owned by the accepted normative requirements."
+        }
+      }
+    }
+  ]
+}
