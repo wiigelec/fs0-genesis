@@ -5,7 +5,7 @@
   "invariants": [
     {
       "id": "GEN-INV-001",
-      "statement": "The repository itself remains the Genesis bootstrap surface; no separate bootstrap authority tree is introduced."
+      "statement": "The repository itself remains the Genesis establishment surface; no separate pre-Genesis authority tree is introduced."
     },
     {
       "id": "GEN-INV-002",

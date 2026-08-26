@@ -70,10 +70,9 @@
     },
     {
       "order": 9,
-      "id": "evidence-and-cutover",
+      "id": "evidence",
       "file_change_ids": [
-        "GEN-FILE-015",
-        "GEN-FILE-016"
+        "GEN-FILE-015"
       ]
     },
     {

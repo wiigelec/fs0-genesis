@@ -13,7 +13,7 @@
     {
       "doc_id": "DP-001",
       "path": "repo/proposals/design-proposal.md",
-      "revision": "fbd6b969aea7ca3839d4a42553af415d2397be31",
+      "revision": "78adef3bba86700cd8ec89ce3998e36bc7a82cf9",
       "statements": [
         "DP001-REQUIREMENTS-001",
         "DP001-REQUIREMENTS-002",
@@ -54,7 +54,7 @@
     {
       "doc_id": "DP-010",
       "path": "repo/proposals/framework-contract.md",
-      "revision": "fbd6b969aea7ca3839d4a42553af415d2397be31",
+      "revision": "78adef3bba86700cd8ec89ce3998e36bc7a82cf9",
       "statements": [
         "DP010-DETAIL-004",
         "DP010-DETAIL-005",
@@ -129,7 +129,7 @@
     {
       "doc_id": "DP-020",
       "path": "repo/proposals/governance.md",
-      "revision": "fbd6b969aea7ca3839d4a42553af415d2397be31",
+      "revision": "78adef3bba86700cd8ec89ce3998e36bc7a82cf9",
       "statements": [
         "DP020-DETAIL-001",
         "DP020-DETAIL-002",
@@ -200,13 +200,26 @@
         "DP020-DETAIL-072",
         "DP020-DETAIL-073",
         "DP020-DETAIL-081",
-        "DP020-DETAIL-082"
+        "DP020-DETAIL-082",
+        "DP020-DETAIL-176",
+        "DP020-DETAIL-177",
+        "DP020-DETAIL-178",
+        "DP020-DETAIL-179",
+        "DP020-DETAIL-180",
+        "DP020-DETAIL-181",
+        "DP020-DETAIL-182",
+        "DP020-DETAIL-183",
+        "DP020-DETAIL-184",
+        "DP020-DETAIL-189",
+        "DP020-DETAIL-190",
+        "DP020-DETAIL-191",
+        "DP020-DETAIL-192"
       ]
     },
     {
       "doc_id": "DP-030",
       "path": "repo/proposals/conformance.md",
-      "revision": "fbd6b969aea7ca3839d4a42553af415d2397be31",
+      "revision": "78adef3bba86700cd8ec89ce3998e36bc7a82cf9",
       "statements": [
         "DP030-DETAIL-003",
         "DP030-DETAIL-004",
@@ -304,7 +317,7 @@
     {
       "doc_id": "DP-040",
       "path": "repo/proposals/assurance.md",
-      "revision": "fbd6b969aea7ca3839d4a42553af415d2397be31",
+      "revision": "78adef3bba86700cd8ec89ce3998e36bc7a82cf9",
       "statements": [
         "DP040-DETAIL-003",
         "DP040-DETAIL-004",

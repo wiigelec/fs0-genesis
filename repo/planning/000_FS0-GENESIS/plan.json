@@ -13,7 +13,7 @@
   "status": "candidate",
   "purpose": "Provide an implementation-complete Genesis contract without implementing the complete framework Design corpus.",
   "planning_boundary": {
-    "design_revision": "fbd6b969aea7ca3839d4a42553af415d2397be31",
+    "design_revision": "78adef3bba86700cd8ec89ce3998e36bc7a82cf9",
     "predecessor": null,
     "build_must_not_invent": [
       "Design semantics",

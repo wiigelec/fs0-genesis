@@ -282,7 +282,7 @@
       "purpose": "Represent the first and successor accepted repository states without dependence on prototype provenance.",
       "implementation": [
         "Represent accepted repository revision and acceptance identity needed for internal successor lineage.",
-        "Do not require source-repository URL, prototype commit ancestry, or external bootstrap provenance for authority.",
+        "Do not require source-repository URL, prototype commit ancestry, or external pre-Genesis repository ancestry for authority.",
         "Permit successor Planning to bind one exact accepted repository state."
       ]
     },
@@ -304,24 +304,6 @@
         "Test positive, rejection, and boundary behavior for each implemented framework mechanism.",
         "Do not treat broad test-suite success as a substitute for requirement-owned assertions.",
         "Include a successor-framework functional-set fixture proving normal post-Genesis workflow."
-      ]
-    },
-    {
-      "id": "GEN-FILE-016",
-      "path": "repo/scripts/bootstrap-cutover",
-      "operation": "create",
-      "requirement_ids": [
-        "GEN-NR-026",
-        "GEN-NR-039",
-        "GEN-NR-040"
-      ],
-      "purpose": "Provide the one-time Genesis cutover helper consistent with the user transfer handoff.",
-      "implementation": [
-        "Construct a complete candidate from the Genesis Plan.",
-        "Run canonical Conformance and required Genesis Assurance checks.",
-        "Prepare the designated bootstrap-cutover branch and pull request using the external transfer/acceptance boundary.",
-        "Treat merge of the designated validated cutover pull request as the explicit external Genesis acceptance event.",
-        "Do not make external provenance part of resulting framework normative authority."
       ]
     },
     {
