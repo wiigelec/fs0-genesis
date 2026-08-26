@@ -1,0 +1,11 @@
+{
+  "schema_version": "1",
+  "artifact_type": "functional-set",
+  "functional_set": {
+    "id": "FS1-EVIDENCE-FIXTURE",
+    "kind": "successor",
+    "accepted_predecessor": {
+      "accepted_revision": "1111111111111111111111111111111111111111"
+    }
+  }
+}
