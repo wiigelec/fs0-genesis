@@ -51,9 +51,21 @@ def main() -> int:
         for error in report.get("configuration_errors", []):
             print(f"ERROR {error}")
     else:
-        failed = report.get("failed_assertions", [])
+        failed = [
+            result
+            for result in report.get("results", [])
+            if result.get("status") != "pass"
+        ]
         suffix = f" ({len(failed)} failed)" if failed else ""
         print(f"FS0 Conformance: {report['disposition']}{suffix}")
+        for result in failed:
+            print(
+                f"{result.get('status', 'fail').upper():4} "
+                f"{result.get('assertion_id', '<unknown>')} "
+                f"{result.get('detail', '')}"
+            )
+        for error in report.get("configuration_errors", []):
+            print(f"ERROR {error}")
 
     return {"PASS": 0, "FAIL": 1, "INCOMPLETE": 2}[report["disposition"]]
 
