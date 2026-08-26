@@ -1,0 +1,76 @@
+{
+  "schema_version": "1",
+  "artifact_type": "plan-execution",
+  "plan_id": "FS0-GENESIS",
+  "stages": [
+    {
+      "order": 1,
+      "id": "design-substrate",
+      "file_change_ids": [
+        "GEN-FILE-003",
+        "GEN-FILE-004"
+      ]
+    },
+    {
+      "order": 2,
+      "id": "authority-substrate",
+      "file_change_ids": [
+        "GEN-FILE-001",
+        "GEN-FILE-002",
+        "GEN-FILE-005"
+      ]
+    },
+    {
+      "order": 3,
+      "id": "planning-substrate",
+      "file_change_ids": [
+        "GEN-FILE-006"
+      ]
+    },
+    {
+      "order": 4,
+      "id": "governance-substrate",
+      "file_change_ids": [
+        "GEN-FILE-007"
+      ]
+    },
+    {
+      "order": 5,
+      "id": "conformance-substrate",
+      "file_change_ids": [
+        "GEN-FILE-008",
+        "GEN-FILE-009",
+        "GEN-FILE-010"
+      ]
+    },
+    {
+      "order": 6,
+      "id": "assurance-substrate",
+      "file_change_ids": [
+        "GEN-FILE-011",
+        "GEN-FILE-012"
+      ]
+    },
+    {
+      "order": 7,
+      "id": "build-state-substrate",
+      "file_change_ids": [
+        "GEN-FILE-013",
+        "GEN-FILE-014"
+      ]
+    },
+    {
+      "order": 8,
+      "id": "evidence-and-cutover",
+      "file_change_ids": [
+        "GEN-FILE-015",
+        "GEN-FILE-016"
+      ]
+    },
+    {
+      "order": 9,
+      "id": "successor-proof",
+      "action": "Exercise one ordinary successor framework functional set using only the established framework lifecycle; no Genesis-specific semantic bypass is permitted."
+    }
+  ]
+}

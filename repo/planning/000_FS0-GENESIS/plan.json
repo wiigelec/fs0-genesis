@@ -1,0 +1,28 @@
+{
+  "schema_version": "1",
+  "artifact_type": "plan",
+  "plan_id": "FS0-GENESIS",
+  "functional_set": "functional-set.json",
+  "normative_changes": "normative-changes.json",
+  "file_changes": "file-changes.json",
+  "execution": "execution.json",
+  "invariants": "invariants.json",
+  "validation": "validation.json",
+  "assurance": "assurance.json",
+  "completion": "completion.json",
+  "status": "candidate",
+  "purpose": "Provide an implementation-complete Genesis contract without implementing the complete framework Design corpus.",
+  "planning_boundary": {
+    "design_revision": "fbd6b969aea7ca3839d4a42553af415d2397be31",
+    "predecessor": null,
+    "build_must_not_invent": [
+      "Design semantics",
+      "framework authority topology",
+      "normative requirements",
+      "functional-set scope",
+      "file mutation paths",
+      "Conformance predicates",
+      "Assurance obligations"
+    ]
+  }
+}

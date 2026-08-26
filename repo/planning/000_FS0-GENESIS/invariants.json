@@ -1,0 +1,63 @@
+{
+  "schema_version": "1",
+  "artifact_type": "plan-invariants",
+  "plan_id": "FS0-GENESIS",
+  "invariants": [
+    {
+      "id": "GEN-INV-001",
+      "statement": "The repository itself remains the Genesis bootstrap surface; no separate bootstrap authority tree is introduced."
+    },
+    {
+      "id": "GEN-INV-002",
+      "statement": "FS0-GENESIS remains intact as the historical functional set and Plan after accepted state is established."
+    },
+    {
+      "id": "GEN-INV-003",
+      "statement": "Persistent accepted normative authority is repository-level state and is not semantically owned by the historical Plan that introduced it."
+    },
+    {
+      "id": "GEN-INV-004",
+      "statement": "Genesis authority does not depend on prototype-repository provenance, branch ancestry, or an external source revision."
+    },
+    {
+      "id": "GEN-INV-005",
+      "statement": "Internal accepted-state revision binding is permitted and required for normal successor framework Planning."
+    },
+    {
+      "id": "GEN-INV-006",
+      "statement": "Design owns semantics, Planning owns normative distillation and implementation intent, and Build owns implementation correctness."
+    },
+    {
+      "id": "GEN-INV-007",
+      "statement": "Governance, Conformance, and Assurance remain distinct authority-bearing keystones."
+    },
+    {
+      "id": "GEN-INV-008",
+      "statement": "Conformance applicability and Assurance applicability are independent dimensions stored once with accepted normative authority."
+    },
+    {
+      "id": "GEN-INV-009",
+      "statement": "Each Conformance assertion has exactly one normative owner; implementation may be shared."
+    },
+    {
+      "id": "GEN-INV-010",
+      "statement": "File realization planning does not determine which normative assertions execute."
+    },
+    {
+      "id": "GEN-INV-011",
+      "statement": "repo/scripts/validate is the sole public canonical repository Conformance entry point and contains no independent normative semantics."
+    },
+    {
+      "id": "GEN-INV-012",
+      "statement": "Genesis implements only the framework substrate required for self-hosted successor framework development; later proposal capabilities remain eligible for later functional sets."
+    },
+    {
+      "id": "GEN-INV-013",
+      "statement": "The initializer is a product and is not implemented by FS0-GENESIS."
+    },
+    {
+      "id": "GEN-INV-014",
+      "statement": "FS0-CORE is a product-root concept and is not used as the framework Genesis root."
+    }
+  ]
+}

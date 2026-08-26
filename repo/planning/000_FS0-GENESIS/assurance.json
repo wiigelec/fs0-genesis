@@ -1,0 +1,82 @@
+{
+  "schema_version": "1",
+  "artifact_type": "plan-assurance-intent",
+  "plan_id": "FS0-GENESIS",
+  "obligations": [
+    {
+      "id": "GEN-OBL-AUTHORITY-BOUNDARY",
+      "requirement_ids": [
+        "GEN-NR-001",
+        "GEN-NR-003",
+        "GEN-NR-004",
+        "GEN-NR-005",
+        "GEN-NR-006",
+        "GEN-NR-007"
+      ],
+      "stage": [
+        "planning",
+        "build"
+      ],
+      "objective": "Determine whether Genesis preserves the Framework Contract authority topology and avoids implicit authority creation."
+    },
+    {
+      "id": "GEN-OBL-DESIGN-PLANNING-BOUNDARY",
+      "requirement_ids": [
+        "GEN-NR-010",
+        "GEN-NR-012",
+        "GEN-NR-017",
+        "GEN-NR-018",
+        "GEN-NR-019",
+        "GEN-NR-020",
+        "GEN-NR-021"
+      ],
+      "stage": [
+        "planning"
+      ],
+      "objective": "Determine whether Planning distillation and implementation intent remain within selected Design meaning without making Plan artifacts persistent semantic owners."
+    },
+    {
+      "id": "GEN-OBL-BUILD-FIDELITY",
+      "requirement_ids": [
+        "GEN-NR-021",
+        "GEN-NR-025",
+        "GEN-NR-026"
+      ],
+      "stage": [
+        "build"
+      ],
+      "objective": "Determine whether the realized Genesis candidate faithfully implements the accepted Plan and is operational enough for successor framework work."
+    },
+    {
+      "id": "GEN-OBL-ASSURANCE-BOUNDARY",
+      "requirement_ids": [
+        "GEN-NR-038",
+        "GEN-NR-039",
+        "GEN-NR-040"
+      ],
+      "stage": [
+        "planning",
+        "build"
+      ],
+      "objective": "Determine whether semantic findings remain case-bounded and Governance acceptance remains distinct from review or Conformance success."
+    }
+  ],
+  "review_case_contract": {
+    "required_fields": [
+      "case_id",
+      "stage",
+      "authorizing_authority",
+      "review_subject",
+      "obligation_ids",
+      "evidence",
+      "findings",
+      "disposition",
+      "reviewer"
+    ],
+    "dispositions": [
+      "PASS",
+      "FAIL",
+      "INCOMPLETE"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": "1",
+  "artifact_type": "plan-completion",
+  "plan_id": "FS0-GENESIS",
+  "conditions": [
+    "Every planned file change is realized or explicitly routed back to Planning.",
+    "All candidate Genesis normative changes have been applied to repository-level accepted authority exactly once.",
+    "Canonical repository Conformance returns PASS with no authority, coverage, result, or execution-closure defect.",
+    "All required Planning and Build Assurance review cases have PASS disposition.",
+    "Build mutation manifest contains no unplanned path.",
+    "The accepted-state record identifies the accepted Genesis repository revision without requiring prototype provenance.",
+    "FS0-GENESIS functional-set and Plan artifacts remain present and unchanged by state promotion except for changes explicitly authorized by a later Plan.",
+    "A normal successor framework functional set can bind the accepted Genesis state, select remaining Design statements, produce an accepted Plan, build, validate, assure, and advance accepted state without a Genesis-specific semantic bypass.",
+    "The initializer product has not been implemented as part of Genesis."
+  ]
+}

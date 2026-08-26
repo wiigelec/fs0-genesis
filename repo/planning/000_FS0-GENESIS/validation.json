@@ -1,0 +1,324 @@
+{
+  "schema_version": "1",
+  "artifact_type": "plan-validation-intent",
+  "plan_id": "FS0-GENESIS",
+  "authority": {
+    "applicability_source": "normative-changes.json during candidate Planning; repo/authority/requirements.json after acceptance",
+    "normative_text_is_not_duplicated_as_authority": true
+  },
+  "assertions": [
+    {
+      "id": "GEN-ASSERT-001",
+      "requirement_id": "GEN-NR-001",
+      "predicate": "Accepted repository-framework normative authority SHALL reside within repo/.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-002",
+      "requirement_id": "GEN-NR-002",
+      "predicate": "Each accepted normative requirement SHALL have one stable machine-resolvable identity.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-003",
+      "requirement_id": "GEN-NR-003",
+      "predicate": "The repository framework SHALL define Governance, Conformance, and Assurance as exactly three authority-bearing keystones.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-004",
+      "requirement_id": "GEN-NR-004",
+      "predicate": "Each keystone SHALL exercise only authority delegated by accepted repository-framework authority.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-006",
+      "requirement_id": "GEN-NR-006",
+      "predicate": "Persistent changes to accepted normative authority SHALL occur only through Governance.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-007",
+      "requirement_id": "GEN-NR-007",
+      "predicate": "Framework authority and product authority SHALL remain distinct.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-008",
+      "requirement_id": "GEN-NR-008",
+      "predicate": "Each planning-ready Design Proposal SHALL be maintained Markdown with one stable DP-NNN document identity.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-009",
+      "requirement_id": "GEN-NR-009",
+      "predicate": "Each addressable Design statement SHALL have one stable Design statement identity.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-011",
+      "requirement_id": "GEN-NR-011",
+      "predicate": "Planning SHALL bind every consumed Design Proposal to one exact repository revision.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-012",
+      "requirement_id": "GEN-NR-012",
+      "predicate": "Each functional set SHALL select its bounded Design scope using Design statement identities.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-013",
+      "requirement_id": "GEN-NR-013",
+      "predicate": "The repository framework SHALL contain exactly one functional set identified as FS0-GENESIS with kind genesis.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-014",
+      "requirement_id": "GEN-NR-014",
+      "predicate": "FS0-GENESIS SHALL have no accepted framework predecessor.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-015",
+      "requirement_id": "GEN-NR-015",
+      "predicate": "Each successor framework functional set SHALL identify one exact accepted repository predecessor.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-016",
+      "requirement_id": "GEN-NR-016",
+      "predicate": "Each functional-set directory SHALL contain functional-set.json and plan.json.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-018",
+      "requirement_id": "GEN-NR-018",
+      "predicate": "Each Plan SHALL declare the normative changes proposed by that Plan without making the Plan the persistent owner of accepted normative authority.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-019",
+      "requirement_id": "GEN-NR-019",
+      "predicate": "Each Plan SHALL identify every repository mutation path authorized for its Build.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-020",
+      "requirement_id": "GEN-NR-020",
+      "predicate": "Each Plan SHALL define implementation sequencing, invariants, validation intent, Assurance intent, and completion conditions.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-021",
+      "requirement_id": "GEN-NR-021",
+      "predicate": "An accepted Plan SHALL authorize Build only within the implementation scope declared by that Plan.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-022",
+      "requirement_id": "GEN-NR-022",
+      "predicate": "Build SHALL consume exactly one accepted Plan.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-023",
+      "requirement_id": "GEN-NR-023",
+      "predicate": "Build SHALL NOT mutate repository paths outside the accepted Plan's authorized mutation set.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-024",
+      "requirement_id": "GEN-NR-024",
+      "predicate": "Build SHALL produce a machine-readable manifest of realized repository mutations.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-025",
+      "requirement_id": "GEN-NR-025",
+      "predicate": "Build verification SHALL establish syntactic validity, mechanical Conformance, operational completion for the functional set, and fidelity to the accepted Plan.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-026",
+      "requirement_id": "GEN-NR-026",
+      "predicate": "Build acceptance SHALL require all applicable Conformance and Assurance obligations for the candidate realization to be satisfied.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-027",
+      "requirement_id": "GEN-NR-027",
+      "predicate": "Each active normative requirement SHALL have exactly one canonical Conformance applicability determination.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-028",
+      "requirement_id": "GEN-NR-028",
+      "predicate": "Each active normative requirement with mechanical Conformance applicability SHALL resolve to at least one executable assertion.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-029",
+      "requirement_id": "GEN-NR-029",
+      "predicate": "An active normative requirement with Conformance applicability none SHALL resolve to no Conformance assertion and SHALL record a rationale when the absence of mechanical responsibility is not self-evident.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-030",
+      "requirement_id": "GEN-NR-030",
+      "predicate": "Each Conformance assertion SHALL identify exactly one accepted normative requirement as its direct semantic owner.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-031",
+      "requirement_id": "GEN-NR-031",
+      "predicate": "Conformance assertion identity SHALL remain distinct from implementation identity.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-033",
+      "requirement_id": "GEN-NR-033",
+      "predicate": "Each gating Conformance assertion SHALL be reachable from canonical Conformance execution.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-034",
+      "requirement_id": "GEN-NR-034",
+      "predicate": "Canonical Conformance execution SHALL detect missing mechanical requirement coverage, invalid assertion ownership, unreachable gating assertions, missing assertion results, and assertion failure.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-035",
+      "requirement_id": "GEN-NR-035",
+      "predicate": "repo/scripts/validate SHALL be the canonical public repository Conformance execution entry point.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-036",
+      "requirement_id": "GEN-NR-036",
+      "predicate": "Each active normative requirement SHALL have exactly one canonical Assurance applicability determination.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-037",
+      "requirement_id": "GEN-NR-037",
+      "predicate": "Each active normative requirement with required Assurance applicability SHALL resolve to at least one governed review obligation.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-038",
+      "requirement_id": "GEN-NR-038",
+      "predicate": "An Assurance finding SHALL remain bounded to its review case and SHALL NOT independently create or amend persistent normative authority.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-039",
+      "requirement_id": "GEN-NR-039",
+      "predicate": "Planning acceptance SHALL require all applicable Planning Conformance and Assurance obligations to be satisfied.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-040",
+      "requirement_id": "GEN-NR-040",
+      "predicate": "Build acceptance SHALL advance exactly one explicit accepted repository state.",
+      "gating": true
+    }
+  ],
+  "implementation_groups": [
+    {
+      "id": "GEN-IMPL-DESIGN",
+      "kind": "python",
+      "entrypoint": "repo_spec.conformance.design",
+      "assertion_ids": [
+        "GEN-ASSERT-008",
+        "GEN-ASSERT-009",
+        "GEN-ASSERT-011",
+        "GEN-ASSERT-012"
+      ]
+    },
+    {
+      "id": "GEN-IMPL-AUTHORITY",
+      "kind": "python",
+      "entrypoint": "repo_spec.conformance.authority",
+      "assertion_ids": [
+        "GEN-ASSERT-001",
+        "GEN-ASSERT-002",
+        "GEN-ASSERT-003",
+        "GEN-ASSERT-004",
+        "GEN-ASSERT-006",
+        "GEN-ASSERT-007",
+        "GEN-ASSERT-027",
+        "GEN-ASSERT-036"
+      ]
+    },
+    {
+      "id": "GEN-IMPL-PLAN",
+      "kind": "python",
+      "entrypoint": "repo_spec.conformance.plan",
+      "assertion_ids": [
+        "GEN-ASSERT-013",
+        "GEN-ASSERT-014",
+        "GEN-ASSERT-015",
+        "GEN-ASSERT-016",
+        "GEN-ASSERT-018",
+        "GEN-ASSERT-019",
+        "GEN-ASSERT-020",
+        "GEN-ASSERT-021",
+        "GEN-ASSERT-039"
+      ]
+    },
+    {
+      "id": "GEN-IMPL-BUILD",
+      "kind": "python",
+      "entrypoint": "repo_spec.conformance.build",
+      "assertion_ids": [
+        "GEN-ASSERT-022",
+        "GEN-ASSERT-023",
+        "GEN-ASSERT-024",
+        "GEN-ASSERT-025",
+        "GEN-ASSERT-026",
+        "GEN-ASSERT-040"
+      ]
+    },
+    {
+      "id": "GEN-IMPL-CONFORMANCE",
+      "kind": "python",
+      "entrypoint": "repo_spec.conformance.selfcheck",
+      "assertion_ids": [
+        "GEN-ASSERT-028",
+        "GEN-ASSERT-029",
+        "GEN-ASSERT-030",
+        "GEN-ASSERT-031",
+        "GEN-ASSERT-033",
+        "GEN-ASSERT-034",
+        "GEN-ASSERT-035",
+        "GEN-ASSERT-037",
+        "GEN-ASSERT-038"
+      ]
+    }
+  ],
+  "orchestration": {
+    "entrypoint": "repo/scripts/validate",
+    "implementation_ids": [
+      "GEN-IMPL-DESIGN",
+      "GEN-IMPL-AUTHORITY",
+      "GEN-IMPL-PLAN",
+      "GEN-IMPL-BUILD",
+      "GEN-IMPL-CONFORMANCE"
+    ]
+  },
+  "required_engine_defects": [
+    "unknown requirement referenced by assertion",
+    "assertion for Conformance-none requirement",
+    "mechanical requirement with no assertion",
+    "assertion bound to zero implementations",
+    "assertion bound to more than one implementation",
+    "implementation referencing unknown assertion",
+    "orchestration referencing unknown implementation",
+    "gating assertion unreachable from canonical orchestration",
+    "missing assertion result",
+    "duplicate assertion result",
+    "undeclared assertion result",
+    "implementation returning result for assertion it does not own"
+  ]
+}

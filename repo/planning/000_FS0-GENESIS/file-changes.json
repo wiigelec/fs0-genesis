@@ -1,0 +1,328 @@
+{
+  "schema_version": "1",
+  "artifact_type": "plan-file-changes",
+  "plan_id": "FS0-GENESIS",
+  "changes": [
+    {
+      "id": "GEN-FILE-001",
+      "path": "repo/authority/requirements.json",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-001",
+        "GEN-NR-002",
+        "GEN-NR-005",
+        "GEN-NR-006",
+        "GEN-NR-007",
+        "GEN-NR-018",
+        "GEN-NR-027",
+        "GEN-NR-036"
+      ],
+      "purpose": "Create the persistent accepted normative-requirement registry produced from accepted normative changes.",
+      "implementation": [
+        "Represent each accepted requirement once with stable identity, statement, lifecycle, Conformance applicability, and Assurance applicability.",
+        "Do not copy assertion lists or review-obligation lists into requirement records; derive those relationships from Conformance and Assurance registries.",
+        "Support deterministic loading and uniqueness checks."
+      ]
+    },
+    {
+      "id": "GEN-FILE-002",
+      "path": "repo/authority/framework-contract.json",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-001",
+        "GEN-NR-003",
+        "GEN-NR-004",
+        "GEN-NR-005",
+        "GEN-NR-006",
+        "GEN-NR-007"
+      ],
+      "purpose": "Materialize the compact accepted Framework Contract that establishes authority topology and keystone delegation.",
+      "implementation": [
+        "Declare repo/ as the framework authority namespace.",
+        "Declare exactly Governance, Conformance, and Assurance as authority-bearing keystones.",
+        "Declare the authority domain and prohibited authority of each keystone.",
+        "Declare framework/product authority separation and no implicit authority creation."
+      ]
+    },
+    {
+      "id": "GEN-FILE-003",
+      "path": "repo/planning/",
+      "operation": "extend",
+      "requirement_ids": [
+        "GEN-NR-011",
+        "GEN-NR-012",
+        "GEN-NR-013",
+        "GEN-NR-014",
+        "GEN-NR-015",
+        "GEN-NR-016",
+        "GEN-NR-017",
+        "GEN-NR-018",
+        "GEN-NR-019",
+        "GEN-NR-020",
+        "GEN-NR-021"
+      ],
+      "purpose": "Install schemas and runtime-readable contracts for functional sets and closed Plan graphs while retaining this Genesis Plan intact.",
+      "implementation": [
+        "Define functional-set schema with kinds genesis, core, and extension.",
+        "Enforce exactly the Genesis predecessor rule: genesis has no predecessor; non-genesis functional sets require the predecessor form applicable to their lifecycle.",
+        "Define plan root references and subordinate document schemas.",
+        "Define normative-change records as candidate change authority distinct from persistent requirements.",
+        "Define file-change records with explicit paths, operations, requirement relationships, implementation intent, and dependencies."
+      ]
+    },
+    {
+      "id": "GEN-FILE-004",
+      "path": "repo/runtime/repo_spec/design.py",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-008",
+        "GEN-NR-009",
+        "GEN-NR-010",
+        "GEN-NR-011",
+        "GEN-NR-012"
+      ],
+      "purpose": "Provide mechanical parsing and structural validation for Design Proposal metadata and statement addressing.",
+      "implementation": [
+        "Parse canonical Markdown Design Proposal metadata and explicit statement IDs without converting Markdown into independent semantic authority.",
+        "Validate required identity syntax and uniqueness.",
+        "Resolve selected Design statement IDs from the exact proposal revision bound by a functional set."
+      ]
+    },
+    {
+      "id": "GEN-FILE-005",
+      "path": "repo/runtime/repo_spec/authority.py",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-001",
+        "GEN-NR-002",
+        "GEN-NR-003",
+        "GEN-NR-004",
+        "GEN-NR-005",
+        "GEN-NR-006",
+        "GEN-NR-007"
+      ],
+      "purpose": "Load accepted framework authority and expose deterministic requirement and delegation lookup.",
+      "implementation": [
+        "Load framework contract and requirement registry.",
+        "Reject duplicate requirement IDs and malformed applicability.",
+        "Expose accepted requirement lookup without inferring authority from implementation or Git history."
+      ]
+    },
+    {
+      "id": "GEN-FILE-006",
+      "path": "repo/runtime/repo_spec/plan.py",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-011",
+        "GEN-NR-012",
+        "GEN-NR-013",
+        "GEN-NR-014",
+        "GEN-NR-015",
+        "GEN-NR-016",
+        "GEN-NR-018",
+        "GEN-NR-019",
+        "GEN-NR-020",
+        "GEN-NR-021"
+      ],
+      "purpose": "Load and validate the closed functional-set/Plan graph.",
+      "implementation": [
+        "Resolve every referenced Plan subdocument.",
+        "Validate Genesis/root and successor predecessor rules.",
+        "Validate selected Design statement existence against exact revisions.",
+        "Validate unique planned paths and explicit operations.",
+        "Expose authorized mutation set independently of validation orchestration."
+      ]
+    },
+    {
+      "id": "GEN-FILE-007",
+      "path": "repo/runtime/repo_spec/governance.py",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-006",
+        "GEN-NR-021",
+        "GEN-NR-026",
+        "GEN-NR-039",
+        "GEN-NR-040"
+      ],
+      "purpose": "Provide minimal explicit Planning/Build acceptance and accepted-state advancement.",
+      "implementation": [
+        "Model acceptance as an explicit decision distinct from Conformance or Assurance success.",
+        "Apply accepted normative changes to the persistent authority registry during accepted state construction.",
+        "Advance accepted state only after required stage evidence is satisfied.",
+        "Do not implement the complete later Governance lifecycle."
+      ]
+    },
+    {
+      "id": "GEN-FILE-008",
+      "path": "repo/conformance/",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-027",
+        "GEN-NR-028",
+        "GEN-NR-029",
+        "GEN-NR-030",
+        "GEN-NR-031",
+        "GEN-NR-032",
+        "GEN-NR-033",
+        "GEN-NR-034",
+        "GEN-NR-035"
+      ],
+      "purpose": "Create persistent Conformance registries for assertions, implementations, and orchestration.",
+      "implementation": [
+        "Maintain assertion records containing assertion identity, exactly one requirement owner, predicate description, and gating flag.",
+        "Maintain implementation bindings as the only persisted assertion-to-implementation relationship.",
+        "Allow one implementation to bind multiple assertions.",
+        "Maintain orchestration as implementation reachability without separately duplicating assertion membership.",
+        "Derive correspondence from accepted requirement applicability plus assertion ownership."
+      ]
+    },
+    {
+      "id": "GEN-FILE-009",
+      "path": "repo/runtime/repo_spec/conformance.py",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-027",
+        "GEN-NR-028",
+        "GEN-NR-029",
+        "GEN-NR-030",
+        "GEN-NR-031",
+        "GEN-NR-033",
+        "GEN-NR-034",
+        "GEN-NR-035"
+      ],
+      "purpose": "Implement the shared canonical Conformance engine.",
+      "implementation": [
+        "Load accepted requirements and Conformance registries.",
+        "Check applicability/coverage, assertion ownership, implementation binding, and orchestration reachability.",
+        "Execute implementations and require exactly one result for each required executed assertion.",
+        "Emit structured assertion-level findings.",
+        "Return PASS, FAIL, or INCOMPLETE with configuration/runtime defects distinguished from assertion failure."
+      ]
+    },
+    {
+      "id": "GEN-FILE-010",
+      "path": "repo/scripts/validate",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-035"
+      ],
+      "purpose": "Expose one stable public repository Conformance entry point.",
+      "implementation": [
+        "Be a thin adapter over the shared Conformance runtime engine.",
+        "Support concise human output and machine-readable JSON output.",
+        "Propagate engine disposition through stable process exit codes.",
+        "Contain no independent normative predicate logic."
+      ]
+    },
+    {
+      "id": "GEN-FILE-011",
+      "path": "repo/assurance/",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-036",
+        "GEN-NR-037",
+        "GEN-NR-038",
+        "GEN-NR-039"
+      ],
+      "purpose": "Create minimal persistent Assurance correspondence and review-obligation state.",
+      "implementation": [
+        "Derive Assurance applicability from accepted requirements without duplicating normative text.",
+        "Maintain review obligations separately from requirement identity.",
+        "Represent review cases with explicit authorizing authority, review subject, exercised obligations, evidence references, and findings.",
+        "Keep findings bounded to the review case."
+      ]
+    },
+    {
+      "id": "GEN-FILE-012",
+      "path": "repo/runtime/repo_spec/assurance.py",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-036",
+        "GEN-NR-037",
+        "GEN-NR-038",
+        "GEN-NR-039"
+      ],
+      "purpose": "Support minimal Planning and Build Assurance needed for successor framework work.",
+      "implementation": [
+        "Load review obligations applicable to the governed stage.",
+        "Validate review-case structure mechanically while preserving semantic judgment for the reviewer.",
+        "Record attributable findings and case disposition.",
+        "Do not convert findings into normative authority."
+      ]
+    },
+    {
+      "id": "GEN-FILE-013",
+      "path": "repo/runtime/repo_spec/build.py",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-021",
+        "GEN-NR-022",
+        "GEN-NR-023",
+        "GEN-NR-024",
+        "GEN-NR-025",
+        "GEN-NR-026"
+      ],
+      "purpose": "Provide bounded Build realization under one accepted Plan.",
+      "implementation": [
+        "Load exactly one accepted Plan.",
+        "Compute the authorized mutation set from file changes.",
+        "Reject observed mutations outside that set.",
+        "Produce a machine-readable mutation manifest.",
+        "Invoke the same Conformance engine used by repo/scripts/validate and collect required Assurance evidence before acceptance."
+      ]
+    },
+    {
+      "id": "GEN-FILE-014",
+      "path": "repo/state/",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-015",
+        "GEN-NR-040"
+      ],
+      "purpose": "Represent the first and successor accepted repository states without dependence on prototype provenance.",
+      "implementation": [
+        "Represent accepted repository revision and acceptance identity needed for internal successor lineage.",
+        "Do not require source-repository URL, prototype commit ancestry, or external bootstrap provenance for authority.",
+        "Permit successor Planning to bind one exact accepted repository state."
+      ]
+    },
+    {
+      "id": "GEN-FILE-015",
+      "path": "repo/tests/",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-025",
+        "GEN-NR-028",
+        "GEN-NR-030",
+        "GEN-NR-031",
+        "GEN-NR-033",
+        "GEN-NR-034",
+        "GEN-NR-037"
+      ],
+      "purpose": "Provide focused implementation evidence for Genesis framework mechanisms.",
+      "implementation": [
+        "Test positive, rejection, and boundary behavior for each implemented framework mechanism.",
+        "Do not treat broad test-suite success as a substitute for requirement-owned assertions.",
+        "Include a successor-framework functional-set fixture proving normal post-Genesis workflow."
+      ]
+    },
+    {
+      "id": "GEN-FILE-016",
+      "path": "repo/scripts/bootstrap-cutover",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-026",
+        "GEN-NR-039",
+        "GEN-NR-040"
+      ],
+      "purpose": "Provide the one-time Genesis cutover helper consistent with the user transfer handoff.",
+      "implementation": [
+        "Construct a complete candidate from the Genesis Plan.",
+        "Run canonical Conformance and required Genesis Assurance checks.",
+        "Prepare the designated bootstrap-cutover branch and pull request using the external transfer/acceptance boundary.",
+        "Treat merge of the designated validated cutover pull request as the explicit external Genesis acceptance event.",
+        "Do not make external provenance part of resulting framework normative authority."
+      ]
+    }
+  ]
+}
