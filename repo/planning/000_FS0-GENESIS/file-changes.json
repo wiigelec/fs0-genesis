@@ -72,7 +72,7 @@
       ],
       "purpose": "Install schemas and runtime-readable contracts for functional sets and Plan documents required by Genesis normative authority while retaining this Genesis Plan intact.",
       "implementation": [
-        "Define functional-set schema with kinds genesis, core, and extension.",
+        "Define the functional-set schema fields required to represent FS0-GENESIS and successor framework functional sets without introducing a closed future functional-set kind vocabulary beyond accepted normative authority.",
         "Enforce exactly the Genesis predecessor rule: genesis has no predecessor; non-genesis functional sets require the predecessor form applicable to their lifecycle.",
         "Define plan root references and subordinate document schemas.",
         "Define normative-change records as candidate change authority distinct from persistent requirements.",
@@ -154,7 +154,7 @@
         "Resolve every referenced Plan subdocument.",
         "Validate Genesis/root and successor predecessor rules.",
         "Validate selected Design statement existence against exact revisions.",
-        "Validate unique planned paths and explicit operations.",
+        "Validate declared planned mutation paths and explicit operations.",
         "Expose authorized mutation set independently of validation orchestration.",
         "For Genesis, verify each declared Design snapshot exists, matches its SHA-256 exact-byte digest, and contains every selected statement identity; do not require successor Plans to carry duplicate Design snapshots."
       ]
