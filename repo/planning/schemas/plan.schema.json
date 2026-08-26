@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "plan_id",
+    "functional_set",
+    "normative_changes",
+    "file_changes",
+    "execution",
+    "invariants",
+    "validation",
+    "assurance",
+    "completion",
+    "status",
+    "purpose"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1"
+    },
+    "artifact_type": {
+      "const": "plan"
+    },
+    "plan_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "functional_set": {
+      "type": "string",
+      "minLength": 1
+    },
+    "normative_changes": {
+      "type": "string",
+      "minLength": 1
+    },
+    "file_changes": {
+      "type": "string",
+      "minLength": 1
+    },
+    "execution": {
+      "type": "string",
+      "minLength": 1
+    },
+    "invariants": {
+      "type": "string",
+      "minLength": 1
+    },
+    "validation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "assurance": {
+      "type": "string",
+      "minLength": 1
+    },
+    "completion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "planning_boundary": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}
