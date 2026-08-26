@@ -66,6 +66,10 @@
     {
       "id": "GEN-INV-016",
       "statement": "Root README and agent guidance may explain repository authority and workflow but do not independently own or extend normative semantics; LICENSE is legal reuse text and does not define framework authority."
+    },
+    {
+      "id": "GEN-INV-017",
+      "statement": "Genesis preserves exact Design revisions as content-addressed historical input snapshots solely to make the root portable without prototype history; those snapshots are non-authoritative and do not establish duplication as the ordinary successor Planning model."
     }
   ]
 }

@@ -63,7 +63,11 @@
         "GEN-NR-045",
         "GEN-NR-046",
         "GEN-NR-047",
-        "GEN-NR-021"
+        "GEN-NR-021",
+        "GEN-NR-055",
+        "GEN-NR-056",
+        "GEN-NR-057",
+        "GEN-NR-058"
       ],
       "purpose": "Install schemas and runtime-readable contracts for functional sets and Plan documents required by Genesis normative authority while retaining this Genesis Plan intact.",
       "implementation": [
@@ -71,7 +75,8 @@
         "Enforce exactly the Genesis predecessor rule: genesis has no predecessor; non-genesis functional sets require the predecessor form applicable to their lifecycle.",
         "Define plan root references and subordinate document schemas.",
         "Define normative-change records as candidate change authority distinct from persistent requirements.",
-        "Define file-change records with explicit paths, operations, requirement relationships, implementation intent, and dependencies."
+        "Define file-change records with explicit paths, operations, requirement relationships, implementation intent, and dependencies.",
+        "Define Genesis portable Design-input snapshot bindings with source identity, snapshot path, SHA-256 exact-byte digest, and an explicit bootstrap-only binding kind; do not make snapshot duplication mandatory for successor Plans."
       ]
     },
     {
@@ -83,13 +88,17 @@
         "GEN-NR-009",
         "GEN-NR-010",
         "GEN-NR-011",
-        "GEN-NR-012"
+        "GEN-NR-012",
+        "GEN-NR-055",
+        "GEN-NR-056",
+        "GEN-NR-057",
+        "GEN-NR-058"
       ],
       "purpose": "Provide mechanical parsing and structural validation for Design Proposal metadata and statement addressing.",
       "implementation": [
         "Parse canonical Markdown Design Proposal metadata and explicit statement IDs without converting Markdown into independent semantic authority.",
         "Validate required identity syntax and uniqueness.",
-        "Resolve selected Design statement IDs from the exact proposal revision bound by a functional set."
+        "Resolve selected Design statement IDs from the exact retrievable proposal revision bound by a functional set; for FS0-GENESIS, verify and resolve the declared portable snapshot, while ordinary successor bindings may resolve through governed repository-native revision history."
       ]
     },
     {
@@ -130,7 +139,11 @@
         "GEN-NR-045",
         "GEN-NR-046",
         "GEN-NR-047",
-        "GEN-NR-021"
+        "GEN-NR-021",
+        "GEN-NR-055",
+        "GEN-NR-056",
+        "GEN-NR-057",
+        "GEN-NR-058"
       ],
       "purpose": "Load the functional set and Plan documents referenced by plan.json, and validate the Plan information required by accepted normative authority.",
       "implementation": [
@@ -138,7 +151,8 @@
         "Validate Genesis/root and successor predecessor rules.",
         "Validate selected Design statement existence against exact revisions.",
         "Validate unique planned paths and explicit operations.",
-        "Expose authorized mutation set independently of validation orchestration."
+        "Expose authorized mutation set independently of validation orchestration.",
+        "For Genesis, verify each declared Design snapshot exists, matches its SHA-256 exact-byte digest, and contains every selected statement identity; do not require successor Plans to carry duplicate Design snapshots."
       ]
     },
     {
@@ -323,13 +337,18 @@
         "GEN-NR-052",
         "GEN-NR-053",
         "GEN-NR-054",
-        "GEN-NR-037"
+        "GEN-NR-037",
+        "GEN-NR-055",
+        "GEN-NR-056",
+        "GEN-NR-057",
+        "GEN-NR-058"
       ],
       "purpose": "Provide focused implementation evidence for Genesis framework mechanisms.",
       "implementation": [
         "Test positive, rejection, and boundary behavior for each implemented framework mechanism.",
         "Do not treat broad test-suite success as a substitute for requirement-owned assertions.",
-        "Include a successor-framework functional-set fixture proving normal post-Genesis workflow."
+        "Include a successor-framework functional-set fixture proving normal post-Genesis workflow.",
+        "Test that a copied Genesis tree with no prototype Git history can verify all Design inputs from preserved snapshots, and that the successor fixture may use repository-native exact revision binding without duplicated Design content."
       ]
     },
     {

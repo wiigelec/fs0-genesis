@@ -13,7 +13,6 @@
   "status": "candidate",
   "purpose": "Provide an implementation-complete Genesis contract without implementing the complete framework Design corpus.",
   "planning_boundary": {
-    "design_revision": "78adef3bba86700cd8ec89ce3998e36bc7a82cf9",
     "predecessor": null,
     "build_must_not_invent": [
       "Design semantics",
@@ -23,6 +22,8 @@
       "file mutation paths",
       "Conformance predicates",
       "Assurance obligations"
-    ]
+    ],
+    "design_binding_source": "functional-set.json",
+    "genesis_design_binding": "portable-content-addressed-snapshots"
   }
 }

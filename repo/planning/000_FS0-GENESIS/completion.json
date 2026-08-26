@@ -14,6 +14,9 @@
     "The initializer product has not been implemented as part of Genesis.",
     "README.md exists at repository root and accurately describes the portable Genesis seed, FS0-GENESIS/framework versus FS0-CORE/product distinction, canonical validation entry point, and successor functional-set workflow.",
     "AGENTS.md exists at repository root and gives non-authoritative contributor guidance consistent with accepted authority and Design/Planning/Build responsibility boundaries.",
-    "LICENSE exists at repository root with the complete GNU General Public License version 3 text required for portable reuse."
+    "LICENSE exists at repository root with the complete GNU General Public License version 3 text required for portable reuse.",
+    "Every Genesis Design input resolves to a preserved snapshot whose SHA-256 digest matches its exact bytes and whose selected statement identities resolve within that snapshot.",
+    "Genesis Design-input verification succeeds from a copied repository tree without requiring the prototype repository, prototype commit objects, or prototype branch ancestry.",
+    "The ordinary successor-framework proof does not require duplicated Design Proposal snapshots when a governed repository-native exact revision binding is resolvable."
   ]
 }

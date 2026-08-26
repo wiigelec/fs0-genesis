@@ -13,7 +13,6 @@
     {
       "doc_id": "DP-001",
       "path": "repo/proposals/design-proposal.md",
-      "revision": "78adef3bba86700cd8ec89ce3998e36bc7a82cf9",
       "statements": [
         "DP001-REQUIREMENTS-001",
         "DP001-REQUIREMENTS-002",
@@ -48,13 +47,22 @@
         "DP001-INVARIANTS-004",
         "DP001-DETAIL-005",
         "DP001-DETAIL-006",
-        "DP001-DETAIL-007"
-      ]
+        "DP001-DETAIL-007",
+        "DP001-REQUIREMENTS-027",
+        "DP001-REQUIREMENTS-028"
+      ],
+      "binding": {
+        "kind": "genesis-portable-snapshot",
+        "snapshot_path": "repo/planning/000_FS0-GENESIS/design-inputs/DP-001/sha256-ad5ff613a233e22c9b2f722eb3549dd0ca55306a5dfa3c6eb95c994a146042c3.md",
+        "content_digest": {
+          "algorithm": "sha256",
+          "value": "ad5ff613a233e22c9b2f722eb3549dd0ca55306a5dfa3c6eb95c994a146042c3"
+        }
+      }
     },
     {
       "doc_id": "DP-010",
       "path": "repo/proposals/framework-contract.md",
-      "revision": "78adef3bba86700cd8ec89ce3998e36bc7a82cf9",
       "statements": [
         "DP010-DETAIL-004",
         "DP010-DETAIL-005",
@@ -124,12 +132,19 @@
         "DP010-DETAIL-084",
         "DP010-DETAIL-085",
         "DP010-DETAIL-086"
-      ]
+      ],
+      "binding": {
+        "kind": "genesis-portable-snapshot",
+        "snapshot_path": "repo/planning/000_FS0-GENESIS/design-inputs/DP-010/sha256-2b7f4789a3df1d3cd58fa028c787758ce761238e73d62ab59940ffb994accd70.md",
+        "content_digest": {
+          "algorithm": "sha256",
+          "value": "2b7f4789a3df1d3cd58fa028c787758ce761238e73d62ab59940ffb994accd70"
+        }
+      }
     },
     {
       "doc_id": "DP-020",
       "path": "repo/proposals/governance.md",
-      "revision": "78adef3bba86700cd8ec89ce3998e36bc7a82cf9",
       "statements": [
         "DP020-DETAIL-001",
         "DP020-DETAIL-002",
@@ -213,13 +228,24 @@
         "DP020-DETAIL-189",
         "DP020-DETAIL-190",
         "DP020-DETAIL-191",
-        "DP020-DETAIL-192"
-      ]
+        "DP020-DETAIL-192",
+        "DP020-DETAIL-193",
+        "DP020-DETAIL-194",
+        "DP020-DETAIL-195",
+        "DP020-DETAIL-196"
+      ],
+      "binding": {
+        "kind": "genesis-portable-snapshot",
+        "snapshot_path": "repo/planning/000_FS0-GENESIS/design-inputs/DP-020/sha256-6d718407e860db62f38226da7fdb771b511ba04b311622647e3237c101bd5ba3.md",
+        "content_digest": {
+          "algorithm": "sha256",
+          "value": "6d718407e860db62f38226da7fdb771b511ba04b311622647e3237c101bd5ba3"
+        }
+      }
     },
     {
       "doc_id": "DP-030",
       "path": "repo/proposals/conformance.md",
-      "revision": "78adef3bba86700cd8ec89ce3998e36bc7a82cf9",
       "statements": [
         "DP030-DETAIL-003",
         "DP030-DETAIL-004",
@@ -312,12 +338,19 @@
         "DP030-DETAIL-184",
         "DP030-DETAIL-185",
         "DP030-DETAIL-186"
-      ]
+      ],
+      "binding": {
+        "kind": "genesis-portable-snapshot",
+        "snapshot_path": "repo/planning/000_FS0-GENESIS/design-inputs/DP-030/sha256-552b1c76634934eede0816e294aa3790761b6554fbaf5e12ff8c079919596cd8.md",
+        "content_digest": {
+          "algorithm": "sha256",
+          "value": "552b1c76634934eede0816e294aa3790761b6554fbaf5e12ff8c079919596cd8"
+        }
+      }
     },
     {
       "doc_id": "DP-040",
       "path": "repo/proposals/assurance.md",
-      "revision": "78adef3bba86700cd8ec89ce3998e36bc7a82cf9",
       "statements": [
         "DP040-DETAIL-003",
         "DP040-DETAIL-004",
@@ -366,7 +399,15 @@
         "DP040-DETAIL-085",
         "DP040-DETAIL-086",
         "DP040-DETAIL-087"
-      ]
+      ],
+      "binding": {
+        "kind": "genesis-portable-snapshot",
+        "snapshot_path": "repo/planning/000_FS0-GENESIS/design-inputs/DP-040/sha256-c2be639c2f4b21710fefe6ad504ccff3a1699b09d36cf13172a04efb86f2e63b.md",
+        "content_digest": {
+          "algorithm": "sha256",
+          "value": "c2be639c2f4b21710fefe6ad504ccff3a1699b09d36cf13172a04efb86f2e63b"
+        }
+      }
     }
   ],
   "scope": {

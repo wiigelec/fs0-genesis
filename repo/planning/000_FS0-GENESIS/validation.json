@@ -58,7 +58,7 @@
     {
       "id": "GEN-ASSERT-011",
       "requirement_id": "GEN-NR-011",
-      "predicate": "Planning SHALL bind every consumed Design Proposal to one exact repository revision.",
+      "predicate": "Planning SHALL bind every consumed Design Proposal to one exact and retrievable Design Proposal revision.",
       "gating": true
     },
     {
@@ -306,6 +306,24 @@
       "requirement_id": "GEN-NR-054",
       "predicate": "Canonical Conformance execution SHALL detect assertion failure.",
       "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-055",
+      "requirement_id": "GEN-NR-055",
+      "predicate": "FS0-GENESIS SHALL preserve an exact immutable snapshot of every Design Proposal revision it consumes within its portable planning artifacts.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-056",
+      "requirement_id": "GEN-NR-056",
+      "predicate": "Each preserved Genesis Design Proposal snapshot SHALL be identified by a SHA-256 digest of its exact bytes.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-057",
+      "requirement_id": "GEN-NR-057",
+      "predicate": "Genesis validation SHALL resolve selected Design statement identities against the digest-verified preserved Design Proposal snapshot.",
+      "gating": true
     }
   ],
   "implementation_groups": [
@@ -317,7 +335,10 @@
         "GEN-ASSERT-008",
         "GEN-ASSERT-009",
         "GEN-ASSERT-011",
-        "GEN-ASSERT-012"
+        "GEN-ASSERT-012",
+        "GEN-ASSERT-055",
+        "GEN-ASSERT-056",
+        "GEN-ASSERT-057"
       ]
     },
     {
