@@ -3,14 +3,13 @@
   "artifact_type": "plan",
   "plan_id": "FS1-EVIDENCE-FIXTURE",
   "functional_set": "functional-set.json",
-  "design_bindings": [
-    {
-      "binding_kind": "repository-native",
-      "proposal_id": "DP-001",
-      "revision": "2222222222222222222222222222222222222222",
-      "selected_statement_ids": [
-        "DP001-001"
-      ]
-    }
-  ]
+  "normative_changes": "normative-changes.json",
+  "file_changes": "file-changes.json",
+  "execution": "execution.json",
+  "invariants": "invariants.json",
+  "validation": "validation.json",
+  "assurance": "assurance.json",
+  "completion": "completion.json",
+  "status": "candidate",
+  "purpose": "Exercise the ordinary post-Genesis Plan contract without Genesis-specific Design snapshots."
 }

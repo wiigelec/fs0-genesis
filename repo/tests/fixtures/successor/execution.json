@@ -1,0 +1,15 @@
+{
+  "schema_version": "1",
+  "artifact_type": "plan-execution",
+  "plan_id": "FS1-EVIDENCE-FIXTURE",
+  "stages": [
+    {
+      "order": 1,
+      "id": "successor-fixture-build",
+      "file_change_ids": [
+        "FS1-FILE-001"
+      ],
+      "action": "Exercise one ordinary successor mutation under the accepted predecessor."
+    }
+  ]
+}

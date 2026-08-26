@@ -4,6 +4,7 @@ import copy
 import importlib.util
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -91,14 +92,15 @@ class GenesisEvidence(unittest.TestCase):
 
     def test_successor_fixture_uses_exact_predecessor_and_repository_native_binding(self):
         fixture = ROOT / "repo/tests/fixtures/successor"
-        fs = json.loads((fixture / "functional-set.json").read_text(encoding="utf-8"))
-        plan = json.loads((fixture / "plan.json").read_text(encoding="utf-8"))
+        loaded = PLAN.validate_plan(ROOT, fixture)
+        fs = loaded.functional_set
         pred = fs["accepted_predecessor"]["accepted_revision"]
         self.assertRegex(pred, r"^[0-9a-f]{40}$")
         self.assertNotEqual(fs["functional_set"]["id"], "FS0-GENESIS")
-        bindings = plan["design_bindings"]
+        bindings = [item["binding"] for item in fs["design_inputs"]]
         self.assertTrue(bindings)
-        self.assertTrue(all(b["binding_kind"] == "repository-native" for b in bindings))
+        self.assertTrue(all(b["kind"] == "repository-native" for b in bindings))
+        self.assertTrue(all(re.fullmatch(r"[0-9a-f]{40}", b["revision"]) for b in bindings))
         self.assertTrue(all("snapshot_path" not in b for b in bindings))
 
     def test_successor_predecessor_requires_exact_revision_object(self):
@@ -257,6 +259,126 @@ class GenesisEvidence(unittest.TestCase):
         self.assertGreater(closure["assertion_count"], 0)
         self.assertEqual(report["disposition"], "PASS")
         self.assertEqual(closure["assertion_count"], len(report["results"]))
+
+
+    def test_design_requires_dp_nnn_document_identity(self):
+        design = load_module("fs0_test_design_identity", "design.py")
+        source = (ROOT / "repo/proposals/design-proposal.md").read_text(encoding="utf-8")
+        bad = source.replace("doc_id: DP-001", "doc_id: BANANA", 1)
+        with self.assertRaises(design.DesignError):
+            design.parse_design_proposal(bad)
+
+    def test_repository_native_design_binding_requires_exact_revision(self):
+        design = load_module("fs0_test_design_binding_exact", "design.py")
+        valid = {"doc_id": "DP-001", "path": "repo/proposals/design-proposal.md", "statements": ["DP001-REQUIREMENTS-003"], "binding": {"kind": "repository-native", "revision": subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True, capture_output=True, check=True).stdout.strip()}}
+        design.resolve_selected_statements(ROOT, valid)
+        for bad_revision in ("main", "HEAD", "fs0-0.0", "a" * 39, "a" * 41):
+            bad = copy.deepcopy(valid)
+            bad["binding"]["revision"] = bad_revision
+            with self.assertRaises(design.DesignError):
+                design.resolve_selected_statements(ROOT, bad)
+
+    def test_plan_runtime_enforces_root_and_subdocument_contract(self):
+        td, copied = self.temp_repo_copy(include_git=True)
+        self.addCleanup(td.cleanup)
+        copied_plan = copied / "repo/planning/000_FS0-GENESIS"
+        self.mutate_json(copied, "repo/planning/000_FS0-GENESIS/plan.json", lambda data: data.pop("status", None))
+        with self.assertRaises(PLAN.PlanError):
+            PLAN.validate_plan(copied, copied_plan)
+        shutil.copy2(PLAN_DIR / "plan.json", copied_plan / "plan.json")
+        def break_change(data):
+            data["changes"][0].pop("purpose", None)
+        self.mutate_json(copied, "repo/planning/000_FS0-GENESIS/file-changes.json", break_change)
+        with self.assertRaises(PLAN.PlanError):
+            PLAN.validate_plan(copied, copied_plan)
+
+    def test_canonical_conformance_validates_every_maintained_plan(self):
+        td, copied = self.temp_repo_copy(include_git=True)
+        self.addCleanup(td.cleanup)
+        successor = copied / "repo/planning/001_FS1-EVIDENCE-FIXTURE"
+        shutil.copytree(copied / "repo/tests/fixtures/successor", successor)
+        plan_path = successor / "plan.json"
+        doc = json.loads(plan_path.read_text(encoding="utf-8"))
+        doc.pop("status", None)
+        plan_path.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
+        report = CONFORMANCE.run(copied)
+        self.assertEqual(report["disposition"], "FAIL")
+        self.assertIn("GEN-ASSERT-018", set(report.get("failed_assertions", [])))
+
+    def test_conformance_rejects_crosswired_correspondence_assertion(self):
+        td, copied = self.temp_repo_copy()
+        self.addCleanup(td.cleanup)
+        graph = CONFORMANCE.load_graph(copied)
+        assertions = graph["assertions"]["assertions"]
+        records = graph["correspondence"]["records"]
+        by_req = {}
+        for assertion in assertions:
+            by_req.setdefault(assertion["requirement_id"], []).append(assertion["assertion_id"])
+        mechanical = [record for record in records if record.get("assertion_ids")]
+        first = mechanical[0]
+        other = next(record for record in mechanical if record["requirement_id"] != first["requirement_id"])
+        replacement = by_req[other["requirement_id"]][0]
+        def mutate(data):
+            for record in data["records"]:
+                if record["requirement_id"] == first["requirement_id"]:
+                    record["assertion_ids"] = [replacement]
+                    return
+        self.mutate_json(copied, "repo/conformance/correspondence.json", mutate)
+        with self.assertRaises(CONFORMANCE.ConformanceError):
+            CONFORMANCE.validate_closure(copied)
+
+    def test_conformance_rejects_assertion_without_requirement_owned_evidence(self):
+        td, copied = self.temp_repo_copy()
+        self.addCleanup(td.cleanup)
+        graph = CONFORMANCE.load_graph(copied)
+        assertions = {a["assertion_id"]: a for a in graph["assertions"]["assertions"]}
+        target = None
+        for impl in graph["implementations"]["implementations"]:
+            records = [e for e in graph["evidence"]["evidence"] if e["implementation_id"] == impl["implementation_id"]]
+            for aid in impl.get("assertion_ids", []):
+                owner = assertions[aid]["requirement_id"]
+                for record in records:
+                    auth = record.get("authority_requirement_ids", [])
+                    if owner in auth and len(auth) > 1:
+                        target = (record["evidence_id"], owner)
+                        break
+                if target:
+                    break
+            if target:
+                break
+        self.assertIsNotNone(target)
+        evidence_id, owner = target
+        def mutate(data):
+            for record in data["evidence"]:
+                if record["evidence_id"] == evidence_id:
+                    record["authority_requirement_ids"] = [rid for rid in record["authority_requirement_ids"] if rid != owner]
+                    return
+        self.mutate_json(copied, "repo/conformance/evidence.json", mutate)
+        with self.assertRaises(CONFORMANCE.ConformanceError):
+            CONFORMANCE.validate_closure(copied)
+
+    def test_conformance_rejects_duplicate_evidence_identity(self):
+        td, copied = self.temp_repo_copy()
+        self.addCleanup(td.cleanup)
+        def mutate(data):
+            data["evidence"].append(copy.deepcopy(data["evidence"][0]))
+        self.mutate_json(copied, "repo/conformance/evidence.json", mutate)
+        with self.assertRaises(CONFORMANCE.ConformanceError):
+            CONFORMANCE.validate_closure(copied)
+
+    def test_conformance_rejects_unregistered_filesystem_primitive(self):
+        td, copied = self.temp_repo_copy()
+        self.addCleanup(td.cleanup)
+        (copied / "repo/tests/orphan_validator.py").write_text("def enforce():\n    return True\n", encoding="utf-8")
+        with self.assertRaises(CONFORMANCE.ConformanceError):
+            CONFORMANCE.validate_closure(copied)
+
+    def test_accepted_state_schema_requires_explicit_predecessor(self):
+        schema = json.loads((ROOT / "repo/state/accepted-state.schema.json").read_text(encoding="utf-8"))
+        self.assertIn("predecessor", schema["required"])
+        predecessor = schema["properties"]["predecessor"]["oneOf"]
+        self.assertTrue(any(option.get("type") == "null" for option in predecessor))
+        self.assertTrue(any(option.get("type") == "string" and option.get("pattern") == "^[0-9a-f]{40}$" for option in predecessor))
 
 if __name__ == "__main__":
     unittest.main()

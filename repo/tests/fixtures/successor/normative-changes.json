@@ -1,0 +1,23 @@
+{
+  "schema_version": "1",
+  "artifact_type": "plan-normative-changes",
+  "plan_id": "FS1-EVIDENCE-FIXTURE",
+  "changes": [
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "FS1-NR-001",
+        "statement": "The successor evidence fixture SHALL remain bounded to ordinary post-Genesis Planning mechanics.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "mechanical"
+          },
+          "assurance": {
+            "applicability": "none"
+          }
+        }
+      }
+    }
+  ]
+}

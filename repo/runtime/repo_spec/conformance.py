@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import importlib.util
 import json
 import os
 import re
 import subprocess
+import sys
 from pathlib import Path
 
 SHA40_RE = re.compile(r"^[0-9a-f]{40}$")
@@ -114,12 +116,16 @@ def validate_closure(root: Path) -> dict:
             raise ConformanceError(f"assertion must bind exactly one implementation: {aid}")
 
     evidence_by_impl = {}
+    evidence_by_id = {}
     for rec in evidence:
         eid = rec.get("evidence_id")
         iid = rec.get("implementation_id")
         auth = rec.get("authority_requirement_ids")
         if not isinstance(eid, str) or not eid:
             raise ConformanceError("evidence identity is missing")
+        if eid in evidence_by_id:
+            raise ConformanceError(f"invalid or duplicate evidence identity: {eid}")
+        evidence_by_id[eid] = rec
         if iid not in impl_by_id:
             raise ConformanceError(f"evidence references unknown implementation: {eid}->{iid}")
         if not isinstance(auth, list) or not auth or any(rid not in req_by_id for rid in auth):
@@ -129,6 +135,13 @@ def validate_closure(root: Path) -> dict:
     for iid, impl in impl_by_id.items():
         if impl.get("assertion_ids") and not evidence_by_impl.get(iid):
             raise ConformanceError(f"executable implementation lacks declared evidence: {iid}")
+
+    for aid, assertion in assertion_by_id.items():
+        iid = binding[aid][0]
+        owner = assertion["requirement_id"]
+        records = evidence_by_impl.get(iid, [])
+        if not any(owner in rec.get("authority_requirement_ids", []) for rec in records):
+            raise ConformanceError(f"assertion lacks requirement-owned evidence provenance: {aid}->{owner}")
 
     realized = orchestration.get("implementation_ids")
     orch_auth = orchestration.get("authority_requirement_ids")
@@ -165,6 +178,43 @@ def validate_closure(root: Path) -> dict:
                 )
         if any(aid not in assertion_by_id for aid in aids):
             raise ConformanceError(f"correspondence references unknown assertion: {rid}")
+        expected_aids = {aid for aid, assertion in assertion_by_id.items() if assertion.get("requirement_id") == rid}
+        if set(aids) != expected_aids:
+            raise ConformanceError(f"correspondence assertion ownership mismatch: {rid}: expected={sorted(expected_aids)} actual={sorted(aids)}")
+
+    maintained = orchestration.get("maintained_paths")
+    if not isinstance(maintained, list) or not maintained:
+        raise ConformanceError("orchestration maintained_paths must be non-empty list")
+    declared_paths = {}
+    for record in maintained:
+        if not isinstance(record, dict):
+            raise ConformanceError("maintained Conformance path record must be object")
+        rel = record.get("path")
+        auth = record.get("authority_requirement_ids")
+        if not isinstance(rel, str) or not rel or rel in declared_paths:
+            raise ConformanceError(f"invalid or duplicate maintained Conformance path: {rel}")
+        if not isinstance(auth, list) or not auth or any(rid not in req_by_id for rid in auth):
+            raise ConformanceError(f"maintained Conformance path lacks authority provenance: {rel}")
+        candidate = (root / rel).resolve()
+        try:
+            candidate.relative_to(root.resolve())
+        except ValueError as exc:
+            raise ConformanceError(f"maintained Conformance path escapes repository: {rel}") from exc
+        if not candidate.is_file():
+            raise ConformanceError(f"maintained Conformance path is missing: {rel}")
+        declared_paths[rel] = record
+
+    discovered = set()
+    for controlled in (root / "repo/conformance", root / "repo/tests"):
+        if controlled.is_dir():
+            for candidate in controlled.rglob("*"):
+                if candidate.is_file() and "__pycache__" not in candidate.parts:
+                    discovered.add(str(candidate.relative_to(root)))
+    for rel in ("repo/runtime/repo_spec/conformance.py", "repo/scripts/validate", ".github/workflows/fs0-conformance.yml"):
+        if (root / rel).is_file():
+            discovered.add(rel)
+    if set(declared_paths) != discovered:
+        raise ConformanceError("maintained Conformance filesystem closure mismatch: " f"unregistered={sorted(discovered - set(declared_paths))} " f"missing={sorted(set(declared_paths) - discovered)}")
 
     gating = {a["assertion_id"] for a in assertions if a.get("gating") is True}
     reachable = {
@@ -197,6 +247,59 @@ def _planning_dirs(root: Path) -> list[Path]:
         p for p in base.iterdir()
         if p.is_dir() and p.name != "schemas"
     ) if base.is_dir() else []
+
+
+def _load_runtime_module(root: Path, filename: str, name: str):
+    runtime = root / "repo/runtime/repo_spec"
+    spec = importlib.util.spec_from_file_location(name, runtime / filename)
+    if spec is None or spec.loader is None:
+        raise ConformanceError(f"unable to load runtime module: {filename}")
+    module = importlib.util.module_from_spec(spec)
+    old = sys.dont_write_bytecode
+    added = False
+    runtime_text = str(runtime)
+    if runtime_text not in sys.path:
+        sys.path.insert(0, runtime_text)
+        added = True
+    sys.dont_write_bytecode = True
+    sys.modules[spec.name] = module
+    try:
+        spec.loader.exec_module(module)
+    finally:
+        sys.dont_write_bytecode = old
+        if added and sys.path and sys.path[0] == runtime_text:
+            sys.path.pop(0)
+    return module
+
+
+def _validate_all_plans(root: Path) -> dict:
+    plan_runtime = _load_runtime_module(root, "plan.py", "fs0_conf_plan_runtime")
+    validated = []
+    for directory in _planning_dirs(root):
+        loaded = plan_runtime.validate_plan(root, directory)
+        validated.append(loaded.root["plan_id"])
+    if not validated:
+        raise ConformanceError("no maintained Plans found")
+    return {"validated_plan_ids": validated}
+
+
+def _build_context(root: Path):
+    build_runtime = _load_runtime_module(root, "build.py", "fs0_conf_build_runtime")
+    context = build_runtime.load_exactly_one_accepted_plan(root, root / "repo/planning/000_FS0-GENESIS", accepted_plan_id="FS0-GENESIS")
+    return build_runtime, context
+
+
+def _exercise_build_verification(root: Path) -> dict:
+    build_runtime, context = _build_context(root)
+    build_runtime.verify_syntax = lambda _root: {"sentinel": "syntax"}
+    build_runtime.verify_conformance = lambda _root, candidate_revision: {"candidate_revision": candidate_revision, "disposition": "PASS", "sentinel": "conformance"}
+    build_runtime.verify_operational_completion = lambda _root, *, candidate_revision: {"candidate_revision": candidate_revision, "operationally_complete": True, "sentinel": "completion"}
+    build_runtime.verify_plan_fidelity = lambda _context, _observed: {"candidate_revision": _context.candidate_revision, "accepted_plan_id": _context.plan_id, "authorized_scope_respected": True, "sentinel": "fidelity"}
+    result = build_runtime.verify_build(root, context, [])
+    for key in ("syntax", "conformance", "completion", "fidelity"):
+        if result.get(key, {}).get("sentinel") != key:
+            raise ConformanceError(f"Build verification did not exercise {key} path")
+    return result
 
 
 def _assertion_result(aid: str, ok: bool, detail: str, evidence=None) -> dict:
@@ -281,22 +384,13 @@ def _evaluate(root: Path, assertion: dict) -> dict:
             return ret(False, f"Design identity validation failed: {exc}")
     if rid in {"GEN-NR-011", "GEN-NR-012", "GEN-NR-055", "GEN-NR-056", "GEN-NR-057"}:
         try:
-            import importlib.util, sys
-            runtime = root / "repo/runtime/repo_spec"
-            sys.path.insert(0, str(runtime))
-            old = sys.dont_write_bytecode
-            sys.dont_write_bytecode = True
-            try:
-                spec = importlib.util.spec_from_file_location("plan", runtime / "plan.py")
-                mod = importlib.util.module_from_spec(spec)
-                sys.modules["plan"] = mod
-                spec.loader.exec_module(mod)
-                mod.validate_design_scope(root, mod.load_plan(plan_dir))
-            finally:
-                sys.dont_write_bytecode = old
-                if sys.path and sys.path[0] == str(runtime):
-                    sys.path.pop(0)
-            return ret(True, "selected Design scope resolves against exact bound revisions/snapshots")
+            plan_runtime = _load_runtime_module(root, "plan.py", "fs0_conf_design_plan_runtime")
+            validated = []
+            for directory in _planning_dirs(root):
+                loaded = plan_runtime.load_plan(directory)
+                plan_runtime.validate_design_scope(root, loaded)
+                validated.append(loaded.root["plan_id"])
+            return ret(bool(validated), "selected Design scope for every maintained Plan resolves against exact bound revisions/snapshots", {"validated_plan_ids": validated})
         except Exception as exc:
             return ret(False, f"Design binding validation failed: {exc}")
     if rid == "GEN-NR-013":
@@ -325,27 +419,36 @@ def _evaluate(root: Path, assertion: dict) -> dict:
     if rid == "GEN-NR-016":
         ok = all((d / "functional-set.json").is_file() and (d / "plan.json").is_file() for d in _planning_dirs(root))
         return ret(ok, "every functional-set directory contains functional-set.json and plan.json")
-    if rid == "GEN-NR-018":
-        return ret(isinstance(plan.get("normative_changes"), str) and (plan_dir / plan["normative_changes"]).is_file(), "Plan declares normative changes without owning persistent authority")
-    if rid == "GEN-NR-019":
-        changes = file_changes.get("changes", [])
-        ok = bool(changes) and all(c.get("path") and c.get("operation") for c in changes)
-        return ret(ok, "Plan declares explicit authorized mutation paths and operations")
-    if rid == "GEN-NR-020":
-        stages = execution.get("stages", [])
-        orders = [s.get("order") for s in stages]
-        return ret(bool(stages) and len(orders) == len(set(orders)), "Plan defines unique implementation sequencing")
-    if rid == "GEN-NR-021":
-        return ret(bool(file_changes.get("changes")), "accepted Plan exposes bounded implementation scope")
+    if rid in {"GEN-NR-018", "GEN-NR-019", "GEN-NR-020", "GEN-NR-021", "GEN-NR-044", "GEN-NR-045", "GEN-NR-046", "GEN-NR-047"}:
+        try:
+            coverage = _validate_all_plans(root)
+            return ret(True, "every maintained Plan satisfies the shared Genesis Plan structural and execution contract", coverage)
+        except Exception as exc:
+            return ret(False, f"maintained Plan validation failed: {exc}")
     if rid == "GEN-NR-022":
-        text = _read(root, "repo/runtime/repo_spec/build.py")
-        return ret("exactly one accepted Plan" in text or "load exactly one accepted Plan" in text or "load_plan" in text, "Build runtime consumes one accepted Plan")
+        try:
+            _, context = _build_context(root)
+            return ret(context.plan_id == "FS0-GENESIS", "Build runtime consumes exactly the Governance-identified accepted Plan", {"accepted_plan_id": context.plan_id})
+        except Exception as exc:
+            return ret(False, f"Build Plan consumption failed: {exc}")
     if rid == "GEN-NR-023":
-        text = _read(root, "repo/runtime/repo_spec/build.py")
-        return ret("authorized" in text and "mutation" in text and "outside" in text, "Build runtime rejects mutation outside accepted Plan scope")
+        try:
+            build_runtime, context = _build_context(root)
+            try:
+                build_runtime.reject_mutations_outside_authorized_set(context, ["outside/not-authorized"])
+            except build_runtime.BuildError:
+                return ret(True, "Build runtime rejects mutation outside accepted Plan scope")
+            return ret(False, "Build accepted an out-of-plan mutation")
+        except Exception as exc:
+            return ret(False, f"Build mutation-boundary exercise failed: {exc}")
     if rid == "GEN-NR-024":
-        text = _read(root, "repo/runtime/repo_spec/build.py")
-        return ret("manifest" in text, "Build runtime produces machine-readable mutation manifest")
+        try:
+            build_runtime, context = _build_context(root)
+            manifest = build_runtime.mutation_manifest(context, [context.authorized_mutation_paths[0]])
+            ok = manifest.get("record_type") == "build-mutation-manifest" and manifest.get("accepted_plan_id") == context.plan_id and manifest.get("candidate_revision") == context.candidate_revision
+            return ret(ok, "Build runtime produces a candidate-bound machine-readable mutation manifest", manifest)
+        except Exception as exc:
+            return ret(False, f"Build mutation-manifest exercise failed: {exc}")
     if rid == "GEN-NR-025":
         py = list((root / "repo/runtime/repo_spec").glob("*.py"))
         try:
@@ -407,23 +510,13 @@ def _evaluate(root: Path, assertion: dict) -> dict:
     if rid == "GEN-NR-043":
         text = _read(root, "LICENSE")
         return ret("GNU GENERAL PUBLIC LICENSE" in text and "Version 3, 29 June 2007" in text and len(text.splitlines()) > 600, "LICENSE contains complete GPLv3 text")
-    if rid == "GEN-NR-044":
-        return ret((plan_dir / "invariants.json").is_file(), "Plan defines implementation invariants")
-    if rid == "GEN-NR-045":
-        return ret((plan_dir / "validation.json").is_file(), "Plan defines validation intent")
-    if rid == "GEN-NR-046":
-        return ret((plan_dir / "assurance.json").is_file(), "Plan defines Assurance intent")
-    if rid == "GEN-NR-047":
-        return ret((plan_dir / "completion.json").is_file(), "Plan defines completion conditions")
     if rid in {"GEN-NR-048", "GEN-NR-049", "GEN-NR-050"}:
-        text = _read(root, "repo/runtime/repo_spec/build.py")
-        checks = {
-            "GEN-NR-048": ("conformance", "Build verification establishes mechanical Conformance"),
-            "GEN-NR-049": ("completion", "Build verification establishes operational completion"),
-            "GEN-NR-050": ("fidelity", "Build verification establishes accepted-Plan fidelity"),
-        }
-        token, detail = checks[rid]
-        return ret(token in text.lower(), detail)
+        try:
+            result = _exercise_build_verification(root)
+            key = {"GEN-NR-048": "conformance", "GEN-NR-049": "completion", "GEN-NR-050": "fidelity"}[rid]
+            return ret(key in result, f"Build verification behaviorally exercises {key} for the exact candidate", result[key])
+        except Exception as exc:
+            return ret(False, f"Build verification exercise failed: {exc}")
     if rid == "GEN-NR-061":
         proc = subprocess.run(["git", "rev-list", "--max-parents=0", "HEAD"], cwd=root, text=True, capture_output=True)
         roots = [x for x in proc.stdout.splitlines() if SHA40_RE.fullmatch(x)]

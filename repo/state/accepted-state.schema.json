@@ -9,7 +9,8 @@
     "acceptance_id",
     "accepted_revision",
     "functional_set_id",
-    "accepted_plan_id"
+    "accepted_plan_id",
+    "predecessor"
   ],
   "properties": {
     "schema_version": {

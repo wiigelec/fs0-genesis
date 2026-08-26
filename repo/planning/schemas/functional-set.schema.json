@@ -84,7 +84,7 @@
         "properties": {
           "doc_id": {
             "type": "string",
-            "minLength": 1
+            "pattern": "^DP-[0-9]{3}$"
           },
           "path": {
             "type": "string",
@@ -107,8 +107,10 @@
             ],
             "properties": {
               "kind": {
-                "type": "string",
-                "minLength": 1
+                "enum": [
+                  "genesis-portable-snapshot",
+                  "repository-native"
+                ]
               },
               "snapshot_path": {
                 "type": "string",
@@ -135,10 +137,47 @@
               },
               "revision": {
                 "type": "string",
-                "minLength": 1
+                "pattern": "^[0-9a-f]{40}$"
               }
             },
-            "additionalProperties": true
+            "additionalProperties": true,
+            "oneOf": [
+              {
+                "properties": {
+                  "kind": {
+                    "const": "genesis-portable-snapshot"
+                  }
+                },
+                "required": [
+                  "snapshot_path",
+                  "content_digest"
+                ]
+              },
+              {
+                "properties": {
+                  "kind": {
+                    "const": "repository-native"
+                  }
+                },
+                "required": [
+                  "revision"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "snapshot_path"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "content_digest"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         "additionalProperties": true

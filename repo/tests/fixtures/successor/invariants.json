@@ -1,0 +1,9 @@
+{
+  "schema_version": "1",
+  "artifact_type": "plan-invariants",
+  "plan_id": "FS1-EVIDENCE-FIXTURE",
+  "invariants": [
+    "Use repository-native exact Design revision binding.",
+    "Do not duplicate Genesis Design snapshots."
+  ]
+}

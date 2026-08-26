@@ -6,10 +6,10 @@
     "id": "FS1-EVIDENCE-FIXTURE",
     "kind": "successor",
     "title": "Successor evidence fixture",
-    "description": "Minimal ordinary-successor fixture used by Genesis implementation evidence."
+    "description": "Minimal ordinary successor Plan used by Genesis implementation evidence."
   },
   "accepted_predecessor": {
-    "accepted_revision": "1111111111111111111111111111111111111111"
+    "accepted_revision": "3d1d280fd6822d53a57c32537fe6c8f3385beb51"
   },
   "design_inputs": [
     {
@@ -20,7 +20,7 @@
       ],
       "binding": {
         "kind": "repository-native",
-        "revision": "2222222222222222222222222222222222222222"
+        "revision": "3d1d280fd6822d53a57c32537fe6c8f3385beb51"
       }
     }
   ]

@@ -1,0 +1,19 @@
+{
+  "schema_version": "1",
+  "artifact_type": "plan-file-changes",
+  "plan_id": "FS1-EVIDENCE-FIXTURE",
+  "changes": [
+    {
+      "id": "FS1-FILE-001",
+      "path": "repo/tests/fixtures/successor/example.txt",
+      "operation": "create",
+      "requirement_ids": [
+        "FS1-NR-001"
+      ],
+      "purpose": "Provide one bounded successor mutation for fixture sequencing.",
+      "implementation": [
+        "Create one fixture-owned text artifact during a successor Build exercise."
+      ]
+    }
+  ]
+}

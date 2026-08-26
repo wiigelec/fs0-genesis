@@ -1,0 +1,8 @@
+{
+  "schema_version": "1",
+  "artifact_type": "plan-validation-intent",
+  "plan_id": "FS1-EVIDENCE-FIXTURE",
+  "checks": [
+    "Plan runtime accepts the complete successor fixture."
+  ]
+}

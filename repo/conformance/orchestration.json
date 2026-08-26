@@ -18,5 +18,155 @@
     "GEN-NR-035",
     "GEN-NR-052",
     "GEN-NR-064"
+  ],
+  "maintained_paths": [
+    {
+      "path": "repo/conformance/assertions.json",
+      "authority_requirement_ids": [
+        "GEN-NR-031",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/conformance/correspondence.json",
+      "authority_requirement_ids": [
+        "GEN-NR-028",
+        "GEN-NR-030",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/conformance/evidence.json",
+      "authority_requirement_ids": [
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/conformance/implementations.json",
+      "authority_requirement_ids": [
+        "GEN-NR-051",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/conformance/orchestration.json",
+      "authority_requirement_ids": [
+        "GEN-NR-033",
+        "GEN-NR-035",
+        "GEN-NR-052",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/runtime/repo_spec/conformance.py",
+      "authority_requirement_ids": [
+        "GEN-NR-028",
+        "GEN-NR-030",
+        "GEN-NR-031",
+        "GEN-NR-033",
+        "GEN-NR-034",
+        "GEN-NR-035",
+        "GEN-NR-051",
+        "GEN-NR-052",
+        "GEN-NR-053",
+        "GEN-NR-054",
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/scripts/validate",
+      "authority_requirement_ids": [
+        "GEN-NR-035"
+      ]
+    },
+    {
+      "path": ".github/workflows/fs0-conformance.yml",
+      "authority_requirement_ids": [
+        "GEN-NR-034",
+        "GEN-NR-035"
+      ]
+    },
+    {
+      "path": "repo/tests/test_genesis.py",
+      "authority_requirement_ids": [
+        "GEN-NR-025",
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/tests/fixtures/successor/functional-set.json",
+      "authority_requirement_ids": [
+        "GEN-NR-015",
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/tests/fixtures/successor/plan.json",
+      "authority_requirement_ids": [
+        "GEN-NR-015",
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/tests/fixtures/successor/normative-changes.json",
+      "authority_requirement_ids": [
+        "GEN-NR-015",
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/tests/fixtures/successor/file-changes.json",
+      "authority_requirement_ids": [
+        "GEN-NR-015",
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/tests/fixtures/successor/execution.json",
+      "authority_requirement_ids": [
+        "GEN-NR-015",
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/tests/fixtures/successor/invariants.json",
+      "authority_requirement_ids": [
+        "GEN-NR-015",
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/tests/fixtures/successor/validation.json",
+      "authority_requirement_ids": [
+        "GEN-NR-015",
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/tests/fixtures/successor/assurance.json",
+      "authority_requirement_ids": [
+        "GEN-NR-015",
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/tests/fixtures/successor/completion.json",
+      "authority_requirement_ids": [
+        "GEN-NR-015",
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    }
   ]
 }

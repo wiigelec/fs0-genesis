@@ -29,6 +29,17 @@ PLAN_REFERENCES = (
     "completion",
 )
 
+PLAN_ARTIFACT_TYPES = {
+    "functional_set": "functional-set",
+    "normative_changes": "plan-normative-changes",
+    "file_changes": "plan-file-changes",
+    "execution": "plan-execution",
+    "invariants": "plan-invariants",
+    "validation": "plan-validation-intent",
+    "assurance": "plan-assurance-intent",
+    "completion": "plan-completion",
+}
+
 
 @dataclass(frozen=True)
 class LoadedPlan:
@@ -71,15 +82,34 @@ def load_plan(plan_directory: Path) -> LoadedPlan:
     root_path = directory / "plan.json"
     root = _load_json(root_path)
 
+    if root.get("schema_version") != "1":
+        raise PlanError("plan.json schema_version must be 1")
     if root.get("artifact_type") != "plan":
         raise PlanError("plan.json artifact_type must be plan")
+    plan_id = root.get("plan_id")
+    status = root.get("status")
+    purpose = root.get("purpose")
+    if not isinstance(plan_id, str) or not plan_id:
+        raise PlanError("plan.json requires stable plan_id")
+    if not isinstance(status, str) or not status:
+        raise PlanError("plan.json requires status")
+    if not isinstance(purpose, str) or not purpose:
+        raise PlanError("plan.json requires purpose")
 
     documents: dict[str, dict] = {}
     for key in PLAN_REFERENCES:
         relative = root.get(key)
         if not isinstance(relative, str) or not relative:
             raise PlanError(f"plan.json missing document reference: {key}")
-        documents[key] = _load_json(_safe_child(directory, relative))
+        document = _load_json(_safe_child(directory, relative))
+        if document.get("schema_version") != "1":
+            raise PlanError(f"{key} schema_version must be 1")
+        expected_type = PLAN_ARTIFACT_TYPES[key]
+        if document.get("artifact_type") != expected_type:
+            raise PlanError(f"{key} artifact_type must be {expected_type}: {document.get('artifact_type')}")
+        if key != "functional_set" and document.get("plan_id") != plan_id:
+            raise PlanError(f"{key} plan_id must match root plan_id")
+        documents[key] = document
 
     return LoadedPlan(directory=directory, root=root, documents=documents)
 
@@ -131,6 +161,48 @@ def validate_design_scope(root: Path, plan: LoadedPlan) -> None:
             raise PlanError(str(exc)) from exc
 
 
+def validate_normative_changes(plan: LoadedPlan) -> None:
+    document = plan.documents["normative_changes"]
+    changes = document.get("changes")
+    if not isinstance(changes, list):
+        raise PlanError("normative-changes document requires changes list")
+    seen: set[str] = set()
+    for change in changes:
+        if not isinstance(change, dict):
+            raise PlanError("normative change must be object")
+        operation = change.get("operation")
+        requirement = change.get("requirement")
+        if not isinstance(operation, str) or not operation:
+            raise PlanError("normative change requires operation")
+        if not isinstance(requirement, dict):
+            raise PlanError("normative change requires requirement object")
+        rid = requirement.get("id")
+        statement = requirement.get("statement")
+        lifecycle = requirement.get("lifecycle")
+        evaluation = requirement.get("evaluation")
+        if not all(isinstance(value, str) and value for value in (rid, statement, lifecycle)):
+            raise PlanError("normative requirement requires id, statement, and lifecycle")
+        if rid in seen:
+            raise PlanError(f"duplicate normative requirement identity: {rid}")
+        seen.add(rid)
+        if not isinstance(evaluation, dict):
+            raise PlanError(f"{rid} requires evaluation")
+        conf = evaluation.get("conformance")
+        assur = evaluation.get("assurance")
+        if not isinstance(conf, dict) or not isinstance(assur, dict):
+            raise PlanError(f"{rid} requires Conformance and Assurance evaluation")
+        if conf.get("applicability") not in {"mechanical", "none"}:
+            raise PlanError(f"{rid} has invalid Conformance applicability")
+        if assur.get("applicability") not in {"required", "none"}:
+            raise PlanError(f"{rid} has invalid Assurance applicability")
+
+
+def validate_intent_documents(plan: LoadedPlan) -> None:
+    for key in ("invariants", "validation", "assurance", "completion"):
+        if not isinstance(plan.documents[key], dict):
+            raise PlanError(f"{key} document must be object")
+
+
 def file_changes(plan: LoadedPlan) -> tuple[dict, ...]:
     changes = plan.file_changes.get("changes")
     if not isinstance(changes, list):
@@ -153,6 +225,19 @@ def file_changes(plan: LoadedPlan) -> tuple[dict, ...]:
             raise PlanError(f"{cid} requires path")
         if not isinstance(operation, str) or not operation:
             raise PlanError(f"{cid} requires explicit operation")
+        requirement_ids = change.get("requirement_ids")
+        purpose = change.get("purpose")
+        implementation = change.get("implementation")
+        if not isinstance(requirement_ids, list) or not all(isinstance(item, str) and item for item in requirement_ids) or len(requirement_ids) != len(set(requirement_ids)):
+            raise PlanError(f"{cid} requires unique requirement_ids string list")
+        if not isinstance(purpose, str) or not purpose:
+            raise PlanError(f"{cid} requires purpose")
+        if not isinstance(implementation, list) or not all(isinstance(item, str) and item for item in implementation):
+            raise PlanError(f"{cid} requires implementation string list")
+        dependencies = change.get("dependencies")
+        if dependencies is not None:
+            if not isinstance(dependencies, list) or not all(isinstance(item, str) and item for item in dependencies) or len(dependencies) != len(set(dependencies)):
+                raise PlanError(f"{cid} dependencies must be unique string list")
         observed.append(change)
     return tuple(observed)
 
@@ -179,8 +264,11 @@ def validate_execution_references(plan: LoadedPlan) -> None:
         if not isinstance(stage, dict):
             raise PlanError("execution stage must be object")
         order = stage.get("order")
+        stage_id = stage.get("id")
         if not isinstance(order, int) or order < 1 or order in orders:
             raise PlanError(f"invalid or duplicate execution order: {order}")
+        if not isinstance(stage_id, str) or not stage_id:
+            raise PlanError("execution stage requires id")
         orders.add(order)
         ids = stage.get("file_change_ids", [])
         if not isinstance(ids, list) or not all(isinstance(x, str) and x for x in ids):
@@ -201,6 +289,8 @@ def validate_plan(root: Path, plan_directory: Path) -> LoadedPlan:
     plan = load_plan(plan_directory)
     validate_predecessor_rules(plan)
     validate_design_scope(root, plan)
+    validate_normative_changes(plan)
     file_changes(plan)
     validate_execution_references(plan)
+    validate_intent_documents(plan)
     return plan

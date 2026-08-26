@@ -7,7 +7,8 @@ from dataclasses import dataclass
 from pathlib import Path
 
 STATEMENT_ID_RE = re.compile(r"^\*\*([A-Z][A-Z0-9-]+)\*\*\s*$", re.MULTILINE)
-DOC_ID_RE = re.compile(r"^[A-Z][A-Z0-9-]*$")
+DOC_ID_RE = re.compile(r"^DP-[0-9]{3}$")
+SHA40_RE = re.compile(r"^[0-9a-f]{40}$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
@@ -120,13 +121,22 @@ def load_repository_revision(
     binding = design_input.get("binding")
     if not isinstance(binding, dict):
         raise DesignError("Design input binding is required")
-    if binding.get("kind") == "genesis-portable-snapshot":
+    kind = binding.get("kind")
+    if kind == "genesis-portable-snapshot":
         return load_genesis_snapshot(root, design_input)
+    if kind != "repository-native":
+        raise DesignError(f"unsupported ordinary Design binding kind: {kind}")
 
-    bound_revision = revision or binding.get("revision")
+    bound_revision = binding.get("revision")
+    if not isinstance(bound_revision, str) or not SHA40_RE.fullmatch(bound_revision):
+        raise DesignError("repository-native Design binding requires exact 40-hex repository revision")
+    if revision is not None:
+        if not isinstance(revision, str) or not SHA40_RE.fullmatch(revision):
+            raise DesignError("requested Design revision must be exact 40-hex repository revision")
+        if revision != bound_revision:
+            raise DesignError("requested Design revision does not match repository-native binding")
+
     path = design_input.get("path")
-    if not isinstance(bound_revision, str) or not bound_revision:
-        raise DesignError("ordinary Design binding requires exact repository revision")
     if not isinstance(path, str) or not path:
         raise DesignError("Design input path is required")
 
