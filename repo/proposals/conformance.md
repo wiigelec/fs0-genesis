@@ -1465,16 +1465,16 @@ Conformance failure blocks acceptance but does not itself create Design or Plann
 ### FS0 Bootstrap Conformance
 
 **DP030-DETAIL-274**
-Before the candidate FS0-Core Conformance runtime exists, authorized bootstrap Conformance MAY mechanically evaluate FS0-Core Design, functional-set, and Plan artifacts.
+Before the candidate FS0-GENESIS Conformance runtime exists, authorized bootstrap Conformance MAY mechanically evaluate FS0-GENESIS Design, functional-set, and Plan artifacts.
 
 **DP030-DETAIL-275**
-Bootstrap Conformance SHALL apply the same objective Design, functional-set, Plan-graph, reference-resolution, mutation-scope, and predecessor-executability contracts that the FS0-Core runtime is required to enforce for later functional sets.
+Bootstrap Conformance SHALL apply the same objective Design, functional-set, Plan-graph, reference-resolution, mutation-scope, and predecessor-executability contracts that the FS0-GENESIS runtime is required to enforce for later functional sets.
 
 **DP030-DETAIL-276**
-Candidate FS0-Core Conformance results SHALL NOT be prerequisites for accepting the Plan that creates the candidate FS0-Core Conformance runtime.
+Candidate FS0-GENESIS Conformance results SHALL NOT be prerequisites for accepting the Plan that creates the candidate FS0-GENESIS Conformance runtime.
 
 **DP030-DETAIL-277**
-After Build, FS0-Core SHALL demonstrate that its maintained Conformance runtime can enforce the required workflow contracts for a subsequent functional set.
+After Build, FS0-GENESIS SHALL demonstrate that its maintained Conformance runtime can enforce the required workflow contracts for a subsequent functional set.
 
 
 ## Alternatives Considered
