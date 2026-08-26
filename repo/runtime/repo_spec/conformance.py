@@ -203,8 +203,18 @@ def _evaluate(root: Path, assertion: dict) -> dict:
     file_changes = _load(plan_dir / "file-changes.json")
     execution = _load(plan_dir / "execution.json")
 
+    predicate = assertion.get("predicate")
+    if not isinstance(predicate, str) or not predicate:
+        predicate = f"Conformance assertion {aid}"
+
     def ret(ok, detail, evidence=None):
-        return _assertion_result(aid, bool(ok), detail, evidence)
+        primary_detail = predicate
+        if not ok and detail:
+            primary_detail = f"{predicate} -- {detail}"
+        result = _assertion_result(aid, bool(ok), primary_detail, evidence)
+        if detail:
+            result["implementation_detail"] = detail
+        return result
 
     if rid == "GEN-NR-001":
         return ret((root / "repo/authority").is_dir(), "accepted authority surface exists under repo/")
