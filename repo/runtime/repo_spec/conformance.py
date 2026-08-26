@@ -34,6 +34,19 @@ def load_graph(root: Path) -> dict:
     }
 
 
+def _resolve_implementation_callable(impl: dict):
+    target = impl.get("callable")
+    if not isinstance(target, str) or not target.startswith("repo_spec.conformance."):
+        raise ConformanceError(
+            f"implementation callable is not a canonical Conformance entrypoint: {target}"
+        )
+    name = target.rsplit(".", 1)[-1]
+    fn = globals().get(name)
+    if not callable(fn):
+        raise ConformanceError(f"implementation callable is not executable: {target}")
+    return fn
+
+
 def validate_closure(root: Path) -> dict:
     graph = load_graph(root)
     reqs = graph["requirements"].get("requirements")
@@ -89,6 +102,7 @@ def validate_closure(root: Path) -> dict:
             raise ConformanceError(f"implementation lacks governed authority provenance: {iid}")
         if any(rid not in req_by_id for rid in authority_ids):
             raise ConformanceError(f"implementation authority provenance is unresolved: {iid}")
+        _resolve_implementation_callable(impl)
         impl_by_id[iid] = impl
         for aid in impl.get("assertion_ids", []):
             if aid not in assertion_by_id:
@@ -393,6 +407,49 @@ def _evaluate(root: Path, assertion: dict) -> dict:
     return ret(False, f"no Genesis mechanical evaluator is registered for {rid}")
 
 
+def _evaluate_implementation(
+    root: Path,
+    assertions: dict[str, dict],
+    assertion_ids: list[str],
+) -> list[dict]:
+    results = []
+    for aid in assertion_ids:
+        if aid not in assertions:
+            raise ConformanceError(
+                f"implementation references unknown assertion at execution: {aid}"
+            )
+        results.append(_evaluate(root, assertions[aid]))
+    return results
+
+
+def design(root: Path, assertions: dict[str, dict], assertion_ids: list[str]) -> list[dict]:
+    return _evaluate_implementation(root, assertions, assertion_ids)
+
+
+def authority(root: Path, assertions: dict[str, dict], assertion_ids: list[str]) -> list[dict]:
+    return _evaluate_implementation(root, assertions, assertion_ids)
+
+
+def plan(root: Path, assertions: dict[str, dict], assertion_ids: list[str]) -> list[dict]:
+    return _evaluate_implementation(root, assertions, assertion_ids)
+
+
+def build(root: Path, assertions: dict[str, dict], assertion_ids: list[str]) -> list[dict]:
+    return _evaluate_implementation(root, assertions, assertion_ids)
+
+
+def selfcheck(root: Path, assertions: dict[str, dict], assertion_ids: list[str]) -> list[dict]:
+    return _evaluate_implementation(root, assertions, assertion_ids)
+
+
+def portability(root: Path, assertions: dict[str, dict], assertion_ids: list[str]) -> list[dict]:
+    return _evaluate_implementation(root, assertions, assertion_ids)
+
+
+def governance(root: Path, assertions: dict[str, dict], assertion_ids: list[str]) -> list[dict]:
+    return _evaluate_implementation(root, assertions, assertion_ids)
+
+
 def run(root: Path) -> dict:
     try:
         closure = validate_closure(root)
@@ -411,8 +468,31 @@ def run(root: Path) -> dict:
 
     for iid in graph["orchestration"]["implementation_ids"]:
         impl = impls[iid]
-        for aid in impl.get("assertion_ids", []):
-            results.append(_evaluate(root, assertions[aid]))
+        owned = impl.get("assertion_ids", [])
+        fn = _resolve_implementation_callable(impl)
+        emitted = fn(root, assertions, owned)
+        if not isinstance(emitted, list):
+            return {
+                "schema_version": "1",
+                "disposition": "INCOMPLETE",
+                "configuration_errors": [
+                    f"implementation did not return a result list: {iid}"
+                ],
+                "results": results,
+                "closure": closure,
+            }
+        actual_owned = [record.get("assertion_id") for record in emitted]
+        if actual_owned != owned:
+            return {
+                "schema_version": "1",
+                "disposition": "INCOMPLETE",
+                "configuration_errors": [
+                    f"implementation emitted results outside or incomplete relative to owned assertions: {iid}"
+                ],
+                "results": results + emitted,
+                "closure": closure,
+            }
+        results.extend(emitted)
 
     expected = {a["assertion_id"] for a in assertions.values() if a.get("gating") is True}
     actual = [r["assertion_id"] for r in results]
