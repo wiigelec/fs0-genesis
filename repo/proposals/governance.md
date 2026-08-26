@@ -816,7 +816,7 @@ The following concerns are intentionally outside this Governance proposal:
 - review finding schema;
 - implementation-language choices;
 - migration execution details; and
-- bootstrap sequencing.
+- Genesis establishment sequencing.
 These concerns may be defined by subordinate Governance authority or by Conformance and Assurance according to their delegated responsibilities.
 
 ### Relationship to Conformance and Assurance
@@ -905,34 +905,48 @@ Planning acceptance SHALL apply to the complete resolved Plan document graph rat
 Plan Conformance SHALL reject a Plan document graph containing a missing, duplicate, conflicting, unreachable, or unauthorized Plan document.
 
 
-### FS0 Bootstrap Governance Contract
+### FS0 Genesis Establishment Contract
 
 **DP020-DETAIL-176**
-Before the FS0-Core runtime exists, authorized external human or automated actors MAY perform the Design Assurance, Planning Conformance, and Planning Assurance required to govern FS0-Core.
+Before the FS0-GENESIS runtime exists, authorized external human or automated actors MAY perform the Design Assurance, Planning Conformance, and Planning Assurance required to govern FS0-GENESIS.
 
 **DP020-DETAIL-177**
-The candidate FS0-Core runtime SHALL NOT serve as an authority or evidentiary prerequisite for acceptance of the Plan that creates that runtime.
+The candidate FS0-GENESIS runtime SHALL NOT serve as an authority or evidentiary prerequisite for acceptance of the Plan that creates that runtime.
 
 **DP020-DETAIL-178**
-Bootstrap Design Assurance SHALL evaluate the exact Design Proposal revisions selected by FS0-Core.
+Pre-runtime Design Assurance SHALL evaluate the exact Design Proposal revisions selected by FS0-GENESIS.
 
 **DP020-DETAIL-179**
-Bootstrap Planning Conformance SHALL mechanically evaluate the FS0-Core Design inputs, functional-set scope, complete Plan document graph, and implementation-predecessor executability before Planning acceptance.
+Pre-runtime Planning Conformance SHALL mechanically evaluate the FS0-GENESIS Design inputs, functional-set scope, complete Plan document graph, and root-predecessor condition before Planning acceptance.
 
 **DP020-DETAIL-180**
-Bootstrap Planning Assurance SHALL evaluate the complete FS0-Core functional set and logical Plan using the semantic criteria required for later governed Planning Assurance.
+Pre-runtime Planning Assurance SHALL evaluate the complete FS0-GENESIS functional set and logical Plan using the semantic criteria required for later governed Planning Assurance.
 
 **DP020-DETAIL-181**
-Bootstrap Conformance and Assurance evidence required for FS0-Core acceptance SHALL be durable and resolvable from Governance acceptance lineage.
+Pre-runtime Conformance and Assurance evidence required for FS0-GENESIS acceptance SHALL be durable and resolvable from Governance acceptance lineage.
 
 **DP020-DETAIL-182**
-Bootstrap schemas that define functional-set and Plan artifact contracts MAY be created as governed Planning artifacts before FS0-Core Build.
+Schemas that define functional-set and Plan artifact contracts MAY be created as governed Planning artifacts before FS0-GENESIS Build.
 
 **DP020-DETAIL-183**
-A bootstrap Planning artifact SHALL NOT become FS0-Core implementation realization solely because the FS0-Core runtime consumes that artifact.
+A pre-runtime Planning artifact SHALL NOT become FS0-GENESIS implementation realization solely because the FS0-GENESIS runtime consumes that artifact.
 
 **DP020-DETAIL-184**
-FS0-Core Build MAY consume accepted bootstrap Planning artifacts while retaining the pre-Planning accepted repository revision as its declared implementation predecessor.
+FS0-GENESIS Build MAY consume accepted pre-runtime Planning artifacts while retaining the Genesis root condition as its declared implementation predecessor condition.
+
+### Genesis Portable Root Surface
+
+**DP020-DETAIL-189**
+The accepted FS0-GENESIS repository root SHALL include `README.md` as the portable human entry point for the repository-framework seed.
+
+**DP020-DETAIL-190**
+The accepted FS0-GENESIS repository root SHALL include `AGENTS.md` as non-authoritative operating guidance for human and automated contributors, subordinate to accepted repository authority.
+
+**DP020-DETAIL-191**
+The accepted FS0-GENESIS repository root SHALL include `LICENSE` containing the complete GNU General Public License version 3 text as the legal reuse and distribution artifact for the portable repository-framework seed.
+
+**DP020-DETAIL-192**
+`README.md`, `AGENTS.md`, and `LICENSE` SHALL NOT independently create, amend, or extend repository-framework normative authority.
 
 
 ### Pre-Build Design and Planning Artifact Bridge
