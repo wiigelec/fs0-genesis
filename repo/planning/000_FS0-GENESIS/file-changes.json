@@ -65,7 +65,7 @@
         "GEN-NR-047",
         "GEN-NR-021"
       ],
-      "purpose": "Install schemas and runtime-readable contracts for functional sets and closed Plan graphs while retaining this Genesis Plan intact.",
+      "purpose": "Install schemas and runtime-readable contracts for functional sets and Plan documents required by Genesis normative authority while retaining this Genesis Plan intact.",
       "implementation": [
         "Define functional-set schema with kinds genesis, core, and extension.",
         "Enforce exactly the Genesis predecessor rule: genesis has no predecessor; non-genesis functional sets require the predecessor form applicable to their lifecycle.",
@@ -132,7 +132,7 @@
         "GEN-NR-047",
         "GEN-NR-021"
       ],
-      "purpose": "Load and validate the closed functional-set/Plan graph.",
+      "purpose": "Load the functional set and Plan documents referenced by plan.json, and validate the Plan information required by accepted normative authority.",
       "implementation": [
         "Resolve every referenced Plan subdocument.",
         "Validate Genesis/root and successor predecessor rules.",
