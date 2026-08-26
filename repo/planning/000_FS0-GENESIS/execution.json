@@ -5,6 +5,15 @@
   "stages": [
     {
       "order": 1,
+      "id": "portable-root-surface",
+      "file_change_ids": [
+        "GEN-FILE-017",
+        "GEN-FILE-018",
+        "GEN-FILE-019"
+      ]
+    },
+    {
+      "order": 2,
       "id": "design-substrate",
       "file_change_ids": [
         "GEN-FILE-003",
@@ -12,7 +21,7 @@
       ]
     },
     {
-      "order": 2,
+      "order": 3,
       "id": "authority-substrate",
       "file_change_ids": [
         "GEN-FILE-001",
@@ -21,21 +30,21 @@
       ]
     },
     {
-      "order": 3,
+      "order": 4,
       "id": "planning-substrate",
       "file_change_ids": [
         "GEN-FILE-006"
       ]
     },
     {
-      "order": 4,
+      "order": 5,
       "id": "governance-substrate",
       "file_change_ids": [
         "GEN-FILE-007"
       ]
     },
     {
-      "order": 5,
+      "order": 6,
       "id": "conformance-substrate",
       "file_change_ids": [
         "GEN-FILE-008",
@@ -44,7 +53,7 @@
       ]
     },
     {
-      "order": 6,
+      "order": 7,
       "id": "assurance-substrate",
       "file_change_ids": [
         "GEN-FILE-011",
@@ -52,7 +61,7 @@
       ]
     },
     {
-      "order": 7,
+      "order": 8,
       "id": "build-state-substrate",
       "file_change_ids": [
         "GEN-FILE-013",
@@ -60,7 +69,7 @@
       ]
     },
     {
-      "order": 8,
+      "order": 9,
       "id": "evidence-and-cutover",
       "file_change_ids": [
         "GEN-FILE-015",
@@ -68,7 +77,7 @@
       ]
     },
     {
-      "order": 9,
+      "order": 10,
       "id": "successor-proof",
       "action": "Exercise one ordinary successor framework functional set using only the established framework lifecycle; no Genesis-specific semantic bypass is permitted."
     }

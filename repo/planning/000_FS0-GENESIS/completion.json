@@ -11,6 +11,9 @@
     "The accepted-state record identifies the accepted Genesis repository revision without requiring prototype provenance.",
     "FS0-GENESIS functional-set and Plan artifacts remain present and unchanged by state promotion except for changes explicitly authorized by a later Plan.",
     "A normal successor framework functional set can bind the accepted Genesis state, select remaining Design statements, produce an accepted Plan, build, validate, assure, and advance accepted state without a Genesis-specific semantic bypass.",
-    "The initializer product has not been implemented as part of Genesis."
+    "The initializer product has not been implemented as part of Genesis.",
+    "README.md exists at repository root and accurately describes the portable Genesis seed, FS0-GENESIS/framework versus FS0-CORE/product distinction, canonical validation entry point, and successor functional-set workflow.",
+    "AGENTS.md exists at repository root and gives non-authoritative contributor guidance consistent with accepted authority and Design/Planning/Build responsibility boundaries.",
+    "LICENSE exists at repository root with the complete repository-owner-selected license text required for portable reuse."
   ]
 }

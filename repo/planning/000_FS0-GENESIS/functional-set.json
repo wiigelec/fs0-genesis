@@ -368,7 +368,8 @@
       "requirement-owned Conformance assertions with shared implementation support",
       "one canonical repository Conformance execution surface",
       "minimal governed Assurance obligations and bounded review cases",
-      "self-hosting successor-framework functional-set capability"
+      "self-hosting successor-framework functional-set capability",
+      "portable repository-root README, agent guidance, and license artifacts"
     ],
     "excludes": [
       "complete realization of DP-020 Governance",

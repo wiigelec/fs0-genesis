@@ -59,6 +59,19 @@
         "build"
       ],
       "objective": "Determine whether semantic findings remain case-bounded and Governance acceptance remains distinct from review or Conformance success."
+    },
+    {
+      "id": "GEN-OBL-PORTABILITY-ROOT",
+      "requirement_ids": [
+        "GEN-NR-041",
+        "GEN-NR-042",
+        "GEN-NR-043"
+      ],
+      "stage": [
+        "planning",
+        "build"
+      ],
+      "objective": "Determine whether the root README, agent guidance, and license make the Genesis repository understandable, safely operable, and legally reusable as a portable framework seed without themselves becoming implicit framework authority."
     }
   ],
   "review_case_contract": {

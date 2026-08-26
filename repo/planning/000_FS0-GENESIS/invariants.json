@@ -58,6 +58,14 @@
     {
       "id": "GEN-INV-014",
       "statement": "FS0-CORE is a product-root concept and is not used as the framework Genesis root."
+    },
+    {
+      "id": "GEN-INV-015",
+      "statement": "README.md, AGENTS.md, and LICENSE are part of the portable Genesis repository root and are explicitly authorized by the Genesis Plan rather than introduced as incidental Build output."
+    },
+    {
+      "id": "GEN-INV-016",
+      "statement": "Root README and agent guidance may explain repository authority and workflow but do not independently own or extend normative semantics; LICENSE is legal reuse text and does not define framework authority."
     }
   ]
 }

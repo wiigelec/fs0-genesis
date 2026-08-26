@@ -323,6 +323,52 @@
         "Treat merge of the designated validated cutover pull request as the explicit external Genesis acceptance event.",
         "Do not make external provenance part of resulting framework normative authority."
       ]
+    },
+    {
+      "id": "GEN-FILE-017",
+      "path": "README.md",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-041"
+      ],
+      "purpose": "Create the portable human entry point for the repo-spec Genesis seed.",
+      "implementation": [
+        "Identify the repository as the portable repo-spec framework seed established through FS0-GENESIS.",
+        "Explain that FS0-GENESIS is the unique framework-root functional set while FS0-CORE is a product-root concept.",
+        "Describe the repository authority, Design, Planning, Build, Conformance, Assurance, and accepted-state surfaces at a high level without duplicating their normative semantics.",
+        "Document repo/scripts/validate as the canonical public Conformance entry point once realized.",
+        "Explain that later framework capabilities are implemented through ordinary successor functional sets rather than by modifying Genesis semantics."
+      ]
+    },
+    {
+      "id": "GEN-FILE-018",
+      "path": "AGENTS.md",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-042"
+      ],
+      "purpose": "Create portable contributor and AI-agent operating guidance at repository root.",
+      "implementation": [
+        "Direct contributors to treat accepted authority under repo/ as controlling over implementation behavior, historical convention, generated output, or reviewer preference.",
+        "State that Design owns semantics, Planning owns normative distillation and implementation intent, and Build owns implementation correctness.",
+        "Require routing upstream when missing semantics, scope, normative intent, or planned mutation authority is discovered.",
+        "Require use of the accepted Plan for Build scope and repo/scripts/validate for canonical mechanical Conformance.",
+        "Make the guidance explicitly non-authoritative and subordinate to accepted repository authority."
+      ]
+    },
+    {
+      "id": "GEN-FILE-019",
+      "path": "LICENSE",
+      "operation": "create",
+      "requirement_ids": [
+        "GEN-NR-043"
+      ],
+      "purpose": "Create the durable legal licensing artifact that accompanies the portable Genesis seed.",
+      "implementation": [
+        "Populate LICENSE with the repository owner's selected complete license text before Genesis Build acceptance.",
+        "Treat LICENSE as legal distribution/reuse text, not repository-framework normative authority.",
+        "Do not derive framework semantics from the license text."
+      ]
     }
   ]
 }

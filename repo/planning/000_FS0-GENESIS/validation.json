@@ -222,6 +222,24 @@
       "requirement_id": "GEN-NR-040",
       "predicate": "Build acceptance SHALL advance exactly one explicit accepted repository state.",
       "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-041",
+      "requirement_id": "GEN-NR-041",
+      "predicate": "README.md exists at repository root and contains the required Genesis portability topics.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-042",
+      "requirement_id": "GEN-NR-042",
+      "predicate": "AGENTS.md exists at repository root and contains the required contributor authority and workflow guidance.",
+      "gating": true
+    },
+    {
+      "id": "GEN-ASSERT-043",
+      "requirement_id": "GEN-NR-043",
+      "predicate": "LICENSE exists at repository root and is non-empty.",
+      "gating": true
     }
   ],
   "implementation_groups": [
@@ -295,6 +313,16 @@
         "GEN-ASSERT-037",
         "GEN-ASSERT-038"
       ]
+    },
+    {
+      "id": "GEN-IMPL-PORTABILITY",
+      "kind": "python",
+      "entrypoint": "repo_spec.conformance.portability",
+      "assertion_ids": [
+        "GEN-ASSERT-041",
+        "GEN-ASSERT-042",
+        "GEN-ASSERT-043"
+      ]
     }
   ],
   "orchestration": {
@@ -304,7 +332,8 @@
       "GEN-IMPL-AUTHORITY",
       "GEN-IMPL-PLAN",
       "GEN-IMPL-BUILD",
-      "GEN-IMPL-CONFORMANCE"
+      "GEN-IMPL-CONFORMANCE",
+      "GEN-IMPL-PORTABILITY"
     ]
   },
   "required_engine_defects": [
