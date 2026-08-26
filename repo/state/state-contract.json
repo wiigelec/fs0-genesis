@@ -1,0 +1,19 @@
+{
+  "schema_version": "1",
+  "artifact_type": "accepted-state-contract",
+  "root_state": {
+    "functional_set_id": "FS0-GENESIS",
+    "predecessor": null,
+    "root_revision_semantics": "The initial commit of the derived FS0-GENESIS repository is the root repository provenance revision; no repository predecessor is required."
+  },
+  "successor_state": {
+    "requires_exact_accepted_predecessor": true,
+    "accepted_revision_identity": "exact 40-hex repository revision"
+  },
+  "provenance_exclusions": [
+    "source-repository URL",
+    "prototype commit ancestry",
+    "external pre-Genesis repository ancestry"
+  ],
+  "authority_boundary": "This contract defines state representation only; explicit Governance acceptance creates or advances an accepted repository state."
+}
