@@ -155,8 +155,14 @@ def validate_closure(root: Path) -> dict:
             raise ConformanceError(f"correspondence assertion_ids must be list: {rid}")
         if app == "mechanical" and not aids:
             raise ConformanceError(f"missing mechanical assertion coverage: {rid}")
-        if app == "none" and aids:
-            raise ConformanceError(f"none-applicable requirement has assertion coverage: {rid}")
+        if app == "none":
+            if aids:
+                raise ConformanceError(f"none-applicable requirement has assertion coverage: {rid}")
+            rationale = req.get("evaluation", {}).get("conformance", {}).get("rationale")
+            if not isinstance(rationale, str) or not rationale.strip():
+                raise ConformanceError(
+                    f"none-applicable requirement lacks recorded Conformance rationale: {rid}"
+                )
         if any(aid not in assertion_by_id for aid in aids):
             raise ConformanceError(f"correspondence references unknown assertion: {rid}")
 
@@ -309,8 +315,13 @@ def _evaluate(root: Path, assertion: dict) -> dict:
         for d in _planning_dirs(root):
             obj = _load(d / "functional-set.json")
             if obj.get("functional_set", {}).get("id") != "FS0-GENESIS":
-                ok = ok and obj.get("accepted_predecessor") is not None
-        return ret(ok, "all successor functional sets identify an accepted predecessor")
+                predecessor = obj.get("accepted_predecessor")
+                revision = predecessor.get("accepted_revision") if isinstance(predecessor, dict) else None
+                ok = ok and isinstance(revision, str) and bool(SHA40_RE.fullmatch(revision))
+        return ret(
+            ok,
+            "all successor functional sets identify an exact 40-hex accepted repository predecessor",
+        )
     if rid == "GEN-NR-016":
         ok = all((d / "functional-set.json").is_file() and (d / "plan.json").is_file() for d in _planning_dirs(root))
         return ret(ok, "every functional-set directory contains functional-set.json and plan.json")
@@ -359,12 +370,29 @@ def _evaluate(root: Path, assertion: dict) -> dict:
             return ret(False, f"Conformance closure defect: {exc}")
     if rid == "GEN-NR-035":
         return ret((root / "repo/scripts/validate").is_file(), "repo/scripts/validate is the canonical public Conformance entry point")
-    if rid == "GEN-NR-036":
-        apps = [r.get("evaluation", {}).get("assurance", {}).get("applicability") for r in reqs]
-        return ret(all(a in {"required", "none"} for a in apps), "every accepted requirement has canonical Assurance applicability")
-    if rid == "GEN-NR-037":
-        p = root / "repo/assurance/obligations.json"
-        return ret(p.is_file(), "required Assurance applicability resolves through maintained review obligations")
+    if rid in {"GEN-NR-036", "GEN-NR-037"}:
+        try:
+            import importlib.util, sys
+            p = root / "repo/runtime/repo_spec/assurance.py"
+            spec = importlib.util.spec_from_file_location("fs0_conf_assurance", p)
+            if spec is None or spec.loader is None:
+                raise RuntimeError(f"unable to load Assurance runtime: {p}")
+            mod = importlib.util.module_from_spec(spec)
+            old_dont_write = sys.dont_write_bytecode
+            sys.dont_write_bytecode = True
+            sys.modules[spec.name] = mod
+            try:
+                spec.loader.exec_module(mod)
+                coverage = mod.validate_correspondence(root)
+            finally:
+                sys.dont_write_bytecode = old_dont_write
+            return ret(
+                True,
+                "Assurance applicability and governed obligation correspondence are structurally valid",
+                coverage,
+            )
+        except Exception as exc:
+            return ret(False, f"Assurance correspondence defect: {exc}")
     if rid == "GEN-NR-038":
         text = _read(root, "repo/runtime/repo_spec/assurance.py")
         return ret("bounded" in text and "normative authority" in text, "Assurance findings remain case-bounded and non-authoritative")

@@ -93,13 +93,73 @@ class GenesisEvidence(unittest.TestCase):
         fixture = ROOT / "repo/tests/fixtures/successor"
         fs = json.loads((fixture / "functional-set.json").read_text(encoding="utf-8"))
         plan = json.loads((fixture / "plan.json").read_text(encoding="utf-8"))
-        pred = fs["functional_set"]["accepted_predecessor"]["accepted_revision"]
+        pred = fs["accepted_predecessor"]["accepted_revision"]
         self.assertRegex(pred, r"^[0-9a-f]{40}$")
         self.assertNotEqual(fs["functional_set"]["id"], "FS0-GENESIS")
         bindings = plan["design_bindings"]
         self.assertTrue(bindings)
         self.assertTrue(all(b["binding_kind"] == "repository-native" for b in bindings))
         self.assertTrue(all("snapshot_path" not in b for b in bindings))
+
+    def test_successor_predecessor_requires_exact_revision_object(self):
+        loaded = PLAN.load_plan(PLAN_DIR)
+        documents = dict(loaded.documents)
+        successor = copy.deepcopy(loaded.functional_set)
+        successor["functional_set"]["id"] = "FS1-PREDECESSOR-TEST"
+        successor["functional_set"]["kind"] = "successor"
+        successor["accepted_predecessor"] = {"accepted_revision": "a" * 40}
+        documents["functional_set"] = successor
+        candidate = PLAN.LoadedPlan(loaded.directory, loaded.root, documents)
+        PLAN.validate_predecessor_rules(candidate)
+
+        for bad in (
+            None,
+            "a" * 40,
+            {},
+            {"accepted_revision": "not-a-sha"},
+            {"accepted_revision": "a" * 39},
+        ):
+            successor_bad = copy.deepcopy(successor)
+            successor_bad["accepted_predecessor"] = bad
+            bad_docs = dict(documents)
+            bad_docs["functional_set"] = successor_bad
+            bad_candidate = PLAN.LoadedPlan(loaded.directory, loaded.root, bad_docs)
+            with self.assertRaises(PLAN.PlanError):
+                PLAN.validate_predecessor_rules(bad_candidate)
+
+    def test_conformance_rejects_missing_none_applicability_rationale(self):
+        td, copied = self.temp_repo_copy()
+        self.addCleanup(td.cleanup)
+
+        def mutate(data):
+            for requirement in data["requirements"]:
+                conformance = requirement.get("evaluation", {}).get("conformance", {})
+                if conformance.get("applicability") == "none":
+                    conformance.pop("rationale", None)
+                    return
+            self.fail("no Conformance-none requirement found")
+
+        self.mutate_json(copied, "repo/authority/requirements.json", mutate)
+        with self.assertRaises(CONFORMANCE.ConformanceError):
+            CONFORMANCE.validate_closure(copied)
+
+    def test_canonical_conformance_detects_broken_assurance_correspondence(self):
+        td, copied = self.temp_repo_copy()
+        self.addCleanup(td.cleanup)
+
+        def mutate(data):
+            for record in data["records"]:
+                if record.get("applicability") == "required":
+                    record["obligation_ids"] = ["GEN-OBL-DOES-NOT-EXIST"]
+                    return
+            self.fail("no required Assurance correspondence found")
+
+        self.mutate_json(copied, "repo/assurance/correspondence.json", mutate)
+        report = CONFORMANCE.run(copied)
+        self.assertEqual(report["disposition"], "FAIL")
+        failed = set(report.get("failed_assertions", []))
+        self.assertIn("GEN-ASSERT-036", failed)
+        self.assertIn("GEN-ASSERT-037", failed)
 
     def test_build_rejects_out_of_plan_mutation_and_emits_manifest(self):
         context = BUILD.load_exactly_one_accepted_plan(ROOT, PLAN_DIR, accepted_plan_id="FS0-GENESIS")

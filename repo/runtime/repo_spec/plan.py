@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -8,6 +9,9 @@ try:
     from . import design
 except ImportError:
     import design  # type: ignore
+
+
+SHA40_RE = re.compile(r"^[0-9a-f]{40}$")
 
 
 class PlanError(ValueError):
@@ -100,17 +104,16 @@ def validate_predecessor_rules(plan: LoadedPlan) -> None:
     if predecessor is None:
         raise PlanError("non-Genesis functional set requires an accepted predecessor")
 
-    if isinstance(predecessor, str):
-        if not predecessor:
-            raise PlanError("accepted predecessor string must be non-empty")
-        return
+    if not isinstance(predecessor, dict):
+        raise PlanError(
+            "non-Genesis accepted predecessor must be an object identifying accepted_revision"
+        )
 
-    if isinstance(predecessor, dict):
-        if not predecessor:
-            raise PlanError("accepted predecessor object must not be empty")
-        return
-
-    raise PlanError("accepted predecessor must be string, object, or null for Genesis")
+    accepted_revision = predecessor.get("accepted_revision")
+    if not isinstance(accepted_revision, str) or not SHA40_RE.fullmatch(accepted_revision):
+        raise PlanError(
+            "non-Genesis accepted predecessor accepted_revision must be exact 40-hex repository revision"
+        )
 
 
 def validate_design_scope(root: Path, plan: LoadedPlan) -> None:

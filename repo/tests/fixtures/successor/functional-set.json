@@ -2,10 +2,26 @@
   "schema_version": "1",
   "artifact_type": "functional-set",
   "functional_set": {
+    "order": 1,
     "id": "FS1-EVIDENCE-FIXTURE",
     "kind": "successor",
-    "accepted_predecessor": {
-      "accepted_revision": "1111111111111111111111111111111111111111"
+    "title": "Successor evidence fixture",
+    "description": "Minimal ordinary-successor fixture used by Genesis implementation evidence."
+  },
+  "accepted_predecessor": {
+    "accepted_revision": "1111111111111111111111111111111111111111"
+  },
+  "design_inputs": [
+    {
+      "doc_id": "DP-001",
+      "path": "repo/proposals/design-proposal.md",
+      "statements": [
+        "DP001-REQUIREMENTS-003"
+      ],
+      "binding": {
+        "kind": "repository-native",
+        "revision": "2222222222222222222222222222222222222222"
+      }
     }
-  }
+  ]
 }
