@@ -380,5 +380,80 @@ class GenesisEvidence(unittest.TestCase):
         self.assertTrue(any(option.get("type") == "null" for option in predecessor))
         self.assertTrue(any(option.get("type") == "string" and option.get("pattern") == "^[0-9a-f]{40}$" for option in predecessor))
 
+
+    def test_design_statement_identity_uses_proposal_prefix_and_shape(self):
+        design = load_module("fs0_test_design_statement_identity", "design.py")
+        source = (ROOT / "repo/proposals/design-proposal.md").read_text(encoding="utf-8")
+        malformed = source.replace("**DP001-STATUS-001**", "**DP001-STATUS-BAD**", 1)
+        with self.assertRaises(design.DesignError):
+            design.parse_design_proposal(malformed)
+        wrong_proposal = source.replace("**DP001-STATUS-001**", "**DP002-STATUS-001**", 1)
+        with self.assertRaises(design.DesignError):
+            design.parse_design_proposal(wrong_proposal)
+
+    def test_repository_native_design_binding_rejects_tree_object(self):
+        design = load_module("fs0_test_design_commit_object", "design.py")
+        tree = subprocess.run(
+            ["git", "rev-parse", "HEAD^{tree}"],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        ).stdout.strip()
+        design_input = {
+            "doc_id": "DP-001",
+            "path": "repo/proposals/design-proposal.md",
+            "statements": ["DP001-REQUIREMENTS-003"],
+            "binding": {"kind": "repository-native", "revision": tree},
+        }
+        with self.assertRaises(design.DesignError):
+            design.resolve_selected_statements(ROOT, design_input)
+
+    def test_plan_runtime_enforces_functional_set_schema_identity(self):
+        td, copied = self.temp_repo_copy(include_git=True)
+        self.addCleanup(td.cleanup)
+        plan_dir = copied / "repo/planning/000_FS0-GENESIS"
+        def mutate(data):
+            data["functional_set"].pop("title", None)
+        self.mutate_json(
+            copied,
+            "repo/planning/000_FS0-GENESIS/functional-set.json",
+            mutate,
+        )
+        with self.assertRaises(PLAN.PlanError):
+            PLAN.validate_plan(copied, plan_dir)
+
+    def test_conformance_filesystem_closure_includes_runtime_helpers(self):
+        orchestration = json.loads(
+            (ROOT / "repo/conformance/orchestration.json").read_text(encoding="utf-8")
+        )
+        declared = {record["path"] for record in orchestration["maintained_paths"]}
+        runtime_paths = {
+            str(path.relative_to(ROOT))
+            for path in (ROOT / "repo/runtime/repo_spec").glob("*.py")
+        }
+        self.assertTrue(runtime_paths <= declared)
+
+    def test_canonical_ci_fetches_governed_history_for_successor_bindings(self):
+        workflow = (ROOT / ".github/workflows/fs0-conformance.yml").read_text(encoding="utf-8")
+        self.assertIn("fetch-depth: 0", workflow)
+
+    def test_governance_canonical_behavior_rejects_missing_evidence(self):
+        governance = load_module("fs0_test_governance_behavior", "governance.py")
+        bad = governance.StageEvidence(
+            conformance_satisfied=False,
+            assurance_satisfied=True,
+            evidence_refs=("test:evidence",),
+        )
+        with self.assertRaises(governance.GovernanceError):
+            governance.make_acceptance_decision(
+                decision_id="TEST-DECISION",
+                stage="build",
+                candidate_revision="a" * 40,
+                actor="test",
+                evidence=bad,
+                accept=True,
+            )
+
 if __name__ == "__main__":
     unittest.main()

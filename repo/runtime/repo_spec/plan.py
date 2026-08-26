@@ -114,6 +114,22 @@ def load_plan(plan_directory: Path) -> LoadedPlan:
     return LoadedPlan(directory=directory, root=root, documents=documents)
 
 
+def validate_functional_set_structure(plan: LoadedPlan) -> None:
+    fs = plan.functional_set
+    if "accepted_predecessor" not in fs:
+        raise PlanError("functional-set.json requires accepted_predecessor field")
+    identity = fs.get("functional_set")
+    if not isinstance(identity, dict):
+        raise PlanError("functional-set.json requires functional_set object")
+    order = identity.get("order")
+    if type(order) is not int or order < 0:
+        raise PlanError("functional_set.order must be a non-negative integer")
+    for key in ("id", "kind", "title", "description"):
+        value = identity.get(key)
+        if not isinstance(value, str) or not value:
+            raise PlanError(f"functional_set.{key} must be a non-empty string")
+
+
 def validate_predecessor_rules(plan: LoadedPlan) -> None:
     fs = plan.functional_set
     identity = fs.get("functional_set")
@@ -287,6 +303,7 @@ def validate_execution_references(plan: LoadedPlan) -> None:
 
 def validate_plan(root: Path, plan_directory: Path) -> LoadedPlan:
     plan = load_plan(plan_directory)
+    validate_functional_set_structure(plan)
     validate_predecessor_rules(plan)
     validate_design_scope(root, plan)
     validate_normative_changes(plan)

@@ -95,7 +95,7 @@
             "minItems": 1,
             "items": {
               "type": "string",
-              "minLength": 1
+              "pattern": "^DP[0-9]{3}-[A-Z][A-Z0-9-]*-[0-9]{3}$"
             },
             "uniqueItems": true
           },

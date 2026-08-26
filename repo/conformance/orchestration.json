@@ -21,6 +21,13 @@
   ],
   "maintained_paths": [
     {
+      "path": ".github/workflows/fs0-conformance.yml",
+      "authority_requirement_ids": [
+        "GEN-NR-034",
+        "GEN-NR-035"
+      ]
+    },
+    {
       "path": "repo/conformance/assertions.json",
       "authority_requirement_ids": [
         "GEN-NR-031",
@@ -59,6 +66,42 @@
       ]
     },
     {
+      "path": "repo/runtime/repo_spec/assurance.py",
+      "authority_requirement_ids": [
+        "GEN-NR-036",
+        "GEN-NR-037",
+        "GEN-NR-038",
+        "GEN-NR-039",
+        "GEN-NR-063"
+      ]
+    },
+    {
+      "path": "repo/runtime/repo_spec/authority.py",
+      "authority_requirement_ids": [
+        "GEN-NR-001",
+        "GEN-NR-002",
+        "GEN-NR-003",
+        "GEN-NR-004",
+        "GEN-NR-005",
+        "GEN-NR-006",
+        "GEN-NR-007"
+      ]
+    },
+    {
+      "path": "repo/runtime/repo_spec/build.py",
+      "authority_requirement_ids": [
+        "GEN-NR-021",
+        "GEN-NR-022",
+        "GEN-NR-023",
+        "GEN-NR-024",
+        "GEN-NR-025",
+        "GEN-NR-048",
+        "GEN-NR-049",
+        "GEN-NR-050",
+        "GEN-NR-026"
+      ]
+    },
+    {
       "path": "repo/runtime/repo_spec/conformance.py",
       "authority_requirement_ids": [
         "GEN-NR-028",
@@ -76,28 +119,64 @@
       ]
     },
     {
+      "path": "repo/runtime/repo_spec/design.py",
+      "authority_requirement_ids": [
+        "GEN-NR-008",
+        "GEN-NR-009",
+        "GEN-NR-010",
+        "GEN-NR-011",
+        "GEN-NR-012",
+        "GEN-NR-055",
+        "GEN-NR-056",
+        "GEN-NR-057",
+        "GEN-NR-058",
+        "GEN-NR-059"
+      ]
+    },
+    {
+      "path": "repo/runtime/repo_spec/governance.py",
+      "authority_requirement_ids": [
+        "GEN-NR-006",
+        "GEN-NR-021",
+        "GEN-NR-026",
+        "GEN-NR-039",
+        "GEN-NR-040",
+        "GEN-NR-061",
+        "GEN-NR-062",
+        "GEN-NR-063"
+      ]
+    },
+    {
+      "path": "repo/runtime/repo_spec/plan.py",
+      "authority_requirement_ids": [
+        "GEN-NR-011",
+        "GEN-NR-012",
+        "GEN-NR-013",
+        "GEN-NR-014",
+        "GEN-NR-015",
+        "GEN-NR-016",
+        "GEN-NR-018",
+        "GEN-NR-019",
+        "GEN-NR-020",
+        "GEN-NR-044",
+        "GEN-NR-045",
+        "GEN-NR-046",
+        "GEN-NR-047",
+        "GEN-NR-021",
+        "GEN-NR-055",
+        "GEN-NR-056",
+        "GEN-NR-057",
+        "GEN-NR-058"
+      ]
+    },
+    {
       "path": "repo/scripts/validate",
       "authority_requirement_ids": [
         "GEN-NR-035"
       ]
     },
     {
-      "path": ".github/workflows/fs0-conformance.yml",
-      "authority_requirement_ids": [
-        "GEN-NR-034",
-        "GEN-NR-035"
-      ]
-    },
-    {
-      "path": "repo/tests/test_genesis.py",
-      "authority_requirement_ids": [
-        "GEN-NR-025",
-        "GEN-NR-060",
-        "GEN-NR-064"
-      ]
-    },
-    {
-      "path": "repo/tests/fixtures/successor/functional-set.json",
+      "path": "repo/tests/fixtures/successor/assurance.json",
       "authority_requirement_ids": [
         "GEN-NR-015",
         "GEN-NR-060",
@@ -105,23 +184,7 @@
       ]
     },
     {
-      "path": "repo/tests/fixtures/successor/plan.json",
-      "authority_requirement_ids": [
-        "GEN-NR-015",
-        "GEN-NR-060",
-        "GEN-NR-064"
-      ]
-    },
-    {
-      "path": "repo/tests/fixtures/successor/normative-changes.json",
-      "authority_requirement_ids": [
-        "GEN-NR-015",
-        "GEN-NR-060",
-        "GEN-NR-064"
-      ]
-    },
-    {
-      "path": "repo/tests/fixtures/successor/file-changes.json",
+      "path": "repo/tests/fixtures/successor/completion.json",
       "authority_requirement_ids": [
         "GEN-NR-015",
         "GEN-NR-060",
@@ -137,7 +200,39 @@
       ]
     },
     {
+      "path": "repo/tests/fixtures/successor/file-changes.json",
+      "authority_requirement_ids": [
+        "GEN-NR-015",
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/tests/fixtures/successor/functional-set.json",
+      "authority_requirement_ids": [
+        "GEN-NR-015",
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    },
+    {
       "path": "repo/tests/fixtures/successor/invariants.json",
+      "authority_requirement_ids": [
+        "GEN-NR-015",
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/tests/fixtures/successor/normative-changes.json",
+      "authority_requirement_ids": [
+        "GEN-NR-015",
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "path": "repo/tests/fixtures/successor/plan.json",
       "authority_requirement_ids": [
         "GEN-NR-015",
         "GEN-NR-060",
@@ -153,17 +248,9 @@
       ]
     },
     {
-      "path": "repo/tests/fixtures/successor/assurance.json",
+      "path": "repo/tests/test_genesis.py",
       "authority_requirement_ids": [
-        "GEN-NR-015",
-        "GEN-NR-060",
-        "GEN-NR-064"
-      ]
-    },
-    {
-      "path": "repo/tests/fixtures/successor/completion.json",
-      "authority_requirement_ids": [
-        "GEN-NR-015",
+        "GEN-NR-025",
         "GEN-NR-060",
         "GEN-NR-064"
       ]

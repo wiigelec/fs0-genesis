@@ -6,7 +6,8 @@ import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
-STATEMENT_ID_RE = re.compile(r"^\*\*([A-Z][A-Z0-9-]+)\*\*\s*$", re.MULTILINE)
+STATEMENT_LINE_RE = re.compile(r"^\*\*((?:DP)[^*\\n]+)\*\*\s*$", re.MULTILINE)
+STATEMENT_ID_RE = re.compile(r"^DP[0-9]{3}-[A-Z][A-Z0-9-]*-[0-9]{3}$")
 DOC_ID_RE = re.compile(r"^DP-[0-9]{3}$")
 SHA40_RE = re.compile(r"^[0-9a-f]{40}$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
@@ -66,9 +67,17 @@ def parse_design_proposal(text: str) -> DesignProposal:
     if not isinstance(doc_id, str) or not DOC_ID_RE.fullmatch(doc_id):
         raise DesignError("Design Proposal requires a valid doc_id")
 
-    statement_ids = tuple(STATEMENT_ID_RE.findall(text))
+    statement_ids = tuple(STATEMENT_LINE_RE.findall(text))
     if not statement_ids:
         raise DesignError("Design Proposal contains no explicit statement IDs")
+    expected_prefix = doc_id.replace("-", "") + "-"
+    for statement_id in statement_ids:
+        if not STATEMENT_ID_RE.fullmatch(statement_id):
+            raise DesignError(f"malformed Design statement identity: {statement_id}")
+        if not statement_id.startswith(expected_prefix):
+            raise DesignError(
+                f"Design statement identity does not derive from proposal identity: {statement_id}"
+            )
     if len(statement_ids) != len(set(statement_ids)):
         raise DesignError("Design Proposal statement IDs must be unique")
 
@@ -135,6 +144,27 @@ def load_repository_revision(
             raise DesignError("requested Design revision must be exact 40-hex repository revision")
         if revision != bound_revision:
             raise DesignError("requested Design revision does not match repository-native binding")
+
+    object_type = subprocess.run(
+        ["git", "cat-file", "-t", bound_revision],
+        cwd=root,
+        text=True,
+        capture_output=True,
+    )
+    if object_type.returncode or object_type.stdout.strip() != "commit":
+        raise DesignError(
+            "repository-native Design revision must identify a commit object"
+        )
+    ancestry = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", bound_revision, "HEAD"],
+        cwd=root,
+        text=True,
+        capture_output=True,
+    )
+    if ancestry.returncode != 0:
+        raise DesignError(
+            "repository-native Design revision must remain in governed repository history"
+        )
 
     path = design_input.get("path")
     if not isinstance(path, str) or not path:

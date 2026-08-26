@@ -22,6 +22,7 @@ jobs:
         with:
           ref: ${{ env.FS0_CANDIDATE_SHA }}
           persist-credentials: false
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0

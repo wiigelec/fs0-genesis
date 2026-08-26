@@ -205,12 +205,23 @@ def validate_closure(root: Path) -> dict:
         declared_paths[rel] = record
 
     discovered = set()
-    for controlled in (root / "repo/conformance", root / "repo/tests"):
+    for controlled in (
+        root / "repo/conformance",
+        root / "repo/tests",
+        root / "repo/runtime/repo_spec",
+    ):
         if controlled.is_dir():
             for candidate in controlled.rglob("*"):
-                if candidate.is_file() and "__pycache__" not in candidate.parts:
+                if (
+                    candidate.is_file()
+                    and "__pycache__" not in candidate.parts
+                    and (
+                        controlled != root / "repo/runtime/repo_spec"
+                        or candidate.suffix == ".py"
+                    )
+                ):
                     discovered.add(str(candidate.relative_to(root)))
-    for rel in ("repo/runtime/repo_spec/conformance.py", "repo/scripts/validate", ".github/workflows/fs0-conformance.yml"):
+    for rel in ("repo/scripts/validate", ".github/workflows/fs0-conformance.yml"):
         if (root / rel).is_file():
             discovered.add(rel)
     if set(declared_paths) != discovered:
@@ -287,6 +298,56 @@ def _build_context(root: Path):
     build_runtime = _load_runtime_module(root, "build.py", "fs0_conf_build_runtime")
     context = build_runtime.load_exactly_one_accepted_plan(root, root / "repo/planning/000_FS0-GENESIS", accepted_plan_id="FS0-GENESIS")
     return build_runtime, context
+
+
+def _exercise_governance_acceptance(root: Path) -> dict:
+    governance_runtime = _load_runtime_module(
+        root, "governance.py", "fs0_conf_governance_runtime"
+    )
+    candidate = "a" * 40
+    predecessor = "b" * 40
+    invalid = governance_runtime.StageEvidence(
+        conformance_satisfied=False,
+        assurance_satisfied=True,
+        evidence_refs=("governed:invalid",),
+    )
+    try:
+        governance_runtime.make_acceptance_decision(
+            decision_id="GEN-CONFORMANCE-NEGATIVE",
+            stage="build",
+            candidate_revision=candidate,
+            actor="canonical-conformance",
+            evidence=invalid,
+            accept=True,
+        )
+    except governance_runtime.GovernanceError:
+        rejected_without_evidence = True
+    else:
+        rejected_without_evidence = False
+    valid = governance_runtime.StageEvidence(
+        conformance_satisfied=True,
+        assurance_satisfied=True,
+        evidence_refs=("governed:conformance", "governed:assurance"),
+    )
+    decision = governance_runtime.make_acceptance_decision(
+        decision_id="GEN-CONFORMANCE-POSITIVE",
+        stage="build",
+        candidate_revision=candidate,
+        actor="canonical-conformance",
+        evidence=valid,
+        accept=True,
+    )
+    advanced = governance_runtime.advance_accepted_state(
+        predecessor,
+        decision,
+        root_bootstrap=False,
+    )
+    return {
+        "rejected_without_required_evidence": rejected_without_evidence,
+        "decision_accepted": decision.accepted is True,
+        "candidate_revision": decision.candidate_revision,
+        "advanced_revision": advanced,
+    }
 
 
 def _exercise_build_verification(root: Path) -> dict:
@@ -460,9 +521,20 @@ def _evaluate(root: Path, assertion: dict) -> dict:
         except Exception as exc:
             return ret(False, f"syntactic validation failed: {exc}")
     if rid in {"GEN-NR-026", "GEN-NR-039", "GEN-NR-040"}:
-        text = _read(root, "repo/runtime/repo_spec/governance.py")
-        needed = ["validate_stage_evidence", "make_acceptance_decision", "advance_accepted_state"]
-        return ret(all(x in text for x in needed), "Governance acceptance is explicit, evidence-gated, and state advancing")
+        try:
+            exercise = _exercise_governance_acceptance(root)
+            ok = (
+                exercise["rejected_without_required_evidence"]
+                and exercise["decision_accepted"]
+                and exercise["advanced_revision"] == exercise["candidate_revision"]
+            )
+            return ret(
+                ok,
+                "Governance acceptance is behaviorally explicit, evidence-gated, and exact-candidate state advancing",
+                exercise,
+            )
+        except Exception as exc:
+            return ret(False, f"Governance acceptance exercise failed: {exc}")
     if rid in {"GEN-NR-027", "GEN-NR-028", "GEN-NR-029", "GEN-NR-030", "GEN-NR-031",
                "GEN-NR-033", "GEN-NR-034", "GEN-NR-051", "GEN-NR-052", "GEN-NR-053",
                "GEN-NR-054", "GEN-NR-060", "GEN-NR-064"}:
