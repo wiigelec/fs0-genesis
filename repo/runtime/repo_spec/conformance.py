@@ -226,13 +226,27 @@ def _evaluate(root: Path, assertion: dict) -> dict:
         return ret(sep is True, "framework and product authority are explicitly distinct")
     if rid in {"GEN-NR-008", "GEN-NR-009"}:
         try:
-            import importlib.util
+            import importlib.util, sys
             p = root / "repo/runtime/repo_spec/design.py"
             spec = importlib.util.spec_from_file_location("fs0_conf_design", p)
+            if spec is None or spec.loader is None:
+                raise RuntimeError(f"unable to load Design runtime: {p}")
             mod = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(mod)
-            parsed = [mod.parse_design_proposal(p.read_text(encoding="utf-8")) for p in sorted((root / "repo/proposals").glob("*.md"))]
-            return ret(bool(parsed), "maintained Markdown Design Proposals parse with stable document and statement identities")
+            old_dont_write = sys.dont_write_bytecode
+            sys.dont_write_bytecode = True
+            sys.modules[spec.name] = mod
+            try:
+                spec.loader.exec_module(mod)
+            finally:
+                sys.dont_write_bytecode = old_dont_write
+            parsed = [
+                mod.parse_design_proposal(proposal.read_text(encoding="utf-8"))
+                for proposal in sorted((root / "repo/proposals").glob("*.md"))
+            ]
+            return ret(
+                bool(parsed),
+                "maintained Markdown Design Proposals parse with stable document and statement identities",
+            )
         except Exception as exc:
             return ret(False, f"Design identity validation failed: {exc}")
     if rid in {"GEN-NR-011", "GEN-NR-012", "GEN-NR-055", "GEN-NR-056", "GEN-NR-057"}:
