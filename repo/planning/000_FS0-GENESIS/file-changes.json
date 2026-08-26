@@ -365,7 +365,7 @@
       ],
       "purpose": "Create the durable legal licensing artifact that accompanies the portable Genesis seed.",
       "implementation": [
-        "Populate LICENSE with the repository owner's selected complete license text before Genesis Build acceptance.",
+        "Populate LICENSE with the complete GNU General Public License version 3 text.",
         "Treat LICENSE as legal distribution/reuse text, not repository-framework normative authority.",
         "Do not derive framework semantics from the license text."
       ]

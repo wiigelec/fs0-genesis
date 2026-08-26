@@ -238,7 +238,7 @@
     {
       "id": "GEN-ASSERT-043",
       "requirement_id": "GEN-NR-043",
-      "predicate": "LICENSE exists at repository root and is non-empty.",
+      "predicate": "LICENSE exists at repository root and contains the complete GNU General Public License version 3 text.",
       "gating": true
     }
   ],

@@ -706,7 +706,7 @@
       "operation": "create",
       "requirement": {
         "id": "GEN-NR-043",
-        "statement": "The repository root SHALL contain LICENSE as the durable repository licensing artifact required for portable reuse of the Genesis seed.",
+        "statement": "The repository root SHALL contain LICENSE with the complete GNU General Public License version 3 text as the durable repository licensing artifact required for portable reuse of the Genesis seed.",
         "lifecycle": "candidate-create",
         "evaluation": {
           "conformance": {

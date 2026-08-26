@@ -71,7 +71,7 @@
         "planning",
         "build"
       ],
-      "objective": "Determine whether the root README, agent guidance, and license make the Genesis repository understandable, safely operable, and legally reusable as a portable framework seed without themselves becoming implicit framework authority."
+      "objective": "Determine whether the root README, agent guidance, and GNU General Public License version 3 make the Genesis repository understandable, safely operable, and legally reusable as a portable framework seed without themselves becoming implicit framework authority."
     }
   ],
   "review_case_contract": {

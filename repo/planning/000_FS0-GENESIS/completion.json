@@ -14,6 +14,6 @@
     "The initializer product has not been implemented as part of Genesis.",
     "README.md exists at repository root and accurately describes the portable Genesis seed, FS0-GENESIS/framework versus FS0-CORE/product distinction, canonical validation entry point, and successor functional-set workflow.",
     "AGENTS.md exists at repository root and gives non-authoritative contributor guidance consistent with accepted authority and Design/Planning/Build responsibility boundaries.",
-    "LICENSE exists at repository root with the complete repository-owner-selected license text required for portable reuse."
+    "LICENSE exists at repository root with the complete GNU General Public License version 3 text required for portable reuse."
   ]
 }
