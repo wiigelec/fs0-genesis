@@ -1,0 +1,447 @@
+{
+  "schema_version": "1",
+  "artifact_type": "conformance-correspondence",
+  "records": [
+    {
+      "requirement_id": "GEN-NR-001",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-001"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-002",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-002"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-003",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-003"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-004",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-004"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-005",
+      "applicability": "none",
+      "assertion_ids": [],
+      "rationale": "Whether observed behavior semantically creates authority cannot be decided mechanically in Genesis."
+    },
+    {
+      "requirement_id": "GEN-NR-006",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-006"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-007",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-007"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-008",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-008"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-009",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-009"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-010",
+      "applicability": "none",
+      "assertion_ids": [],
+      "rationale": "The semantic non-authority of a Design address is established by framework authority and reviewed by Assurance."
+    },
+    {
+      "requirement_id": "GEN-NR-011",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-011"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-012",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-012"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-013",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-013"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-014",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-014"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-015",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-015"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-016",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-016"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-017",
+      "applicability": "none",
+      "assertion_ids": [],
+      "rationale": "Ownership of normative distillation and implementation intent is a semantic responsibility boundary."
+    },
+    {
+      "requirement_id": "GEN-NR-018",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-018"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-019",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-019"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-020",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-020"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-044",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-044"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-045",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-045"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-046",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-046"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-047",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-047"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-021",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-021"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-022",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-022"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-023",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-023"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-024",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-024"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-025",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-025"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-048",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-048"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-049",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-049"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-050",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-050"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-026",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-026"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-027",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-027"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-028",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-028"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-029",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-029"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-030",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-030"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-031",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-031"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-032",
+      "applicability": "none",
+      "assertion_ids": [],
+      "rationale": "This is a permissive architectural capability; absence of sharing is not nonconformance."
+    },
+    {
+      "requirement_id": "GEN-NR-033",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-033"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-034",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-034"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-051",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-051"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-052",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-052"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-053",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-053"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-054",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-054"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-035",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-035"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-036",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-036"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-037",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-037"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-038",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-038"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-039",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-039"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-040",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-040"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-041",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-041"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-042",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-042"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-043",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-043"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-055",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-055"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-056",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-056"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-057",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-057"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-058",
+      "applicability": "none",
+      "assertion_ids": [],
+      "rationale": "Whether Genesis bootstrap representation has been incorrectly generalized into successor Planning semantics is a semantic architecture boundary reviewed by Assurance."
+    },
+    {
+      "requirement_id": "GEN-NR-059",
+      "applicability": "none",
+      "assertion_ids": [],
+      "rationale": "Whether a historical Genesis snapshot has displaced the maintained Design Proposal as the canonical semantic source is a semantic authority boundary rather than a stable purely mechanical predicate."
+    },
+    {
+      "requirement_id": "GEN-NR-060",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-060"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-061",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-061"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-062",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-062"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-063",
+      "applicability": "none",
+      "assertion_ids": [],
+      "rationale": "Historical semantic-review resolution is enforced through governed Assurance and Governance lifecycle evidence rather than continuously re-evaluated as a repository-local mechanical predicate."
+    },
+    {
+      "requirement_id": "GEN-NR-064",
+      "applicability": "mechanical",
+      "assertion_ids": [
+        "GEN-ASSERT-064"
+      ]
+    }
+  ]
+}

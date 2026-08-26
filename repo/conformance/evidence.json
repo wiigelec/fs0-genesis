@@ -1,0 +1,125 @@
+{
+  "schema_version": "1",
+  "artifact_type": "conformance-evidence",
+  "evidence": [
+    {
+      "evidence_id": "GEN-EVIDENCE-DESIGN",
+      "implementation_id": "GEN-IMPL-DESIGN",
+      "evidence_class": "execution-result",
+      "role": "evidence",
+      "authority_requirement_ids": [
+        "GEN-NR-008",
+        "GEN-NR-009",
+        "GEN-NR-011",
+        "GEN-NR-012",
+        "GEN-NR-055",
+        "GEN-NR-056",
+        "GEN-NR-057",
+        "GEN-NR-060"
+      ]
+    },
+    {
+      "evidence_id": "GEN-EVIDENCE-AUTHORITY",
+      "implementation_id": "GEN-IMPL-AUTHORITY",
+      "evidence_class": "execution-result",
+      "role": "evidence",
+      "authority_requirement_ids": [
+        "GEN-NR-001",
+        "GEN-NR-002",
+        "GEN-NR-003",
+        "GEN-NR-004",
+        "GEN-NR-006",
+        "GEN-NR-007",
+        "GEN-NR-027",
+        "GEN-NR-036",
+        "GEN-NR-060"
+      ]
+    },
+    {
+      "evidence_id": "GEN-EVIDENCE-PLAN",
+      "implementation_id": "GEN-IMPL-PLAN",
+      "evidence_class": "execution-result",
+      "role": "evidence",
+      "authority_requirement_ids": [
+        "GEN-NR-013",
+        "GEN-NR-014",
+        "GEN-NR-015",
+        "GEN-NR-016",
+        "GEN-NR-018",
+        "GEN-NR-019",
+        "GEN-NR-020",
+        "GEN-NR-021",
+        "GEN-NR-039",
+        "GEN-NR-044",
+        "GEN-NR-045",
+        "GEN-NR-046",
+        "GEN-NR-047",
+        "GEN-NR-060"
+      ]
+    },
+    {
+      "evidence_id": "GEN-EVIDENCE-BUILD",
+      "implementation_id": "GEN-IMPL-BUILD",
+      "evidence_class": "execution-result",
+      "role": "evidence",
+      "authority_requirement_ids": [
+        "GEN-NR-022",
+        "GEN-NR-023",
+        "GEN-NR-024",
+        "GEN-NR-025",
+        "GEN-NR-026",
+        "GEN-NR-040",
+        "GEN-NR-048",
+        "GEN-NR-049",
+        "GEN-NR-050",
+        "GEN-NR-060"
+      ]
+    },
+    {
+      "evidence_id": "GEN-EVIDENCE-CONFORMANCE",
+      "implementation_id": "GEN-IMPL-CONFORMANCE",
+      "evidence_class": "execution-result",
+      "role": "evidence",
+      "authority_requirement_ids": [
+        "GEN-NR-028",
+        "GEN-NR-029",
+        "GEN-NR-030",
+        "GEN-NR-031",
+        "GEN-NR-033",
+        "GEN-NR-034",
+        "GEN-NR-035",
+        "GEN-NR-037",
+        "GEN-NR-038",
+        "GEN-NR-051",
+        "GEN-NR-052",
+        "GEN-NR-053",
+        "GEN-NR-054",
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "evidence_id": "GEN-EVIDENCE-PORTABILITY",
+      "implementation_id": "GEN-IMPL-PORTABILITY",
+      "evidence_class": "execution-result",
+      "role": "evidence",
+      "authority_requirement_ids": [
+        "GEN-NR-041",
+        "GEN-NR-042",
+        "GEN-NR-043",
+        "GEN-NR-060"
+      ]
+    },
+    {
+      "evidence_id": "GEN-EVIDENCE-GOVERNANCE",
+      "implementation_id": "GEN-IMPL-GOVERNANCE",
+      "evidence_class": "execution-result",
+      "role": "evidence",
+      "authority_requirement_ids": [
+        "GEN-NR-060",
+        "GEN-NR-061",
+        "GEN-NR-062"
+      ]
+    }
+  ]
+}

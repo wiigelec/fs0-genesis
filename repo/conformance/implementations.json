@@ -1,0 +1,190 @@
+{
+  "schema_version": "1",
+  "artifact_type": "conformance-implementations",
+  "implementations": [
+    {
+      "implementation_id": "GEN-IMPL-DESIGN",
+      "kind": "python",
+      "callable": "repo_spec.conformance.design",
+      "assertion_ids": [
+        "GEN-ASSERT-008",
+        "GEN-ASSERT-009",
+        "GEN-ASSERT-011",
+        "GEN-ASSERT-012",
+        "GEN-ASSERT-055",
+        "GEN-ASSERT-056",
+        "GEN-ASSERT-057"
+      ],
+      "role": "support",
+      "authority_requirement_ids": [
+        "GEN-NR-008",
+        "GEN-NR-009",
+        "GEN-NR-011",
+        "GEN-NR-012",
+        "GEN-NR-055",
+        "GEN-NR-056",
+        "GEN-NR-057"
+      ]
+    },
+    {
+      "implementation_id": "GEN-IMPL-AUTHORITY",
+      "kind": "python",
+      "callable": "repo_spec.conformance.authority",
+      "assertion_ids": [
+        "GEN-ASSERT-001",
+        "GEN-ASSERT-002",
+        "GEN-ASSERT-003",
+        "GEN-ASSERT-004",
+        "GEN-ASSERT-006",
+        "GEN-ASSERT-007",
+        "GEN-ASSERT-027",
+        "GEN-ASSERT-036"
+      ],
+      "role": "support",
+      "authority_requirement_ids": [
+        "GEN-NR-001",
+        "GEN-NR-002",
+        "GEN-NR-003",
+        "GEN-NR-004",
+        "GEN-NR-006",
+        "GEN-NR-007",
+        "GEN-NR-027",
+        "GEN-NR-036"
+      ]
+    },
+    {
+      "implementation_id": "GEN-IMPL-PLAN",
+      "kind": "python",
+      "callable": "repo_spec.conformance.plan",
+      "assertion_ids": [
+        "GEN-ASSERT-013",
+        "GEN-ASSERT-014",
+        "GEN-ASSERT-015",
+        "GEN-ASSERT-016",
+        "GEN-ASSERT-018",
+        "GEN-ASSERT-019",
+        "GEN-ASSERT-020",
+        "GEN-ASSERT-044",
+        "GEN-ASSERT-045",
+        "GEN-ASSERT-046",
+        "GEN-ASSERT-047",
+        "GEN-ASSERT-021",
+        "GEN-ASSERT-039"
+      ],
+      "role": "support",
+      "authority_requirement_ids": [
+        "GEN-NR-013",
+        "GEN-NR-014",
+        "GEN-NR-015",
+        "GEN-NR-016",
+        "GEN-NR-018",
+        "GEN-NR-019",
+        "GEN-NR-020",
+        "GEN-NR-021",
+        "GEN-NR-039",
+        "GEN-NR-044",
+        "GEN-NR-045",
+        "GEN-NR-046",
+        "GEN-NR-047"
+      ]
+    },
+    {
+      "implementation_id": "GEN-IMPL-BUILD",
+      "kind": "python",
+      "callable": "repo_spec.conformance.build",
+      "assertion_ids": [
+        "GEN-ASSERT-022",
+        "GEN-ASSERT-023",
+        "GEN-ASSERT-024",
+        "GEN-ASSERT-025",
+        "GEN-ASSERT-048",
+        "GEN-ASSERT-049",
+        "GEN-ASSERT-050",
+        "GEN-ASSERT-026",
+        "GEN-ASSERT-040"
+      ],
+      "role": "support",
+      "authority_requirement_ids": [
+        "GEN-NR-022",
+        "GEN-NR-023",
+        "GEN-NR-024",
+        "GEN-NR-025",
+        "GEN-NR-026",
+        "GEN-NR-040",
+        "GEN-NR-048",
+        "GEN-NR-049",
+        "GEN-NR-050"
+      ]
+    },
+    {
+      "implementation_id": "GEN-IMPL-CONFORMANCE",
+      "kind": "python",
+      "callable": "repo_spec.conformance.selfcheck",
+      "assertion_ids": [
+        "GEN-ASSERT-028",
+        "GEN-ASSERT-029",
+        "GEN-ASSERT-030",
+        "GEN-ASSERT-031",
+        "GEN-ASSERT-033",
+        "GEN-ASSERT-034",
+        "GEN-ASSERT-051",
+        "GEN-ASSERT-052",
+        "GEN-ASSERT-053",
+        "GEN-ASSERT-054",
+        "GEN-ASSERT-035",
+        "GEN-ASSERT-037",
+        "GEN-ASSERT-038",
+        "GEN-ASSERT-060",
+        "GEN-ASSERT-064"
+      ],
+      "role": "support",
+      "authority_requirement_ids": [
+        "GEN-NR-028",
+        "GEN-NR-029",
+        "GEN-NR-030",
+        "GEN-NR-031",
+        "GEN-NR-033",
+        "GEN-NR-034",
+        "GEN-NR-035",
+        "GEN-NR-037",
+        "GEN-NR-038",
+        "GEN-NR-051",
+        "GEN-NR-052",
+        "GEN-NR-053",
+        "GEN-NR-054",
+        "GEN-NR-060",
+        "GEN-NR-064"
+      ]
+    },
+    {
+      "implementation_id": "GEN-IMPL-PORTABILITY",
+      "kind": "python",
+      "callable": "repo_spec.conformance.portability",
+      "assertion_ids": [
+        "GEN-ASSERT-041",
+        "GEN-ASSERT-042",
+        "GEN-ASSERT-043"
+      ],
+      "role": "support",
+      "authority_requirement_ids": [
+        "GEN-NR-041",
+        "GEN-NR-042",
+        "GEN-NR-043"
+      ]
+    },
+    {
+      "implementation_id": "GEN-IMPL-GOVERNANCE",
+      "kind": "python",
+      "callable": "repo_spec.conformance.governance",
+      "assertion_ids": [
+        "GEN-ASSERT-061",
+        "GEN-ASSERT-062"
+      ],
+      "role": "support",
+      "authority_requirement_ids": [
+        "GEN-NR-061",
+        "GEN-NR-062"
+      ]
+    }
+  ]
+}

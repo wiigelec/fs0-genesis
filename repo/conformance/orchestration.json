@@ -1,0 +1,22 @@
+{
+  "schema_version": "1",
+  "artifact_type": "conformance-orchestration",
+  "role": "orchestration",
+  "engine": "repo/runtime/repo_spec/conformance.py",
+  "public_wrapper": "repo/scripts/validate",
+  "implementation_ids": [
+    "GEN-IMPL-DESIGN",
+    "GEN-IMPL-AUTHORITY",
+    "GEN-IMPL-PLAN",
+    "GEN-IMPL-BUILD",
+    "GEN-IMPL-CONFORMANCE",
+    "GEN-IMPL-PORTABILITY",
+    "GEN-IMPL-GOVERNANCE"
+  ],
+  "authority_requirement_ids": [
+    "GEN-NR-033",
+    "GEN-NR-035",
+    "GEN-NR-052",
+    "GEN-NR-064"
+  ]
+}

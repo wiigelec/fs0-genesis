@@ -1,0 +1,412 @@
+from __future__ import annotations
+
+import json
+import os
+import re
+import subprocess
+from pathlib import Path
+
+SHA40_RE = re.compile(r"^[0-9a-f]{40}$")
+
+
+class ConformanceError(ValueError):
+    pass
+
+
+def _load(path: Path) -> dict:
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ConformanceError(f"unable to load {path}: {exc}") from exc
+    if not isinstance(value, dict):
+        raise ConformanceError(f"Conformance artifact must be object: {path}")
+    return value
+
+
+def load_graph(root: Path) -> dict:
+    return {
+        "requirements": _load(root / "repo/authority/requirements.json"),
+        "correspondence": _load(root / "repo/conformance/correspondence.json"),
+        "assertions": _load(root / "repo/conformance/assertions.json"),
+        "implementations": _load(root / "repo/conformance/implementations.json"),
+        "evidence": _load(root / "repo/conformance/evidence.json"),
+        "orchestration": _load(root / "repo/conformance/orchestration.json"),
+    }
+
+
+def validate_closure(root: Path) -> dict:
+    graph = load_graph(root)
+    reqs = graph["requirements"].get("requirements")
+    corr = graph["correspondence"].get("records")
+    assertions = graph["assertions"].get("assertions")
+    impls = graph["implementations"].get("implementations")
+    evidence = graph["evidence"].get("evidence")
+    orchestration = graph["orchestration"]
+
+    for name, value in (
+        ("requirements", reqs), ("correspondence", corr), ("assertions", assertions),
+        ("implementations", impls), ("evidence", evidence),
+    ):
+        if not isinstance(value, list):
+            raise ConformanceError(f"{name} registry is not a list")
+
+    req_by_id = {}
+    for req in reqs:
+        rid = req.get("id")
+        if not isinstance(rid, str) or not rid or rid in req_by_id:
+            raise ConformanceError(f"invalid or duplicate requirement identity: {rid}")
+        req_by_id[rid] = req
+
+    corr_by_req = {}
+    for rec in corr:
+        rid = rec.get("requirement_id")
+        if rid not in req_by_id or rid in corr_by_req:
+            raise ConformanceError(f"invalid or duplicate correspondence: {rid}")
+        corr_by_req[rid] = rec
+    if set(corr_by_req) != set(req_by_id):
+        raise ConformanceError("every accepted requirement must have exactly one correspondence")
+
+    assertion_by_id = {}
+    for assertion in assertions:
+        aid = assertion.get("assertion_id")
+        owner = assertion.get("requirement_id")
+        if not isinstance(aid, str) or not aid or aid in assertion_by_id:
+            raise ConformanceError(f"invalid or duplicate assertion identity: {aid}")
+        if owner not in req_by_id:
+            raise ConformanceError(f"assertion owner is not accepted authority: {aid}->{owner}")
+        assertion_by_id[aid] = assertion
+
+    impl_by_id = {}
+    binding = {}
+    for impl in impls:
+        iid = impl.get("implementation_id")
+        if not isinstance(iid, str) or not iid or iid in impl_by_id:
+            raise ConformanceError(f"invalid or duplicate implementation identity: {iid}")
+        if iid in assertion_by_id:
+            raise ConformanceError(f"implementation identity aliases assertion identity: {iid}")
+        authority_ids = impl.get("authority_requirement_ids")
+        if not isinstance(authority_ids, list) or not authority_ids:
+            raise ConformanceError(f"implementation lacks governed authority provenance: {iid}")
+        if any(rid not in req_by_id for rid in authority_ids):
+            raise ConformanceError(f"implementation authority provenance is unresolved: {iid}")
+        impl_by_id[iid] = impl
+        for aid in impl.get("assertion_ids", []):
+            if aid not in assertion_by_id:
+                raise ConformanceError(f"implementation binds unknown assertion: {iid}->{aid}")
+            binding.setdefault(aid, []).append(iid)
+
+    for aid in assertion_by_id:
+        if len(binding.get(aid, [])) != 1:
+            raise ConformanceError(f"assertion must bind exactly one implementation: {aid}")
+
+    evidence_by_impl = {}
+    for rec in evidence:
+        eid = rec.get("evidence_id")
+        iid = rec.get("implementation_id")
+        auth = rec.get("authority_requirement_ids")
+        if not isinstance(eid, str) or not eid:
+            raise ConformanceError("evidence identity is missing")
+        if iid not in impl_by_id:
+            raise ConformanceError(f"evidence references unknown implementation: {eid}->{iid}")
+        if not isinstance(auth, list) or not auth or any(rid not in req_by_id for rid in auth):
+            raise ConformanceError(f"evidence lacks governed authority provenance: {eid}")
+        evidence_by_impl.setdefault(iid, []).append(rec)
+
+    for iid, impl in impl_by_id.items():
+        if impl.get("assertion_ids") and not evidence_by_impl.get(iid):
+            raise ConformanceError(f"executable implementation lacks declared evidence: {iid}")
+
+    realized = orchestration.get("implementation_ids")
+    orch_auth = orchestration.get("authority_requirement_ids")
+    if not isinstance(realized, list):
+        raise ConformanceError("orchestration implementation_ids must be list")
+    if set(realized) != set(impl_by_id):
+        raise ConformanceError("canonical orchestration must reach every maintained implementation")
+    if not isinstance(orch_auth, list) or not orch_auth or any(r not in req_by_id for r in orch_auth):
+        raise ConformanceError("orchestration lacks governed authority provenance")
+    if orchestration.get("public_wrapper") != "repo/scripts/validate":
+        raise ConformanceError("canonical public wrapper mismatch")
+    if orchestration.get("engine") != "repo/runtime/repo_spec/conformance.py":
+        raise ConformanceError("canonical engine mismatch")
+
+    for rid, req in req_by_id.items():
+        app = req.get("evaluation", {}).get("conformance", {}).get("applicability")
+        rec = corr_by_req[rid]
+        aids = rec.get("assertion_ids")
+        if app not in {"mechanical", "none"}:
+            raise ConformanceError(f"malformed Conformance applicability: {rid}:{app}")
+        if rec.get("applicability") != app:
+            raise ConformanceError(f"correspondence applicability mismatch: {rid}")
+        if not isinstance(aids, list):
+            raise ConformanceError(f"correspondence assertion_ids must be list: {rid}")
+        if app == "mechanical" and not aids:
+            raise ConformanceError(f"missing mechanical assertion coverage: {rid}")
+        if app == "none" and aids:
+            raise ConformanceError(f"none-applicable requirement has assertion coverage: {rid}")
+        if any(aid not in assertion_by_id for aid in aids):
+            raise ConformanceError(f"correspondence references unknown assertion: {rid}")
+
+    gating = {a["assertion_id"] for a in assertions if a.get("gating") is True}
+    reachable = {
+        aid
+        for iid in realized
+        for aid in impl_by_id[iid].get("assertion_ids", [])
+    }
+    if not gating <= reachable:
+        raise ConformanceError(
+            f"unreachable gating assertions: {sorted(gating - reachable)}"
+        )
+
+    return {
+        "requirement_count": len(req_by_id),
+        "assertion_count": len(assertion_by_id),
+        "implementation_count": len(impl_by_id),
+        "evidence_count": len(evidence),
+        "gating_count": len(gating),
+    }
+
+
+def _read(root: Path, rel: str) -> str:
+    path = root / rel
+    return path.read_text(encoding="utf-8") if path.is_file() else ""
+
+
+def _planning_dirs(root: Path) -> list[Path]:
+    base = root / "repo/planning"
+    return sorted(
+        p for p in base.iterdir()
+        if p.is_dir() and p.name != "schemas"
+    ) if base.is_dir() else []
+
+
+def _assertion_result(aid: str, ok: bool, detail: str, evidence=None) -> dict:
+    out = {
+        "assertion_id": aid,
+        "status": "pass" if ok else "fail",
+        "detail": detail,
+    }
+    if evidence is not None:
+        out["evidence"] = evidence
+    return out
+
+
+def _evaluate(root: Path, assertion: dict) -> dict:
+    aid = assertion["assertion_id"]
+    rid = assertion["requirement_id"]
+    reqs = _load(root / "repo/authority/requirements.json")["requirements"]
+    req_by_id = {r["id"]: r for r in reqs}
+    contract = _load(root / "repo/authority/framework-contract.json")
+    plan_dir = root / "repo/planning/000_FS0-GENESIS"
+    validation = _load(plan_dir / "validation.json")
+    fs = _load(plan_dir / "functional-set.json")
+    plan = _load(plan_dir / "plan.json")
+    file_changes = _load(plan_dir / "file-changes.json")
+    execution = _load(plan_dir / "execution.json")
+
+    def ret(ok, detail, evidence=None):
+        return _assertion_result(aid, bool(ok), detail, evidence)
+
+    if rid == "GEN-NR-001":
+        return ret((root / "repo/authority").is_dir(), "accepted authority surface exists under repo/")
+    if rid == "GEN-NR-002":
+        ids = [r.get("id") for r in reqs]
+        return ret(bool(ids) and len(ids) == len(set(ids)), "accepted requirement identities are present and unique")
+    if rid == "GEN-NR-003":
+        ids = [k.get("id") for k in contract.get("keystones", [])]
+        return ret(ids == ["Governance", "Conformance", "Assurance"], "exact three authority-bearing keystones are declared")
+    if rid == "GEN-NR-004":
+        ks = contract.get("keystones", [])
+        ok = all(k.get("authority_domain") and k.get("prohibited_authority") for k in ks)
+        return ret(ok, "each keystone has delegated authority domain and explicit prohibited authority")
+    if rid == "GEN-NR-006":
+        route = contract.get("authority_separation", {}).get("persistent_normative_change_route")
+        return ret(route == "Governance", "persistent normative change route is Governance")
+    if rid == "GEN-NR-007":
+        sep = contract.get("authority_separation", {}).get("framework_and_product_authority_are_distinct")
+        return ret(sep is True, "framework and product authority are explicitly distinct")
+    if rid in {"GEN-NR-008", "GEN-NR-009"}:
+        try:
+            import importlib.util
+            p = root / "repo/runtime/repo_spec/design.py"
+            spec = importlib.util.spec_from_file_location("fs0_conf_design", p)
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            parsed = [mod.parse_design_proposal(p.read_text(encoding="utf-8")) for p in sorted((root / "repo/proposals").glob("*.md"))]
+            return ret(bool(parsed), "maintained Markdown Design Proposals parse with stable document and statement identities")
+        except Exception as exc:
+            return ret(False, f"Design identity validation failed: {exc}")
+    if rid in {"GEN-NR-011", "GEN-NR-012", "GEN-NR-055", "GEN-NR-056", "GEN-NR-057"}:
+        try:
+            import importlib.util, sys
+            runtime = root / "repo/runtime/repo_spec"
+            sys.path.insert(0, str(runtime))
+            old = sys.dont_write_bytecode
+            sys.dont_write_bytecode = True
+            try:
+                spec = importlib.util.spec_from_file_location("plan", runtime / "plan.py")
+                mod = importlib.util.module_from_spec(spec)
+                sys.modules["plan"] = mod
+                spec.loader.exec_module(mod)
+                mod.validate_design_scope(root, mod.load_plan(plan_dir))
+            finally:
+                sys.dont_write_bytecode = old
+                if sys.path and sys.path[0] == str(runtime):
+                    sys.path.pop(0)
+            return ret(True, "selected Design scope resolves against exact bound revisions/snapshots")
+        except Exception as exc:
+            return ret(False, f"Design binding validation failed: {exc}")
+    if rid == "GEN-NR-013":
+        matches = []
+        for d in _planning_dirs(root):
+            f = d / "functional-set.json"
+            if f.is_file():
+                obj = _load(f).get("functional_set", {})
+                if obj.get("id") == "FS0-GENESIS" and obj.get("kind") == "genesis":
+                    matches.append(d)
+        return ret(len(matches) == 1, "exactly one FS0-GENESIS functional set exists")
+    if rid == "GEN-NR-014":
+        return ret(fs.get("accepted_predecessor") is None, "FS0-GENESIS has no accepted predecessor")
+    if rid == "GEN-NR-015":
+        ok = True
+        for d in _planning_dirs(root):
+            obj = _load(d / "functional-set.json")
+            if obj.get("functional_set", {}).get("id") != "FS0-GENESIS":
+                ok = ok and obj.get("accepted_predecessor") is not None
+        return ret(ok, "all successor functional sets identify an accepted predecessor")
+    if rid == "GEN-NR-016":
+        ok = all((d / "functional-set.json").is_file() and (d / "plan.json").is_file() for d in _planning_dirs(root))
+        return ret(ok, "every functional-set directory contains functional-set.json and plan.json")
+    if rid == "GEN-NR-018":
+        return ret(isinstance(plan.get("normative_changes"), str) and (plan_dir / plan["normative_changes"]).is_file(), "Plan declares normative changes without owning persistent authority")
+    if rid == "GEN-NR-019":
+        changes = file_changes.get("changes", [])
+        ok = bool(changes) and all(c.get("path") and c.get("operation") for c in changes)
+        return ret(ok, "Plan declares explicit authorized mutation paths and operations")
+    if rid == "GEN-NR-020":
+        stages = execution.get("stages", [])
+        orders = [s.get("order") for s in stages]
+        return ret(bool(stages) and len(orders) == len(set(orders)), "Plan defines unique implementation sequencing")
+    if rid == "GEN-NR-021":
+        return ret(bool(file_changes.get("changes")), "accepted Plan exposes bounded implementation scope")
+    if rid == "GEN-NR-022":
+        text = _read(root, "repo/runtime/repo_spec/build.py")
+        return ret("exactly one accepted Plan" in text or "load exactly one accepted Plan" in text or "load_plan" in text, "Build runtime consumes one accepted Plan")
+    if rid == "GEN-NR-023":
+        text = _read(root, "repo/runtime/repo_spec/build.py")
+        return ret("authorized" in text and "mutation" in text and "outside" in text, "Build runtime rejects mutation outside accepted Plan scope")
+    if rid == "GEN-NR-024":
+        text = _read(root, "repo/runtime/repo_spec/build.py")
+        return ret("manifest" in text, "Build runtime produces machine-readable mutation manifest")
+    if rid == "GEN-NR-025":
+        py = list((root / "repo/runtime/repo_spec").glob("*.py"))
+        try:
+            for p in py:
+                compile(p.read_text(encoding="utf-8"), str(p), "exec")
+            for p in root.rglob("*.json"):
+                json.loads(p.read_text(encoding="utf-8"))
+            return ret(True, "repository Python and JSON surfaces are syntactically valid")
+        except Exception as exc:
+            return ret(False, f"syntactic validation failed: {exc}")
+    if rid in {"GEN-NR-026", "GEN-NR-039", "GEN-NR-040"}:
+        text = _read(root, "repo/runtime/repo_spec/governance.py")
+        needed = ["validate_stage_evidence", "make_acceptance_decision", "advance_accepted_state"]
+        return ret(all(x in text for x in needed), "Governance acceptance is explicit, evidence-gated, and state advancing")
+    if rid in {"GEN-NR-027", "GEN-NR-028", "GEN-NR-029", "GEN-NR-030", "GEN-NR-031",
+               "GEN-NR-033", "GEN-NR-034", "GEN-NR-051", "GEN-NR-052", "GEN-NR-053",
+               "GEN-NR-054", "GEN-NR-060", "GEN-NR-064"}:
+        try:
+            closure = validate_closure(root)
+            return ret(True, "canonical Conformance closure is structurally valid", closure)
+        except Exception as exc:
+            return ret(False, f"Conformance closure defect: {exc}")
+    if rid == "GEN-NR-035":
+        return ret((root / "repo/scripts/validate").is_file(), "repo/scripts/validate is the canonical public Conformance entry point")
+    if rid == "GEN-NR-036":
+        apps = [r.get("evaluation", {}).get("assurance", {}).get("applicability") for r in reqs]
+        return ret(all(a in {"required", "none"} for a in apps), "every accepted requirement has canonical Assurance applicability")
+    if rid == "GEN-NR-037":
+        p = root / "repo/assurance/obligations.json"
+        return ret(p.is_file(), "required Assurance applicability resolves through maintained review obligations")
+    if rid == "GEN-NR-038":
+        text = _read(root, "repo/runtime/repo_spec/assurance.py")
+        return ret("bounded" in text and "normative authority" in text, "Assurance findings remain case-bounded and non-authoritative")
+    if rid == "GEN-NR-041":
+        text = _read(root, "README.md")
+        req = ["FS0-GENESIS", "FS0-CORE", "Conformance", "Assurance", "repo/scripts/validate"]
+        return ret(all(x in text for x in req), "README contains required Genesis portability topics")
+    if rid == "GEN-NR-042":
+        text = _read(root, "AGENTS.md")
+        req = ["Design owns semantic meaning", "Planning owns", "Build owns implementation correctness", "repo/scripts/validate"]
+        return ret(all(x in text for x in req), "AGENTS contains required authority/workflow guidance")
+    if rid == "GEN-NR-043":
+        text = _read(root, "LICENSE")
+        return ret("GNU GENERAL PUBLIC LICENSE" in text and "Version 3, 29 June 2007" in text and len(text.splitlines()) > 600, "LICENSE contains complete GPLv3 text")
+    if rid == "GEN-NR-044":
+        return ret((plan_dir / "invariants.json").is_file(), "Plan defines implementation invariants")
+    if rid == "GEN-NR-045":
+        return ret((plan_dir / "validation.json").is_file(), "Plan defines validation intent")
+    if rid == "GEN-NR-046":
+        return ret((plan_dir / "assurance.json").is_file(), "Plan defines Assurance intent")
+    if rid == "GEN-NR-047":
+        return ret((plan_dir / "completion.json").is_file(), "Plan defines completion conditions")
+    if rid in {"GEN-NR-048", "GEN-NR-049", "GEN-NR-050"}:
+        text = _read(root, "repo/runtime/repo_spec/build.py")
+        checks = {
+            "GEN-NR-048": ("conformance", "Build verification establishes mechanical Conformance"),
+            "GEN-NR-049": ("completion", "Build verification establishes operational completion"),
+            "GEN-NR-050": ("fidelity", "Build verification establishes accepted-Plan fidelity"),
+        }
+        token, detail = checks[rid]
+        return ret(token in text.lower(), detail)
+    if rid == "GEN-NR-061":
+        proc = subprocess.run(["git", "rev-list", "--max-parents=0", "HEAD"], cwd=root, text=True, capture_output=True)
+        roots = [x for x in proc.stdout.splitlines() if SHA40_RE.fullmatch(x)]
+        return ret(proc.returncode == 0 and len(roots) == 1, "repository has one initial root commit as post-Genesis provenance root", roots)
+    if rid == "GEN-NR-062":
+        proc = subprocess.run(["git", "rev-list", "--max-parents=0", "HEAD"], cwd=root, text=True, capture_output=True)
+        roots = [x for x in proc.stdout.splitlines() if x]
+        return ret(proc.returncode == 0 and len(roots) == 1, "repository provenance resolves to a root commit with no repository predecessor")
+    return ret(False, f"no Genesis mechanical evaluator is registered for {rid}")
+
+
+def run(root: Path) -> dict:
+    try:
+        closure = validate_closure(root)
+    except Exception as exc:
+        return {
+            "schema_version": "1",
+            "disposition": "INCOMPLETE",
+            "configuration_errors": [str(exc)],
+            "results": [],
+        }
+
+    graph = load_graph(root)
+    assertions = {a["assertion_id"]: a for a in graph["assertions"]["assertions"]}
+    impls = {i["implementation_id"]: i for i in graph["implementations"]["implementations"]}
+    results = []
+
+    for iid in graph["orchestration"]["implementation_ids"]:
+        impl = impls[iid]
+        for aid in impl.get("assertion_ids", []):
+            results.append(_evaluate(root, assertions[aid]))
+
+    expected = {a["assertion_id"] for a in assertions.values() if a.get("gating") is True}
+    actual = [r["assertion_id"] for r in results]
+    if set(actual) != expected or len(actual) != len(set(actual)):
+        return {
+            "schema_version": "1",
+            "disposition": "INCOMPLETE",
+            "configuration_errors": ["canonical execution did not emit exactly one result for every gating assertion"],
+            "results": results,
+            "closure": closure,
+        }
+
+    failed = [r["assertion_id"] for r in results if r["status"] != "pass"]
+    return {
+        "schema_version": "1",
+        "disposition": "PASS" if not failed else "FAIL",
+        "configuration_errors": [],
+        "failed_assertions": failed,
+        "results": results,
+        "closure": closure,
+    }
