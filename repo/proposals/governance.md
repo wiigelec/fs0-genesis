@@ -147,18 +147,18 @@ Planning owns implementation intent.
 Each Planning cycle audits available Design against accepted implementation and selects one manageable end-to-end functional set. Planning is not required to decompose the entire Design corpus into a complete future implementation graph.
 
 **DP020-DETAIL-013**
-The first functional set is FS0-Core.
+The repository framework has exactly one root framework functional set, `FS0-GENESIS`. `FS0-GENESIS` has no accepted framework predecessor and establishes the minimum complete framework substrate required for subsequent framework functional sets to proceed through the normal governed Design → Planning → Build lifecycle. `FS0-GENESIS` is not required to realize the complete repository-framework Design corpus.
 
 **DP020-DETAIL-014**
-FS0-Core is the standalone core functional set that implements the minimum complete repository-framework runtime and development workflow on which every later functional set technically depends.
+`FS0-CORE` is the first ordinary functional set of a product developed under an established repository framework. Each product lifecycle may have exactly one `FS0-CORE`. `FS0-CORE` establishes the minimum complete product capability on which later functional sets for that product technically depend and does not establish the repository-framework Genesis root.
 
 **DP020-DETAIL-015**
-Every later functional set extends the accepted Core-based system and is identified by functionality rather than by FS1/FS2-style system generations.
+Later framework functional sets extend the accepted Genesis-based framework state. Later product functional sets extend the accepted Core-based product state. Successor functional sets are identified by functionality rather than by FS1/FS2-style system generations.
 
 ### Functional Set
 
 **DP020-DETAIL-016**
-Each functional set has an implementation-ordered plan directory whose name contains a zero-padded order prefix and a functionality identifier, such as `000_FS0-CORE`.
+Each functional set has an implementation-ordered plan directory whose name contains a zero-padded order prefix and a functionality identifier. The framework Genesis root uses `000_FS0-GENESIS`; a product Core root uses `000_FS0-CORE`; successor directories use functionality identifiers appropriate to their governed domain.
 
 **DP020-DETAIL-017**
 Each functional-set directory contains:
