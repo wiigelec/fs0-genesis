@@ -926,8 +926,7 @@
             "applicability": "mechanical"
           },
           "assurance": {
-            "applicability": "none",
-            "rationale": "Digest correspondence is mechanically verifiable."
+            "applicability": "required"
           }
         }
       }
@@ -943,8 +942,7 @@
             "applicability": "mechanical"
           },
           "assurance": {
-            "applicability": "none",
-            "rationale": "Statement resolution and digest correspondence are mechanically verifiable."
+            "applicability": "required"
           }
         }
       }
