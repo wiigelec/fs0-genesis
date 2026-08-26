@@ -67,7 +67,8 @@
         "GEN-NR-055",
         "GEN-NR-056",
         "GEN-NR-057",
-        "GEN-NR-058"
+        "GEN-NR-058",
+        "GEN-NR-059"
       ],
       "purpose": "Install schemas and runtime-readable contracts for functional sets and Plan documents required by Genesis normative authority while retaining this Genesis Plan intact.",
       "implementation": [
@@ -76,7 +77,8 @@
         "Define plan root references and subordinate document schemas.",
         "Define normative-change records as candidate change authority distinct from persistent requirements.",
         "Define file-change records with explicit paths, operations, requirement relationships, implementation intent, and dependencies.",
-        "Define Genesis portable Design-input snapshot bindings with source identity, snapshot path, SHA-256 exact-byte digest, and an explicit bootstrap-only binding kind; do not make snapshot duplication mandatory for successor Plans."
+        "Define Genesis portable Design-input snapshot bindings with source identity, snapshot path, SHA-256 exact-byte digest, and an explicit bootstrap-only binding kind; do not make snapshot duplication mandatory for successor Plans.",
+        "Represent Genesis snapshots explicitly as historical Design-input evidence rather than maintained canonical Design sources."
       ]
     },
     {
@@ -92,13 +94,15 @@
         "GEN-NR-055",
         "GEN-NR-056",
         "GEN-NR-057",
-        "GEN-NR-058"
+        "GEN-NR-058",
+        "GEN-NR-059"
       ],
       "purpose": "Provide mechanical parsing and structural validation for Design Proposal metadata and statement addressing.",
       "implementation": [
         "Parse canonical Markdown Design Proposal metadata and explicit statement IDs without converting Markdown into independent semantic authority.",
         "Validate required identity syntax and uniqueness.",
-        "Resolve selected Design statement IDs from the exact retrievable proposal revision bound by a functional set; for FS0-GENESIS, verify and resolve the declared portable snapshot, while ordinary successor bindings may resolve through governed repository-native revision history."
+        "Resolve selected Design statement IDs from the exact retrievable proposal revision bound by a functional set; for FS0-GENESIS, verify and resolve the declared portable snapshot, while ordinary successor bindings may resolve through governed repository-native revision history.",
+        "Use a preserved Genesis snapshot only to resolve the exact historical Design revision consumed by Genesis; continue to treat the maintained Design Proposal under repo/proposals/ as the canonical Design semantic source."
       ]
     },
     {
@@ -341,14 +345,16 @@
         "GEN-NR-055",
         "GEN-NR-056",
         "GEN-NR-057",
-        "GEN-NR-058"
+        "GEN-NR-058",
+        "GEN-NR-059"
       ],
       "purpose": "Provide focused implementation evidence for Genesis framework mechanisms.",
       "implementation": [
         "Test positive, rejection, and boundary behavior for each implemented framework mechanism.",
         "Do not treat broad test-suite success as a substitute for requirement-owned assertions.",
         "Include a successor-framework functional-set fixture proving normal post-Genesis workflow.",
-        "Test that a copied Genesis tree with no prototype Git history can verify all Design inputs from preserved snapshots, and that the successor fixture may use repository-native exact revision binding without duplicated Design content."
+        "Test that a copied Genesis tree with no prototype Git history can verify all Design inputs from preserved snapshots, and that the successor fixture may use repository-native exact revision binding without duplicated Design content.",
+        "Include a boundary test demonstrating that Genesis snapshot resolution does not cause the preserved snapshot to replace the maintained Design Proposal as the canonical Design semantic source."
       ]
     },
     {

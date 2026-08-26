@@ -965,6 +965,23 @@
           }
         }
       }
+    },
+    {
+      "operation": "create",
+      "requirement": {
+        "id": "GEN-NR-059",
+        "statement": "A preserved Genesis Design Proposal snapshot SHALL NOT replace the maintained Design Proposal as the canonical Design semantic source.",
+        "lifecycle": "candidate-create",
+        "evaluation": {
+          "conformance": {
+            "applicability": "none",
+            "rationale": "Whether a historical Genesis snapshot has displaced the maintained Design Proposal as the canonical semantic source is a semantic authority boundary rather than a stable purely mechanical predicate."
+          },
+          "assurance": {
+            "applicability": "required"
+          }
+        }
+      }
     }
   ],
   "invariants": [
