@@ -1,0 +1,426 @@
+{
+  "schema_version": "1",
+  "artifact_type": "assurance-correspondence",
+  "records": [
+    {
+      "requirement_id": "GEN-NR-001",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-AUTHORITY-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-002",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-003",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-AUTHORITY-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-004",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-AUTHORITY-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-005",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-AUTHORITY-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-006",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-AUTHORITY-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-007",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-AUTHORITY-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-008",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-009",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-010",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-DESIGN-PLANNING-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-011",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-012",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-DESIGN-PLANNING-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-013",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-014",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-015",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-016",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-017",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-DESIGN-PLANNING-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-018",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-DESIGN-PLANNING-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-019",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-DESIGN-PLANNING-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-020",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-DESIGN-PLANNING-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-044",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-DESIGN-PLANNING-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-045",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-DESIGN-PLANNING-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-046",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-DESIGN-PLANNING-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-047",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-DESIGN-PLANNING-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-021",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-DESIGN-PLANNING-BOUNDARY",
+        "GEN-OBL-BUILD-FIDELITY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-022",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-023",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-024",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-025",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-BUILD-FIDELITY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-048",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-BUILD-FIDELITY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-049",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-BUILD-FIDELITY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-050",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-BUILD-FIDELITY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-026",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-BUILD-FIDELITY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-027",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-028",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-029",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-030",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-031",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-032",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-033",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-034",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-051",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-052",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-053",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-054",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-035",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-036",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-037",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Genesis assigns no independent semantic-review obligation beyond mechanical enforcement for this requirement."
+    },
+    {
+      "requirement_id": "GEN-NR-038",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-ASSURANCE-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-039",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-ASSURANCE-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-040",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-ASSURANCE-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-041",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-PORTABILITY-ROOT"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-042",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-PORTABILITY-ROOT"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-043",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-PORTABILITY-ROOT"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-055",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Snapshot presence is mechanically verifiable; semantic portability boundaries are covered separately."
+    },
+    {
+      "requirement_id": "GEN-NR-056",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-DESIGN-PLANNING-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-057",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-DESIGN-PLANNING-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-058",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-DESIGN-PLANNING-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-059",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-DESIGN-PLANNING-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-060",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Evidence-closure existence and correspondence are mechanically decidable; semantic evidence sufficiency remains an Assurance responsibility where separately required."
+    },
+    {
+      "requirement_id": "GEN-NR-061",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-PORTABILITY-ROOT"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-062",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-PORTABILITY-ROOT"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-063",
+      "applicability": "required",
+      "obligation_ids": [
+        "GEN-OBL-ASSURANCE-BOUNDARY"
+      ]
+    },
+    {
+      "requirement_id": "GEN-NR-064",
+      "applicability": "none",
+      "obligation_ids": [],
+      "rationale": "Conformance primitive provenance is a mechanically decidable closure property; semantic authority remains owned by the accepted normative requirements."
+    }
+  ]
+}

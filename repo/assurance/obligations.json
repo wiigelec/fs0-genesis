@@ -1,0 +1,90 @@
+{
+  "schema_version": "1",
+  "artifact_type": "assurance-obligations",
+  "obligations": [
+    {
+      "id": "GEN-OBL-AUTHORITY-BOUNDARY",
+      "requirement_ids": [
+        "GEN-NR-001",
+        "GEN-NR-003",
+        "GEN-NR-004",
+        "GEN-NR-005",
+        "GEN-NR-006",
+        "GEN-NR-007"
+      ],
+      "stage": [
+        "planning",
+        "build"
+      ],
+      "objective": "Determine whether Genesis preserves the Framework Contract authority topology and avoids implicit authority creation."
+    },
+    {
+      "id": "GEN-OBL-DESIGN-PLANNING-BOUNDARY",
+      "requirement_ids": [
+        "GEN-NR-010",
+        "GEN-NR-012",
+        "GEN-NR-017",
+        "GEN-NR-018",
+        "GEN-NR-019",
+        "GEN-NR-020",
+        "GEN-NR-044",
+        "GEN-NR-045",
+        "GEN-NR-046",
+        "GEN-NR-047",
+        "GEN-NR-021",
+        "GEN-NR-058",
+        "GEN-NR-059",
+        "GEN-NR-056",
+        "GEN-NR-057"
+      ],
+      "stage": [
+        "planning"
+      ],
+      "objective": "Determine whether Planning distillation and implementation intent remain within selected Design meaning without making Plan artifacts persistent semantic owners."
+    },
+    {
+      "id": "GEN-OBL-BUILD-FIDELITY",
+      "requirement_ids": [
+        "GEN-NR-021",
+        "GEN-NR-025",
+        "GEN-NR-048",
+        "GEN-NR-049",
+        "GEN-NR-050",
+        "GEN-NR-026"
+      ],
+      "stage": [
+        "build"
+      ],
+      "objective": "Determine whether the realized Genesis candidate faithfully implements the accepted Plan and is operational enough for successor framework work."
+    },
+    {
+      "id": "GEN-OBL-ASSURANCE-BOUNDARY",
+      "requirement_ids": [
+        "GEN-NR-038",
+        "GEN-NR-039",
+        "GEN-NR-040",
+        "GEN-NR-063"
+      ],
+      "stage": [
+        "planning",
+        "build"
+      ],
+      "objective": "Determine whether semantic findings remain case-bounded and Governance acceptance remains distinct from review or Conformance success."
+    },
+    {
+      "id": "GEN-OBL-PORTABILITY-ROOT",
+      "requirement_ids": [
+        "GEN-NR-041",
+        "GEN-NR-042",
+        "GEN-NR-043",
+        "GEN-NR-061",
+        "GEN-NR-062"
+      ],
+      "stage": [
+        "planning",
+        "build"
+      ],
+      "objective": "Determine whether the root README, agent guidance, and GNU General Public License version 3 make the Genesis repository understandable, safely operable, and legally reusable as a portable framework seed without themselves becoming implicit framework authority."
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": "1",
+  "artifact_type": "assurance-review-case-contract",
+  "required_fields": [
+    "case_id",
+    "stage",
+    "authorizing_authority",
+    "review_subject",
+    "obligation_ids",
+    "evidence",
+    "findings",
+    "disposition",
+    "reviewer"
+  ],
+  "dispositions": [
+    "PASS",
+    "FAIL",
+    "INCOMPLETE"
+  ],
+  "storage": {
+    "case_payload_surface": "governed-issue-and-pull-request",
+    "repository_persistence": "canonical Assurance correspondence, obligation definitions, and structural contracts only",
+    "candidate_binding": "each acceptance-relevant case resolves to governed work and the exact candidate revision reviewed",
+    "genesis_bootstrap_exception": "the initial derived Genesis commit is the first repository provenance point; where no predecessor PR surface exists, the governed bootstrap issue and exact G0 revision provide the root evidence binding"
+  }
+}
