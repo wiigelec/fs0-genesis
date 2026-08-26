@@ -350,6 +350,58 @@ def _exercise_governance_acceptance(root: Path) -> dict:
     }
 
 
+def _exercise_assurance_boundary(root: Path) -> dict:
+    assurance_runtime = _load_runtime_module(
+        root, "assurance.py", "fs0_conf_assurance_boundary_runtime"
+    )
+    candidate = "a" * 40
+    work_id = "GEN-CONFORMANCE-ASSURANCE-BOUNDARY"
+    obligation_ids = [
+        record["id"]
+        for record in assurance_runtime.obligations_for_stage(root, "build")
+    ]
+    receipt = {
+        "case_id": "GEN-CASE-CONFORMANCE-ASSURANCE-BOUNDARY",
+        "stage": "build",
+        "authorizing_authority": "Governance",
+        "review_subject": {
+            "work_id": work_id,
+            "candidate_revision": candidate,
+        },
+        "obligation_ids": obligation_ids,
+        "evidence": ["conformance:assurance-boundary"],
+        "findings": [
+            {
+                "finding_id": "GEN-FINDING-CONFORMANCE-ASSURANCE-BOUNDARY",
+                "disposition": "PASS",
+                "statement": "case-bounded finding",
+            }
+        ],
+        "disposition": "PASS",
+        "reviewer": "canonical-conformance",
+    }
+    valid = assurance_runtime.validate_receipt(
+        root,
+        receipt,
+        candidate_revision=candidate,
+        work_id=work_id,
+    )
+    violating = json.loads(json.dumps(receipt))
+    violating["findings"][0]["normative_change"] = {"id": "GEN-NR-UNAUTHORIZED"}
+    try:
+        assurance_runtime.validate_review_case(root, violating)
+    except assurance_runtime.AssuranceError:
+        rejected_normative_change = True
+    else:
+        rejected_normative_change = False
+    return {
+        "valid_case_accepted": valid.get("case_id") == receipt["case_id"],
+        "normative_change_rejected": rejected_normative_change,
+        "candidate_revision": valid.get("candidate_revision"),
+        "case_id": valid.get("case_id"),
+    }
+
+
 def _exercise_build_verification(root: Path) -> dict:
     build_runtime, context = _build_context(root)
     build_runtime.verify_syntax = lambda _root: {"sentinel": "syntax"}
@@ -360,6 +412,27 @@ def _exercise_build_verification(root: Path) -> dict:
     for key in ("syntax", "conformance", "completion", "fidelity"):
         if result.get(key, {}).get("sentinel") != key:
             raise ConformanceError(f"Build verification did not exercise {key} path")
+
+    rejected_nonpassing = {}
+    for disposition in ("FAIL", "INCOMPLETE"):
+        build_runtime.verify_conformance = (
+            lambda _root, candidate_revision, disposition=disposition: {
+                "candidate_revision": candidate_revision,
+                "disposition": disposition,
+                "sentinel": "conformance",
+            }
+        )
+        try:
+            build_runtime.verify_build(root, context, [])
+        except build_runtime.BuildError:
+            rejected_nonpassing[disposition] = True
+        else:
+            rejected_nonpassing[disposition] = False
+    if not all(rejected_nonpassing.values()):
+        raise ConformanceError(
+            "Build verification did not reject every non-PASS Conformance disposition"
+        )
+    result["conformance_failure_propagation"] = rejected_nonpassing
     return result
 
 
@@ -569,8 +642,19 @@ def _evaluate(root: Path, assertion: dict) -> dict:
         except Exception as exc:
             return ret(False, f"Assurance correspondence defect: {exc}")
     if rid == "GEN-NR-038":
-        text = _read(root, "repo/runtime/repo_spec/assurance.py")
-        return ret("bounded" in text and "normative authority" in text, "Assurance findings remain case-bounded and non-authoritative")
+        try:
+            exercise = _exercise_assurance_boundary(root)
+            ok = (
+                exercise["valid_case_accepted"]
+                and exercise["normative_change_rejected"]
+            )
+            return ret(
+                ok,
+                "Assurance review behavior accepts a bounded case and rejects a finding that attempts persistent normative change",
+                exercise,
+            )
+        except Exception as exc:
+            return ret(False, f"Assurance boundary exercise failed: {exc}")
     if rid == "GEN-NR-041":
         text = _read(root, "README.md")
         req = ["FS0-GENESIS", "FS0-CORE", "Conformance", "Assurance", "repo/scripts/validate"]

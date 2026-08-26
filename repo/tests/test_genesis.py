@@ -171,6 +171,39 @@ class GenesisEvidence(unittest.TestCase):
         self.assertEqual(manifest["record_type"], "build-mutation-manifest")
         self.assertEqual(manifest["accepted_plan_id"], "FS0-GENESIS")
 
+    def test_build_verification_rejects_nonpassing_conformance(self):
+        for disposition in ("FAIL", "INCOMPLETE"):
+            build = load_module(
+                f"fs0_test_build_nonpassing_{disposition.lower()}",
+                "build.py",
+            )
+            context = build.load_exactly_one_accepted_plan(
+                ROOT,
+                PLAN_DIR,
+                accepted_plan_id="FS0-GENESIS",
+            )
+            build.verify_syntax = lambda _root: {"sentinel": "syntax"}
+            build.verify_conformance = (
+                lambda _root, candidate_revision, disposition=disposition: {
+                    "candidate_revision": candidate_revision,
+                    "disposition": disposition,
+                }
+            )
+            with self.assertRaises(build.BuildError):
+                build.verify_build(ROOT, context, [])
+
+    def test_canonical_conformance_behaviorally_enforces_assurance_boundary(self):
+        report = CONFORMANCE.run(ROOT)
+        result = next(
+            item
+            for item in report["results"]
+            if item["assertion_id"] == "GEN-ASSERT-038"
+        )
+        self.assertEqual(result["status"], "pass")
+        evidence = result["evidence"]
+        self.assertTrue(evidence["valid_case_accepted"])
+        self.assertTrue(evidence["normative_change_rejected"])
+
     def test_governance_candidate_binding_and_platform_non_authority(self):
         revision = "a" * 40
         surface = GOVERNANCE.ReviewSurface(issue_id="42", candidate_revision=revision, candidate_branch="candidate/test", pull_request_id="43", pull_request_branch="candidate/test", pull_request_revision=revision)

@@ -243,6 +243,11 @@ def verify_build(
     # completion, and fidelity to the accepted Plan for one exact candidate revision.
     syntax = verify_syntax(root)
     conformance = verify_conformance(root, context.candidate_revision)
+    if conformance.get("disposition") != "PASS":
+        raise BuildError(
+            "Build verification did not establish mechanical Conformance: "
+            f"{conformance.get('disposition')}"
+        )
     completion = verify_operational_completion(
         root,
         candidate_revision=context.candidate_revision,
