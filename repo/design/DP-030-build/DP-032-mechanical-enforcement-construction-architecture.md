@@ -46,7 +46,7 @@ The binding should be direct enough to answer both directions:
 
 This direct mapping is the mechanical portion of the Requirement Evaluation Manifest.
 
-The framework does not require a generalized provenance graph, validation ontology, assertion hierarchy, evidence hierarchy, or separate lifecycle database to represent that relationship.
+The direct requirement-to-task mapping is sufficient unless a concrete enforcement need requires additional structure.
 
 ## Semantic Requirements
 

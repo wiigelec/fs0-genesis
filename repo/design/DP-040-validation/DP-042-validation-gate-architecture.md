@@ -29,7 +29,7 @@ Required Semantic Review must also be satisfactory.
 
 Validation results are working-process information.
 
-The framework does not require a durable validation-pass artifact, evidence manifest, validation receipt, or separately accepted validation state.
+A validation pass does not require a separate durable lifecycle artifact.
 
 Ordinary test output, command output, or CI output may be retained by repository tooling when useful, but that retention is not itself part of the lifecycle model.
 
@@ -55,4 +55,4 @@ The Validation gate should remain a direct rule:
         ↓
     candidate may continue toward acceptance
 
-No additional acceptance token, proof object, or validation-state database is required.
+The gate requires no state beyond the candidate and the required validation results.

@@ -11,73 +11,39 @@ depends_on:
 
 ## Purpose
 
-Validation mechanically enforces the mechanically decidable portions of normative requirements and helps bound the AI agent.
+Validation mechanically evaluates the mechanically decidable portions of normative requirements and helps bound the AI agent.
 
-Validation determines whether observable Build state satisfies obligations that Planning identified as reliably mechanically enforceable.
+Validation does not define normative intent. Its enforcement basis comes from Planning, while Build constructs the executable checks and their requirement bindings.
 
-## Normative Basis
+## Architecture
 
-Normative requirements are developed during Planning.
+The Requirement Evaluation Manifest identifies how normative requirements are evaluated.
 
-Validation does not invent normative intent. Every validation task that performs normative enforcement exists because of one or more normative requirements.
+Planning classifies each requirement as mechanical, semantic, or both.
 
-Supporting validation implementation such as helpers, fixtures, parsers, loaders, or shared utilities does not require independent normative ownership unless it itself performs enforcement.
+Build records the exact requirement-to-task bindings for mechanically evaluated obligations.
 
-## Requirement Evaluation Manifest
+Validation executes those tasks against candidate repository state and interprets their mechanical pass or fail result.
 
-The Requirement Evaluation Manifest is the canonical record of how normative requirements are evaluated.
-
-Planning establishes whether each requirement requires mechanical evaluation, semantic evaluation, or both.
-
-During Build, each mechanically evaluated requirement is bound to the actual Validation task or tasks that enforce its mechanically decidable obligations.
-
-Semantic evaluation defers the requirement to Semantic Review and does not require an implementation-specific binding.
-
-A requirement may use both paths when its meaning legitimately requires both mechanical enforcement and semantic judgment.
-
-Semantic routing does not create a separate review artifact hierarchy.
-
-## Scope of Validation
-
-Validation should enforce only obligations that are meaningfully and reliably mechanically decidable.
-
-Semantic obligations must not be converted into artificial mechanical predicates merely to make them executable.
-
-Validation should remain proportional to the behavior and risk it protects. It should not become more complicated than the project merely to prove that its own framework is internally complete.
-
-Validation infrastructure should be introduced only when it materially improves enforcement, understandability, reuse, reliability, or necessary agent control.
-
-## Organization
-
-Validation should remain understandable when inspected locally.
-
-An enforcement task should have a clear purpose, descriptive behavior, and direct relationship to the requirement it enforces.
-
-Validation code should be organized around the behavior being protected rather than around framework metadata categories.
-
-The canonical manifest provides requirement traceability. Supporting helpers do not need independent provenance records merely because they participate in Validation.
-
-## Execution
-
-Validation is run against the Build before acceptance.
-
-A failing required validation task prevents merge to `main` until the Build, Planning, or Design defect responsible for the failure is corrected.
-
-Passing validation is a gate condition, not a separately accepted or documented lifecycle result.
+Only reliably mechanically decidable obligations belong in mechanical Validation.
 
 ## Further Design
 
-Validation is decomposed into the following child Design documents:
+Validation is decomposed into:
 
 - DP-041 — Validation Execution Architecture
 - DP-042 — Validation Gate Architecture
 
-These documents separate execution of mechanical enforcement from the gate that prevents mechanically failing candidates from reaching acceptance.
+DP-041 defines execution and failure routing.
 
-## Limits
+DP-042 defines the mechanical gate that must be satisfied before acceptance is possible.
 
-Mechanical validation cannot determine every semantic property of a system.
+## Boundaries
 
-Requirements routed to Semantic Review are evaluated semantically rather than being forced into mechanical Validation.
+Validation is proportional to the behavior and risk it protects.
 
-Questions of completeness, faithful interpretation, unnecessary complexity, scope meaning, and semantic alignment belong to Semantic Review.
+Project-native test and validation mechanisms should be reused when they can enforce the required obligation reliably.
+
+Semantic completeness, faithful interpretation, unnecessary complexity, scope meaning, and other non-mechanical judgments remain with Semantic Review.
+
+Passing Validation is a gate condition, not acceptance and not a separate durable lifecycle result.

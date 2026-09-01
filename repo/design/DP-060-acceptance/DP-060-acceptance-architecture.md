@@ -15,7 +15,7 @@ depends_on:
 
 Acceptance is the transition from candidate repository state to accepted repository state.
 
-For this repository, acceptance is represented directly by Git integration rather than by a parallel governance record system.
+For this repository, Git integration represents that transition directly.
 
 ## Repository State
 
@@ -25,42 +25,24 @@ The development branch contains candidate work.
 
 `main` contains accepted repository state.
 
-## Gate Conditions
+## Preconditions
 
-A candidate remains on the development branch while required work is incomplete.
+Applicable mechanical Validation must pass and required Semantic Review must converge before a candidate is eligible for acceptance.
 
-Applicable Validation and Semantic Review must be satisfactory before the candidate is merged.
+If a prerequisite is unsatisfied, the owning stage is corrected and the candidate remains on the development branch.
 
-If Validation or Semantic Review identifies a defect, the owning stage is corrected and the candidate remains unaccepted.
-
-Passing a review or validation task does not independently create acceptance.
+Passing an individual check, review pass, commit, push, or other repository event does not independently create acceptance.
 
 ## Acceptance Action
 
-For this single-developer repository, intentionally merging the development branch into `main` is acceptance.
+For this single-developer repository, intentional integration of the development branch into `main` is acceptance.
 
-The merge accepts the repository state represented by the integrated candidate.
+Git history therefore provides the accepted repository progression, and the current `main` state is the current accepted state.
 
-No separate acceptance receipt, acceptance event database, provider comment, issue state, or acceptance reconstruction mechanism is required.
+## Scope Boundary
 
-## History
+This architecture assumes the current single-developer workflow.
 
-Git history provides the historical record of accepted repository progression.
+Acceptance does not decide whether Design, Planning, Build, Validation, or Semantic Review are correct; those lifecycle activities determine whether a candidate is ready.
 
-The framework does not maintain a parallel acceptance history when Git already records integration into `main`.
-
-The current `main` state is the current accepted state.
-
-## Further Design
-
-Acceptance is decomposed into the following child Design document:
-
-- DP-061 — Branch Integration Acceptance Architecture
-
-This document refines the candidate-to-accepted branch-state transition and its prerequisites without introducing a parallel acceptance record system.
-
-## Boundaries
-
-Repository activity other than intentional integration into `main` does not need to be modeled as a separate acceptance concept.
-
-Acceptance does not replace Design Review, Planning Review, Build Review, or Validation. Those activities determine whether a candidate is ready to be merged; the merge itself is the acceptance action.
+If the repository later requires independent approval authority or a materially different integration model, that need should be designed explicitly when it exists.

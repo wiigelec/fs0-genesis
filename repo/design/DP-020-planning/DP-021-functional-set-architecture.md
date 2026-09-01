@@ -46,7 +46,7 @@ Build may later add the exact mechanical requirement-to-validation-task bindings
 
 A Functional Set does not need to describe every future implementation step or establish a complete implementation graph for the Design corpus.
 
-It does not require special root identities, generation numbering, predecessor ontologies, or lifecycle lineage unless a concrete repository need later justifies them.
+Its boundary and relationship to Design should be represented directly, without additional lifecycle structure unless a concrete repository need requires it.
 
 The Functional Set boundary should change only through Planning. If implementation reveals that the selected work cannot remain coherent within its current boundary, work returns to Planning.
 

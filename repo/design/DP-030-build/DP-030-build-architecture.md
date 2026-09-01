@@ -11,57 +11,40 @@ depends_on:
 
 ## Purpose
 
-Build is the physical manifestation of Design and Planning.
+Build is the physical realization of reviewed Design and Planning.
 
-Build transforms the reviewed Planning result for a Functional Set into actual repository state.
+It transforms one Functional Set into repository state while preserving Design meaning, Planning intent, normative obligations, and Functional Set scope.
 
-## Inputs
+## Architecture
 
-Build consumes the Functional Set's Planning outputs, including the Plan and normative requirements.
+Build has two distinct responsibilities:
 
-Design remains the semantic source behind the work even though the Plan is Build's immediate technical specification.
-
-## Responsibilities
-
-Build produces the source code, configuration, tests, generated artifacts, documentation changes, and other repository mutations needed to realize the Functional Set.
+- realize the implementation; and
+- construct and bind mechanical enforcement required by Planning's evaluation classification.
 
 Build owns implementation correctness and ordinary code-level decisions.
 
-Build also implements the mechanical Validation tasks required by Planning's evaluation classification, binds those tasks to the normative requirements they enforce, and records the exact bindings in the canonical Requirement Evaluation Manifest.
-
-Build may make local implementation choices needed to realize the Plan correctly, including refactoring and integration decisions that do not change intended semantics, architecture, Functional Set scope, or normative obligations.
-
-Build should prefer the simplest implementation that faithfully realizes the reviewed Planning result and Design intent.
-
-## Boundaries
-
-Build does not own missing Design meaning.
-
-Build does not invent consequential architecture or technical intent that Planning should have resolved.
-
-Build does not create or amend normative requirements merely through implementation behavior.
-
-Build does not broaden the Functional Set merely because additional work appears convenient.
-
-When implementation exposes a defect in an upstream decision, the work is routed back to the stage that owns that decision rather than silently repaired downstream.
-
-A semantic defect returns to Design. A technical specification or normative distillation defect returns to Planning. An implementation defect remains in Build.
+Design remains the semantic source; the Plan is the immediate technical specification.
 
 ## Further Design
 
-Build is decomposed into the following child Design documents:
+Build is decomposed into:
 
 - DP-031 — Implementation Realization Architecture
 - DP-032 — Mechanical Enforcement Construction Architecture
 
-These documents separate physical implementation from construction and binding of mechanical enforcement while leaving execution to Validation.
+DP-031 owns physical implementation.
 
-## Build Review
+DP-032 owns creation of mechanical enforcement tasks and their exact requirement bindings. Validation owns execution of those tasks.
 
-Build Review evaluates the realized repository state against both Planning and Design.
+## Boundaries
 
-The review determines whether the Build faithfully realizes the Plan and normative requirements, preserves the underlying Design meaning, stays within Functional Set scope, avoids accidental semantic or architectural drift, and completes required mechanical requirement-to-task bindings.
+Build does not invent missing Design meaning, consequential Planning decisions, new normative obligations, or broader Functional Set scope.
 
-Build Review is also the semantic evaluation point for normative requirements routed to Semantic Review when those requirements concern the realized Build.
+When implementation exposes an upstream defect, the work returns to the stage that owns the defective decision.
 
-Build Review is iterative. Implementation findings are corrected in Build, while upstream defects are routed back to Planning or Design.
+## Review
+
+Build Review evaluates realized repository state against both Planning and Design.
+
+It checks implementation fidelity, semantic preservation, scope, unintended additions or omissions, architectural drift, semantic normative requirements applicable to realized Build state, and completion of required mechanical bindings.

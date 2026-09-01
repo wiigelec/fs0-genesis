@@ -13,81 +13,39 @@ depends_on:
 
 ## Purpose
 
-Semantic Review evaluates whether meaning is preserved across Design, Planning, and Build.
+Semantic Review evaluates whether intended meaning is preserved across Design, Planning, and Build.
 
-It addresses questions that cannot be reliably reduced to mechanical Validation, including completeness, faithful interpretation, ambiguity, unnecessary complexity, and semantic drift.
+It addresses completeness, faithful interpretation, ambiguity, semantic drift, and unnecessary complexity that cannot be reduced reliably to mechanical Validation.
 
-Semantic Review also evaluates normative requirements that Planning routes to semantic evaluation.
+Semantic Review also evaluates normative requirements that Planning classifies for semantic evaluation.
 
-Semantic Review occurs after each major lifecycle stage and is normally iterative.
+## Review Points
 
-## Design Review
+Semantic Review occurs at designated review points after Design, Planning, and Build and is normally iterative.
 
-Design Review evaluates Design for semantic completeness.
+These review points are:
 
-It looks for missing meaning, ambiguity, contradiction, unresolved consequential decisions, unnecessary complexity, and failure to faithfully capture human intent.
+- Design Review;
+- Planning Review; and
+- Build Review.
 
-When material issues are found, Design is revised and reviewed again.
-
-## Planning Review
-
-Planning Review evaluates the complete Planning result against Design.
-
-It checks whether the Functional Set is appropriately bounded, whether the Plan completely and faithfully translates the selected Design, whether normative requirements express the obligations needed to realize that Design, and whether each normative requirement is classified for an appropriate mechanical or semantic evaluation mode.
-
-A semantic defect is routed back to Design. A technical Planning or normative distillation defect is corrected in Planning.
-
-## Build Review
-
-Build Review evaluates the Build against both Planning and Design.
-
-The Plan is the immediate technical specification, but Design remains the semantic reference.
-
-Build Review looks for implementation drift, omissions, unintended additions, scope expansion, accidental architectural changes, and cases where a technically followed Plan still fails to realize the underlying Design meaning.
-
-Build Review also evaluates semantic normative requirements whose subject is the realized Build.
-
-## Semantic Requirement Evaluation
-
-A normative requirement may be routed to Semantic Review when its obligation cannot be decided reliably by mechanical Validation.
-
-Semantic evaluation determines whether the reviewed subject satisfies the meaning of the requirement without converting that judgment into an artificial executable predicate.
-
-A semantic requirement may also have mechanical Validation where part of its obligation is mechanically decidable.
-
-Semantic routing does not require persistent review-case identities, rubrics, evidence manifests, finding identities, disposition records, or a separate semantic enforcement hierarchy.
-
-## Iteration and Convergence
-
-Semantic Review may require several passes.
-
-Each pass identifies material discrepancies, routes them to the stage that owns the defective decision, and re-evaluates the corrected result.
-
-Review converges when no unresolved material semantic discrepancies remain for the stage being reviewed.
-
-## Challenge and Simplicity
-
-Semantic Review should challenge the proposed solution rather than merely verify internal consistency.
-
-Review should consider whether important assumptions were invented, whether meaningful alternatives were ignored, whether unnecessary complexity has accumulated, and whether a materially simpler solution could preserve the same intent, required behavior, correctness, necessary constraints, and necessary control of the AI agent.
-
-Agreement between user and agent is not evidence that a solution is correct.
-
-Complexity introduced primarily to support prior framework complexity is itself a reason to reconsider the earlier mechanism.
+Each review evaluates the decisions owned by that stage while remaining traceable to upstream intent.
 
 ## Further Design
 
-Semantic Review is decomposed into the following child Design documents:
+Semantic Review is decomposed into:
 
 - DP-051 — Stage Review Architecture
 - DP-052 — Review Convergence Architecture
 
-These documents separate what each lifecycle review evaluates from how iterative review challenges, routes, corrects, and converges.
+DP-051 defines what each lifecycle review evaluates and how semantic requirements are judged.
 
-## Records
+DP-052 defines challenge, defect routing, iteration, and convergence.
 
-Semantic Review is a working process, not a durable governance artifact.
+## Boundaries
 
-Review findings may be recorded temporarily when useful for iteration, but the framework does not require review-case identities, correspondence graphs, disposition records, or persistent review histories.
+Semantic Review is a reasoning process, not a source of new persistent Design meaning or normative obligations.
 
-If review does not converge, the work is not merged.
+Review findings may be kept temporarily while useful to active correction.
+
+If required Semantic Review does not converge, the candidate is not eligible for acceptance.

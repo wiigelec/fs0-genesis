@@ -88,4 +88,4 @@ Review does not create new persistent Design meaning or normative obligations me
 
 Stage Review is a reasoning activity, not a review artifact hierarchy.
 
-The framework does not require review-case identities, rubric records, evidence manifests, finding identities, disposition records, or a separate semantic enforcement ontology.
+Stage Review should remain direct reasoning over the reviewed subject and its governing upstream intent.

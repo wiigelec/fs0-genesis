@@ -63,7 +63,7 @@ Review findings may be kept temporarily when useful for an active iteration.
 
 The lifecycle does not require those notes to become durable governance records once review has converged.
 
-Git history, ordinary development discussion, or other tooling may incidentally retain information, but Semantic Review does not depend on a review database or persistent review ledger.
+Durable review records are not required for convergence.
 
 ## Gate Effect
 
