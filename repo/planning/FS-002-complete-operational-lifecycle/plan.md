@@ -72,18 +72,21 @@ Validation must not carry a per-Functional-Set requirement-count constant merely
 
 `repo/validation/requirement-evaluation.json` remains the direct current mapping from mechanically applicable requirements to project-native Validation tasks.
 
-Manifest integrity should be checked against the aggregate requirement set from all discovered current Functional Sets.
+Manifest integrity should be checked against the aggregate normative requirement set from all discovered Functional Sets while distinguishing historical requirement existence from current mechanical applicability.
+
+The manifest is the direct representation of currently applicable mechanical enforcement. Presence of an accepted historical `M` or `B` requirement in a discovered specification does not by itself require that requirement to remain mechanically bound forever.
 
 It must ensure:
 
-- every current `M` or `B` requirement has a binding;
-- semantic-only requirements do not require a mechanical binding solely because they exist;
-- each manifest requirement reference resolves to exactly one current normative requirement;
+- every manifest requirement reference resolves to exactly one discovered normative requirement classified `M` or `B`;
 - duplicate requirement bindings are rejected;
 - every referenced task resolves to a registered required Validation task;
-- every registered required Validation task remains justified by at least one current normative requirement.
+- every registered required Validation task remains justified by at least one currently applicable mechanically evaluated requirement represented in the manifest;
+- later Planning that changes an obligation creates a later requirement and updates the manifest to reflect current mechanical applicability without mutating the historical meaning of the earlier requirement.
 
-The manifest remains repository state and does not become a source of Design or Planning authority.
+Semantic-only requirements are never represented in the manifest merely because they exist.
+
+The manifest remains repository state and does not become a source of Design or Planning authority. Planning determines whether obligations change; Build realizes the corresponding current mechanical bindings.
 
 ## Validation Execution
 
@@ -141,9 +144,10 @@ Build should provide focused regression coverage demonstrating at least:
 - Functional Set identity mismatches are rejected;
 - invalid requirement identity or classification is rejected;
 - duplicate requirement identities are rejected;
-- an unbound `M` or `B` requirement from a later Functional Set fails manifest integrity;
-- unknown requirement and task references fail manifest integrity;
+- manifest references to unknown requirements or semantic-only requirements fail manifest integrity;
+- unknown task references fail manifest integrity;
 - semantic-only requirements are not forced into mechanical binding;
+- a later Planning change can remove an obsolete earlier mechanical binding while preserving the earlier requirement text and identity in its accepted specification;
 - a conforming later Functional Set can be added without adding FS-specific validator constants, paths, parsers, or requirement counts;
 - canonical Validation still executes all registered required tasks and propagates failure;
 - CI continues to delegate to `repo/scripts/validate`;

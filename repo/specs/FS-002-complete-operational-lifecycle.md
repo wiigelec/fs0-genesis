@@ -42,17 +42,17 @@ Every current normative requirement shall have a unique identity of the form `FS
 
 Every current normative requirement shall record exactly one evaluation classification encoded as `M`, `S`, or `B`.
 
-### FS-002-NR-008 — Aggregate Mechanical Binding Completeness
+### FS-002-NR-008 — Current Mechanical Applicability Representation
 
-**Classification: M**
+**Classification: B**
 
-Every current normative requirement classified `M` or `B`, across all discovered Functional Sets, shall have a Requirement Evaluation Manifest binding.
+The Requirement Evaluation Manifest shall represent the set of currently applicable mechanically evaluated normative requirements. Discovery of an accepted historical requirement classified `M` or `B` shall not by itself make that requirement permanently mechanically applicable.
 
 ### FS-002-NR-009 — Manifest Requirement Resolution
 
 **Classification: M**
 
-Every Requirement Evaluation Manifest requirement reference shall resolve to exactly one current normative requirement, and duplicate bindings for the same requirement shall be rejected.
+Every Requirement Evaluation Manifest requirement reference shall resolve to exactly one discovered normative requirement classified `M` or `B`, and duplicate bindings for the same requirement shall be rejected.
 
 ### FS-002-NR-010 — Validation Task Resolution
 
@@ -64,7 +64,7 @@ Every Validation task referenced by the Requirement Evaluation Manifest shall re
 
 **Classification: B**
 
-Every registered required Validation task shall remain justified by at least one current normative requirement.
+Every registered required Validation task shall remain justified by at least one currently applicable mechanically evaluated normative requirement represented in the Requirement Evaluation Manifest.
 
 ### FS-002-NR-012 — Subsequent Functional Set Participation
 
