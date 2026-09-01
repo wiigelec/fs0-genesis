@@ -86,12 +86,16 @@ FS-001 does not:
 
 ## Planning Outputs
 
-FS-001 consists of:
+FS-001 produces:
 
 - `functional-set.md` — selected scope and exact Design binding;
-- `plan.md` — technical realization decisions;
-- `requirements.md` — precise normative obligations and evaluation classifications.
+- `plan.md` — consequential technical realization decisions; and
+- `repo/specs/FS-001-framework-lifecycle-substrate.md` — canonical normative specification and evaluation classifications.
 
-These Planning artifacts remain in repository history after Acceptance.
+The Functional Set and Plan are durable Planning artifacts.
 
-They record how accepted repository state was planned but do not become Design and do not acquire authority from implementation behavior.
+The normative specification is a Planning output stored in the canonical specification corpus under `repo/specs/`.
+
+These outputs remain in repository history after Acceptance.
+
+They record how accepted repository state was planned and specified but do not become Design and do not acquire authority from implementation behavior.
