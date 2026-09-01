@@ -46,13 +46,15 @@ Changing active/inactive state does not change the requirement's identity or nor
 
 ## Evaluation Classification
 
-Every active normative requirement must have one current Planning classification:
+Every normative requirement has one current Planning evaluation classification:
 
 - mechanical evaluation;
 - semantic evaluation; or
 - both mechanical and semantic evaluation.
 
-Evaluation classification describes how an active obligation is judged. It does not represent requirement lifecycle state and does not require Planning to design the exact implementation of a mechanical validator.
+Evaluation classification is independent of requirement state. For an active requirement, the classification determines how the current obligation is judged. For an inactive requirement, the classification is retained but creates no current mechanical-evaluation or semantic-evaluation obligation.
+
+Evaluation classification does not represent requirement lifecycle state and does not require Planning to design the exact implementation of a mechanical validator.
 
 ## Boundaries
 
