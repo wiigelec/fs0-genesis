@@ -158,6 +158,8 @@ def aggregate(results: list[bool]) -> bool:
 def task_validation_gate() -> None:
     if set(TASKS) != set(TASK_FUNCTIONS):
         fail("registered Validation task set is incomplete")
+    if select_tasks([]) != list(TASKS):
+        fail("default canonical Validation must select every registered required task")
     if aggregate([True, True, False]):
         fail("Validation aggregation must fail when a required task fails")
     if not aggregate([True, True, True]):
@@ -175,17 +177,25 @@ TASK_FUNCTIONS: dict[str, Callable[[], None]] = {
 }
 
 
-def main(argv: list[str]) -> int:
+def select_tasks(argv: list[str]) -> list[str]:
     if argv:
         if len(argv) != 2 or argv[0] != "--task":
-            print("usage: repo/scripts/validate [--task TASK]", file=sys.stderr)
-            return 2
+            raise ValueError("usage")
         if argv[1] not in TASK_FUNCTIONS:
-            print(f"unknown Validation task: {argv[1]}", file=sys.stderr)
-            return 2
-        selected = [argv[1]]
-    else:
-        selected = list(TASKS)
+            raise KeyError(argv[1])
+        return [argv[1]]
+    return list(TASKS)
+
+
+def main(argv: list[str]) -> int:
+    try:
+        selected = select_tasks(argv)
+    except ValueError:
+        print("usage: repo/scripts/validate [--task TASK]", file=sys.stderr)
+        return 2
+    except KeyError:
+        print(f"unknown Validation task: {argv[1]}", file=sys.stderr)
+        return 2
     results = []
     for name in selected:
         try:

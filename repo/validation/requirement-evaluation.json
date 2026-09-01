@@ -1,20 +1,97 @@
 {
   "version": 1,
   "bindings": [
-    {"requirement": "FS-001-NR-001", "tasks": ["design-corpus"]},
-    {"requirement": "FS-001-NR-002", "tasks": ["planning-structure"]},
-    {"requirement": "FS-001-NR-003", "tasks": ["planning-structure"]},
-    {"requirement": "FS-001-NR-005", "tasks": ["planning-structure"]},
-    {"requirement": "FS-001-NR-006", "tasks": ["planning-structure"]},
-    {"requirement": "FS-001-NR-009", "tasks": ["manifest-integrity"]},
-    {"requirement": "FS-001-NR-011", "tasks": ["manifest-integrity"]},
-    {"requirement": "FS-001-NR-012", "tasks": ["manifest-integrity"]},
-    {"requirement": "FS-001-NR-014", "tasks": ["validation-entrypoint"]},
-    {"requirement": "FS-001-NR-015", "tasks": ["validation-entrypoint"]},
-    {"requirement": "FS-001-NR-018", "tasks": ["docs-alignment"]},
-    {"requirement": "FS-001-NR-019", "tasks": ["docs-alignment"]},
-    {"requirement": "FS-001-NR-020", "tasks": ["ci-delegation"]},
-    {"requirement": "FS-001-NR-021", "tasks": ["docs-alignment", "ci-delegation"]},
-    {"requirement": "FS-001-NR-026", "tasks": ["validation-gate"]}
+    {
+      "requirement": "FS-001-NR-001",
+      "tasks": [
+        "design-corpus"
+      ]
+    },
+    {
+      "requirement": "FS-001-NR-002",
+      "tasks": [
+        "planning-structure"
+      ]
+    },
+    {
+      "requirement": "FS-001-NR-003",
+      "tasks": [
+        "planning-structure"
+      ]
+    },
+    {
+      "requirement": "FS-001-NR-005",
+      "tasks": [
+        "planning-structure"
+      ]
+    },
+    {
+      "requirement": "FS-001-NR-006",
+      "tasks": [
+        "planning-structure"
+      ]
+    },
+    {
+      "requirement": "FS-001-NR-009",
+      "tasks": [
+        "manifest-integrity"
+      ]
+    },
+    {
+      "requirement": "FS-001-NR-011",
+      "tasks": [
+        "manifest-integrity"
+      ]
+    },
+    {
+      "requirement": "FS-001-NR-012",
+      "tasks": [
+        "manifest-integrity"
+      ]
+    },
+    {
+      "requirement": "FS-001-NR-014",
+      "tasks": [
+        "validation-entrypoint"
+      ]
+    },
+    {
+      "requirement": "FS-001-NR-015",
+      "tasks": [
+        "validation-entrypoint",
+        "validation-gate"
+      ]
+    },
+    {
+      "requirement": "FS-001-NR-018",
+      "tasks": [
+        "docs-alignment"
+      ]
+    },
+    {
+      "requirement": "FS-001-NR-019",
+      "tasks": [
+        "docs-alignment"
+      ]
+    },
+    {
+      "requirement": "FS-001-NR-020",
+      "tasks": [
+        "ci-delegation"
+      ]
+    },
+    {
+      "requirement": "FS-001-NR-021",
+      "tasks": [
+        "docs-alignment",
+        "ci-delegation"
+      ]
+    },
+    {
+      "requirement": "FS-001-NR-026",
+      "tasks": [
+        "validation-gate"
+      ]
+    }
   ]
 }
