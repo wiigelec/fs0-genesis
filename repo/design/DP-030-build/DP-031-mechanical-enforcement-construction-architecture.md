@@ -1,5 +1,5 @@
 ---
-doc_id: DP-032
+doc_id: DP-031
 title: Mechanical Enforcement Construction Architecture
 depends_on:
   - DP-030

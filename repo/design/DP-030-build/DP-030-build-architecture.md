@@ -26,16 +26,23 @@ Build owns implementation correctness and ordinary code-level decisions.
 
 Design remains the semantic source; the Plan is the immediate technical specification.
 
+## Implementation
+
+Build may create, modify, delete, refactor, integrate, or regenerate repository content as needed to realize the Functional Set.
+
+Ordinary implementation choices belong to Build when they preserve Design meaning, Plan intent, normative requirements, and Functional Set scope.
+
+Implementation correctness includes repository state that is internally coherent, technically functional, and faithful to Planning and Design. Local refactoring or integration work does not need to be enumerated by the Plan when it is an ordinary implementation consequence rather than a new technical or semantic decision.
+
+Build should prefer the simplest implementation that faithfully realizes the reviewed Planning result and Design intent.
+
 ## Further Design
 
-Build is decomposed into:
+Build has one child Design:
 
-- DP-031 — Implementation Realization Architecture
-- DP-032 — Mechanical Enforcement Construction Architecture
+- DP-031 — Mechanical Enforcement Construction Architecture
 
-DP-031 owns physical implementation.
-
-DP-032 owns creation of mechanical enforcement tasks and their exact requirement bindings. Validation owns execution of those tasks.
+DP-031 defines construction of mechanical enforcement tasks and their exact requirement bindings. Validation owns execution of those tasks.
 
 ## Boundaries
 

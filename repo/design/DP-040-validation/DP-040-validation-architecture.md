@@ -27,13 +27,25 @@ Validation consumes the manifest and the referenced enforcement tasks, executes 
 
 Only reliably mechanically decidable obligations belong in mechanical Validation.
 
-## Further Design
+## Execution
 
-Validation is decomposed into:
+Validation runs each required mechanical enforcement task applicable to the candidate.
 
-- DP-041 — Validation Execution Architecture
+It may use ordinary test runners, scripts, linters, build commands, repository checks, or other project-native mechanisms. A universal validation runner is not required when existing tooling can execute the required checks reliably.
 
-DP-041 defines execution, result meaning, and failure routing.
+## Failure Routing
+
+A failing validation task means the candidate does not currently satisfy at least one mechanically enforced obligation.
+
+The defect is corrected in the stage that owns it: Design for semantic meaning, Planning for technical specification or normative distillation, and Build for implementation or enforcement construction.
+
+Validation does not silently modify upstream lifecycle decisions in response to failure.
+
+## Result Meaning
+
+A passing mechanical task establishes only that its mechanically decidable condition passed for the candidate state checked.
+
+Mechanical success does not prove semantic completeness, faithful interpretation, or acceptance. Semantic questions remain with Semantic Review, and acceptance remains governed by DP-060.
 
 ## Boundaries
 
