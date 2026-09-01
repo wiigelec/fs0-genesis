@@ -1,39 +1,59 @@
 # Agent and Contributor Guidance
 
-This file is operational guidance. It is not repository-framework normative authority and cannot override accepted authority under `repo/`.
-
-## Authority
-
-Treat accepted repository-framework authority under `repo/` as controlling over implementation behavior, generated output, historical convention, workflow status, reviewer preference, or this guidance.
-
-Do not infer normative authority from CI success, a merge, issue closure, generated files, comments, agent output, or existing implementation behavior unless accepted Governance explicitly establishes that authority.
+This file is operational guidance. It does not create Design meaning or normative requirements and cannot override the reviewed Design and Planning artifacts under `repo/`.
 
 ## Responsibility boundaries
 
 - **Design owns semantic meaning.**
-- **Planning owns functional-set scope, normative distillation, planned mutation paths, validation intent, sequencing, invariants, and implementation intent.**
-- **Build owns implementation correctness within one accepted Plan.**
+- **Planning owns Functional Set scope, consequential technical intent, normative requirements, and evaluation classification.**
+- **Build owns implementation correctness, ordinary code-level decisions, and construction of required mechanical enforcement.**
+- **Validation executes mechanically decidable checks; it does not create normative intent.**
+- **Semantic Review identifies discrepancies without taking ownership of the decisions being reviewed.**
 
-Route defects to the phase that owns the defective decision:
+Route defects to the stage that owns the defective decision:
 
-- missing or incorrect semantics → Design;
-- incorrect scope, normative intent, planned files, sequencing, invariants, validation, or implementation intent → Planning;
-- incorrect realization of an accepted Plan → Build.
+- missing, incorrect, ambiguous, or contradictory semantic meaning → **Design**;
+- Functional Set, Plan, normative-requirement, or evaluation-classification defect → **Planning**;
+- implementation or mechanical-enforcement-construction defect → **Build**.
 
-Do not repair an upstream defect by inventing authority or intent downstream.
+Do not conceal an upstream defect by inventing intent, changing scope, or redefining an obligation downstream.
 
 ## Build discipline
 
-Build must consume one accepted Plan and remain within that Plan's authorized mutation set. Do not add unplanned repository paths or broaden behavior merely because an implementation appears useful.
+Build consumes one reviewed Functional Set Planning result and its bound Design revision.
 
-When the canonical Conformance runtime exists, use:
+Build may make ordinary implementation decisions that preserve Design meaning, Functional Set scope, Plan intent, normative requirements, and required agent control.
+
+If a consequential semantic decision is missing, return to Design. If a consequential technical decision or requirement classification is missing or defective, return to Planning.
+
+Prefer the simplest implementation that satisfies the reviewed Planning result. Do not add framework machinery merely because a similar mechanism existed historically.
+
+## Historical repository state
+
+`repo_old/` is historical implementation material and design evidence only.
+
+Do not infer current normative intent from `repo_old/`, generated artifacts, CI success, review notes, implementation behavior, or repository history merely because they exist.
+
+A historical mechanism may be reused only when current Design and Planning independently require the capability.
+
+## Validation
+
+Use:
 
 ```bash
 repo/scripts/validate
 ```
 
-for repository mechanical Conformance. Do not replace it with a second validator or move normative predicates into CI/workflow glue.
+as the canonical mechanical Validation entry point.
 
-## Genesis and successors
+Do not create a second normative validator in CI or workflow glue. CI may invoke the canonical entry point and report its result.
 
-`FS0-GENESIS` is the unique framework root. Ordinary successor framework functional sets extend accepted Genesis-based framework state through the normal governed lifecycle. Genesis-specific bootstrap mechanisms must not become undocumented shortcuts for successor work.
+A passing Validation result proves only the mechanically checked conditions. It does not prove semantic fidelity, review convergence, or Acceptance.
+
+## Semantic Review and Acceptance
+
+After Build and required Validation, perform Build Review against both the complete Planning result and the Design revision it consumed.
+
+Review should challenge scope drift, missing behavior, unintended additions, accidental architecture changes, and unnecessary complexity.
+
+A satisfactory development candidate becomes accepted only through intentional integration into `main`.
