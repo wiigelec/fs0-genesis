@@ -74,16 +74,16 @@ Validation must not carry a per-Functional-Set requirement-count constant merely
 
 Manifest integrity should be checked against the aggregate normative requirement set from all discovered Functional Sets while distinguishing historical requirement existence from current mechanical applicability.
 
-The manifest is the direct representation of currently applicable mechanical enforcement. Presence of an accepted historical `M` or `B` requirement in a discovered specification does not by itself require that requirement to remain mechanically bound forever.
+The manifest is the direct representation of current mechanical enforcement.
 
-For the Functional Set currently being realized, every requirement classified `M` or `B` is presumed currently mechanically applicable and therefore requires a manifest binding for its mechanically decidable portion. A later Functional Set may change that applicability only through Planning; Build omission alone must not be interpreted as a Planning decision to retire an obligation.
+Canonical Planning and normative specifications represent the obligations applicable to the current repository state. Therefore every normative requirement classified `M` or `B` in the current canonical specification set requires a manifest binding for its mechanically decidable portion.
 
-Because Functional Sets are introduced sequentially in this repository, canonical Validation may identify the currently-being-realized Functional Set as the greatest discovered `FS-NNN` identity for this completeness check. This is a project-local lifecycle convention, not a separate registry or source of normative authority.
+A mechanical binding shall not be removed while its owning normative requirement remains present and mechanically classified in current canonical Planning. If an obligation legitimately changes or is removed, the Planning/specification state that owns that requirement must be changed consistently in the same candidate; Git history preserves the earlier accepted meaning.
 
 It must ensure:
 
-- every `M` or `B` requirement owned by the currently-being-realized Functional Set has a manifest binding;
-- every manifest requirement reference resolves to exactly one discovered normative requirement classified `M` or `B`;
+- every current canonical normative requirement classified `M` or `B` has a manifest binding;
+- every manifest requirement reference resolves to exactly one current canonical normative requirement classified `M` or `B`;
 - duplicate requirement bindings are rejected;
 - every referenced task resolves to a registered required Validation task;
 - every registered required Validation task remains justified by at least one currently applicable mechanically evaluated requirement represented in the manifest;
@@ -152,8 +152,8 @@ Build should provide focused regression coverage demonstrating at least:
 - manifest references to unknown requirements or semantic-only requirements fail manifest integrity;
 - unknown task references fail manifest integrity;
 - semantic-only requirements are not forced into mechanical binding;
-- omission of an `M` or `B` requirement introduced by the currently-being-realized Functional Set fails manifest integrity;
-- a later Planning change can remove an obsolete earlier mechanical binding while preserving the earlier requirement text and identity in its accepted specification;
+- omission of any current canonical `M` or `B` requirement fails manifest integrity;
+- changing or removing an obligation requires a consistent change to its owning Planning/specification state rather than manifest omission alone;
 - a conforming later Functional Set can be added without adding FS-specific validator constants, paths, parsers, or requirement counts;
 - canonical Validation still executes all registered required tasks and propagates failure;
 - CI continues to delegate to `repo/scripts/validate`;
