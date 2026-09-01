@@ -103,7 +103,6 @@ Planning is decomposed into the following child Design documents:
 - DP-021 — Functional Set Architecture
 - DP-022 — Plan Architecture
 - DP-023 — Normative Requirements Architecture
-- DP-024 — Requirement Evaluation Architecture
 
 These documents refine the major Planning outputs without prescribing concrete storage schemas or repository paths.
 
