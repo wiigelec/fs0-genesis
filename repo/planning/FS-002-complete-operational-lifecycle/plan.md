@@ -54,8 +54,16 @@ Normative specification headings use:
 ```text
 ### FS-NNN-NR-NNN — <title>
 
-**Classification: M|S|B|I**
+**Classification: M|S|B**
 ```
+
+A requirement is active by default. Planning marks an inactive requirement in its canonical normative specification with the separate line:
+
+```text
+**State: Inactive**
+```
+
+Removing that marker reactivates the requirement. Active/inactive state is not an evaluation classification.
 
 The parser should operate generically over every discovered current specification.
 
@@ -64,7 +72,8 @@ Validation should enforce:
 - valid `FS-NNN-NR-NNN` identity form;
 - Functional Set prefix agreement;
 - requirement identity uniqueness across current specifications;
-- classification exactly `M`, `S`, `B`, or `I`.
+- exactly one evaluation classification of `M`, `S`, or `B`;
+- at most one requirement-state marker, whose only valid explicit value is `Inactive`.
 
 Validation must not carry a per-Functional-Set requirement-count constant merely to recognize a valid Functional Set.
 
@@ -72,34 +81,26 @@ Validation must not carry a per-Functional-Set requirement-count constant merely
 
 `repo/validation/requirement-evaluation.json` remains the direct current mapping from mechanically applicable requirements to project-native Validation tasks.
 
-Manifest integrity is checked against the aggregate normative requirement set from all discovered Functional Sets together with the current applicability state recorded by each requirement's owning Plan.
+Manifest integrity is checked against the aggregate normative requirement set from all discovered Functional Sets together with the current requirement state recorded in each canonical normative specification.
 
-Normative specifications retain the durable requirement identity and requirement text and record the current evaluation classification as `M`, `S`, `B`, or `I`.
+Normative specifications retain the durable requirement identity and requirement text, record evaluation classification as `M`, `S`, or `B`, and may separately mark a requirement `Inactive`.
 
-`I` means Inactive. An inactive requirement remains defined in its normative specification but has no active mechanical or semantic evaluation obligation.
+A requirement is active when no `State` marker is present. `**State: Inactive**` means the requirement remains defined but has no current implementation, mechanical-evaluation, or semantic-evaluation obligation. Planning may reactivate the requirement by removing that marker without changing its identity or normative text.
 
-The owning Plan must mark every requirement classified `I` with the exact line:
-
-    I FS-NNN-NR-NNN
-
-The specification classification and owning-Plan inactive marker must agree exactly: every `I` specification requirement must have the matching Plan marker, and no `M`, `S`, or `B` requirement may have one.
-
-The manifest is the direct representation of current mechanical enforcement. Every requirement classified `M` or `B` requires a manifest binding for its mechanically decidable portion. Requirements classified `S` or `I` have no manifest binding.
+The manifest is the direct representation of current mechanical enforcement. Every active requirement classified `M` or `B` requires a manifest binding for its mechanically decidable portion. Active requirements classified `S` and all inactive requirements have no manifest binding.
 
 It must ensure:
 
-- every normative requirement classified `M` or `B` has a manifest binding;
-- every normative requirement classified `I` has the matching owning-Plan inactive marker and no manifest binding;
-- no requirement classified `M`, `S`, or `B` has an inactive marker;
-- every manifest requirement reference resolves to exactly one normative requirement classified `M` or `B`;
+- every active normative requirement classified `M` or `B` has a manifest binding;
+- every inactive normative requirement has no manifest binding;
+- every manifest requirement reference resolves to exactly one active normative requirement classified `M` or `B`;
 - duplicate requirement bindings are rejected;
 - every referenced task resolves to a registered required Validation task;
-- every registered required Validation task remains justified by at least one currently applicable mechanically evaluated requirement represented in the manifest;
-- later Planning that changes an obligation creates a later requirement and updates the manifest to reflect current mechanical applicability without mutating the historical meaning of the earlier requirement.
+- every registered required Validation task remains justified by at least one currently active mechanically evaluated requirement represented in the manifest.
 
 Semantic-only requirements are never represented in the manifest merely because they exist.
 
-The manifest remains repository state and does not become a source of Design or Planning authority. Planning determines whether obligations change; Build realizes the corresponding current mechanical bindings.
+The manifest remains repository state and does not become a source of Design or Planning authority. Planning determines requirement state and whether obligations change; Build realizes the corresponding current mechanical bindings.
 
 ## Validation Execution
 
@@ -155,16 +156,16 @@ Build should provide focused regression coverage demonstrating at least:
 - Planning/specification correspondence failures are detected;
 - malformed and nonexistent Design revisions are rejected;
 - Functional Set identity mismatches are rejected;
-- invalid requirement identity or classification is rejected;
+- invalid requirement identity or evaluation classification is rejected;
 - duplicate requirement identities are rejected;
+- invalid or duplicate requirement-state markers are rejected;
+- an inactive requirement remains discoverable with its `M`, `S`, or `B` evaluation classification intact;
+- inactive requirements are excluded from current mechanical enforcement and a manifest binding for one fails manifest integrity;
+- reactivation by removing the inactive marker restores ordinary evaluation applicability without changing requirement identity or text;
 - manifest references to unknown requirements or semantic-only requirements fail manifest integrity;
 - unknown task references fail manifest integrity;
 - semantic-only requirements are not forced into mechanical binding;
-- omission of any `M` or `B` requirement fails manifest integrity;
-- an `I` specification classification without its matching owning-Plan marker fails Planning validation;
-- an owning-Plan `I` marker for an `M`, `S`, or `B` requirement fails Planning validation;
-- an `I` requirement is excluded from active mechanical enforcement and a manifest binding for it fails manifest integrity;
-- an inactive marker must reference a requirement owned by that same Functional Set and present in its canonical specification;
+- omission of any active `M` or `B` requirement fails manifest integrity;
 - a conforming later Functional Set can be added without adding FS-specific validator constants, paths, parsers, or requirement counts;
 - canonical Validation still executes all registered required tasks and propagates failure;
 - CI continues to delegate to `repo/scripts/validate`;

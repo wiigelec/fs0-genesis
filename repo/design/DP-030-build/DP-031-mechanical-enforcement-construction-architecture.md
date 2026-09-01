@@ -11,17 +11,17 @@ depends_on:
 
 ## Purpose
 
-Mechanical enforcement construction is the part of Build that creates the executable Validation tasks required by mechanically classified normative requirements.
+Mechanical enforcement construction is the part of Build that creates the executable Validation tasks required by active mechanically classified normative requirements.
 
 Build constructs the enforcement. Validation executes it.
 
 ## Normative Basis
 
-Planning determines which normative requirements require mechanical evaluation.
+Planning determines which active normative requirements require mechanical evaluation. Inactive requirements require no current enforcement.
 
 Build does not decide that a new obligation should exist merely because a test or validator would be useful.
 
-Every mechanical enforcement task must be justified by at least one normative requirement.
+Every mechanical enforcement task must be justified by at least one active normative requirement requiring mechanical evaluation.
 
 Supporting helpers, fixtures, parsers, loaders, or shared utilities do not require independent requirement mappings unless they themselves perform normative enforcement.
 

@@ -22,8 +22,9 @@ For each Functional Set, Planning produces:
 
 - selected Design scope bound to the exact Design state consumed;
 - a Plan describing consequential technical intent;
-- normative requirements stating precise obligations; and
-- evaluation classification identifying each requirement as mechanical, semantic, or both.
+- normative requirements stating precise obligations;
+- current normative requirement state, active or inactive; and
+- evaluation classification identifying each active requirement as mechanical, semantic, or both.
 
 Planning does not need to identify exact mechanical validation tasks before Build constructs them.
 
@@ -41,7 +42,7 @@ These children own the detailed semantics of Planning outputs.
 
 ## Boundaries
 
-Planning owns Functional Set scope, technical specification, normative distillation, and evaluation classification.
+Planning owns Functional Set scope, technical specification, normative requirement creation, normative requirement active/inactive state, and evaluation classification.
 
 Missing product or system meaning returns to Design.
 
@@ -53,4 +54,4 @@ Downstream implementation, validation, review findings, generated artifacts, or 
 
 Planning Review evaluates the complete Planning result against selected Design.
 
-It checks scope, technical fidelity, normative completeness, evaluation classification, and whether mechanical evaluation is limited to reliably decidable obligations.
+It checks scope, technical fidelity, normative completeness, requirement state, evaluation classification, and whether mechanical evaluation is limited to active reliably decidable obligations.
