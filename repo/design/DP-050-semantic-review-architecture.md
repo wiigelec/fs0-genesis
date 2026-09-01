@@ -75,6 +75,15 @@ Agreement between user and agent is not evidence that a solution is correct.
 
 Complexity introduced primarily to support prior framework complexity is itself a reason to reconsider the earlier mechanism.
 
+## Further Design
+
+Semantic Review is decomposed into the following child Design documents:
+
+- DP-051 — Stage Review Architecture
+- DP-052 — Review Convergence Architecture
+
+These documents separate what each lifecycle review evaluates from how iterative review challenges, routes, corrects, and converges.
+
 ## Records
 
 Semantic Review is a working process, not a durable governance artifact.
