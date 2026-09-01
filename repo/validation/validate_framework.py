@@ -65,7 +65,20 @@ def task_planning_structure() -> None:
     if not SPEC.is_file():
         fail(f"missing FS-001 normative specification: {SPEC.relative_to(ROOT)}")
     fs_text = read(FUNCTIONAL_SET)
-    if f"design_revision: {EXPECTED_DESIGN_REVISION}" not in fs_text or f"`{EXPECTED_DESIGN_REVISION}`" not in fs_text:
+    match = re.search(r"^design_revision:\s*([0-9a-f]{40})\s*$", fs_text, flags=re.MULTILINE)
+    if not match:
+        fail("FS-001 Design revision is missing or not a well-formed 40-character lowercase Git SHA")
+    declared_revision = match.group(1)
+    cp = subprocess.run(
+        ["git", "cat-file", "-e", f"{declared_revision}^{{commit}}"],
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if cp.returncode != 0:
+        fail(f"FS-001 Design revision does not resolve to a Git commit: {declared_revision}")
+    if declared_revision != EXPECTED_DESIGN_REVISION or f"`{EXPECTED_DESIGN_REVISION}`" not in fs_text:
         fail("FS-001 does not bind the exact reviewed Design revision")
     parse_requirements()
 
