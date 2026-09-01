@@ -55,7 +55,6 @@ A discrepancy is corrected where the defective decision originated.
 
 Downstream stages should not conceal an upstream defect by inventing missing intent, changing scope, or redefining an obligation locally.
 
-If the correct owning stage is uncertain, review should identify the earliest stage whose decision must change for the discrepancy to be resolved correctly.
 
 ## Working Notes
 

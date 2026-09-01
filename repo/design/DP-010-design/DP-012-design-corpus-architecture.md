@@ -22,13 +22,13 @@ Generated metadata, indexes, summaries, embeddings, or other machine aids may as
 
 ## Document Identity
 
-Each Design document has one stable `DP-NNN` identity.
+Each Design document has one `DP-NNN` identity within a Design revision.
 
-The identity provides a durable way to refer to the document as the corpus evolves.
+The identity provides a concise way to refer to the document in that revision. When the corpus is intentionally reorganized, document identities may be renumbered as part of the same coherent revision.
 
-Stable identity applies at the document level.
+Historical interpretation remains bound to the exact Design revision consumed, so references remain unambiguous across renumbering.
 
-The framework does not require identities on every statement, paragraph, heading, or requirement-like sentence.
+Identity applies at the document level. The framework does not require identities on every statement, paragraph, heading, or requirement-like sentence.
 
 ## Document Relationships
 

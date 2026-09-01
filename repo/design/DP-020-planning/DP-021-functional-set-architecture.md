@@ -40,7 +40,7 @@ A Functional Set groups:
 - normative requirements; and
 - normative requirement evaluation classification.
 
-Build may later add the exact mechanical requirement-to-validation-task bindings required by the Functional Set.
+Build later creates the exact mechanical requirement-to-validation-task bindings needed to realize the Functional Set. Those bindings are repository state, not part of the Planning output.
 
 ## Boundaries
 
