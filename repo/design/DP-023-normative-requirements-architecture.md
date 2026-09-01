@@ -1,0 +1,57 @@
+---
+doc_id: DP-023
+title: Normative Requirements Architecture
+depends_on:
+  - DP-020
+  - DP-021
+---
+
+# Normative Requirements Architecture
+
+## Purpose
+
+Normative requirements are the precise obligations developed during Planning for one Functional Set.
+
+They provide stable statements that Build, Validation, and Semantic Review can evaluate without forcing normative syntax into human-oriented Design.
+
+## Derivation
+
+Normative requirements are derived from selected Design and Planning's technical interpretation of that Design.
+
+Their relationship to Design is not required to be one-to-one.
+
+One Design concept may produce zero, one, or multiple normative requirements, and one normative requirement may combine meaning from multiple Design concepts.
+
+Requirement identities are assigned during Planning.
+
+## Content
+
+A normative requirement should state one coherent obligation precisely enough to determine whether the realized work satisfies it.
+
+A requirement should preserve the intended meaning of its Design source without adding new product or architectural semantics.
+
+A requirement may express behavior, structure, constraints, invariants, compatibility, or other obligations that must hold for the Functional Set.
+
+## Evaluation Classification
+
+Every normative requirement must be classified during Planning as requiring:
+
+- mechanical evaluation;
+- semantic evaluation; or
+- both.
+
+Classification describes how the obligation can be judged. It does not require Planning to design the exact implementation of a mechanical validator.
+
+## Boundaries
+
+Normative requirements do not live inside the Plan and do not acquire authority from Build, Validation, review findings, historical behavior, or generated artifacts.
+
+If a requirement cannot be written without inventing missing semantic meaning, work returns to Design.
+
+If a requirement exposes a defective technical interpretation while Design remains sound, work remains in Planning.
+
+## Simplicity
+
+Requirements should be as precise as necessary and no more fragmented than useful.
+
+They should not be split merely to satisfy an identity scheme, validation framework, or one-requirement-one-test assumption.

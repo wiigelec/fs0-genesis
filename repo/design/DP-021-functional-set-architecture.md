@@ -1,0 +1,57 @@
+---
+doc_id: DP-021
+title: Functional Set Architecture
+depends_on:
+  - DP-020
+---
+
+# Functional Set Architecture
+
+## Purpose
+
+A Functional Set is the bounded unit of work selected during Planning.
+
+It groups the Planning outputs needed to realize one coherent and manageable end-to-end change without requiring the entire Design corpus to be implemented at once.
+
+## Selection
+
+Planning selects a Functional Set by comparing available Design with existing repository state and identifying a useful bounded change.
+
+The boundary should be large enough to produce meaningful working behavior and small enough to remain understandable, implementable, reviewable, and correctable.
+
+A Functional Set is selected from Design. It does not create or own Design meaning.
+
+## Design Binding
+
+Each Functional Set must identify the exact Design state consumed by Planning.
+
+A repository Git revision may identify the consumed Design corpus when one revision is sufficient to reproduce that state.
+
+The Functional Set must also identify the portion of Design selected for the work with enough precision to understand the intended scope.
+
+Design selection should remain lightweight. It should not require statement identities on every Design sentence merely to establish traceability.
+
+## Planning Context
+
+A Functional Set groups:
+
+- the selected Design scope;
+- the Plan;
+- normative requirements; and
+- normative requirement evaluation classification.
+
+Build may later add the exact mechanical requirement-to-validation-task bindings required by the Functional Set.
+
+## Boundaries
+
+A Functional Set does not need to describe every future implementation step or establish a complete implementation graph for the Design corpus.
+
+It does not require special root identities, generation numbering, predecessor ontologies, or lifecycle lineage unless a concrete repository need later justifies them.
+
+The Functional Set boundary should change only through Planning. If implementation reveals that the selected work cannot remain coherent within its current boundary, work returns to Planning.
+
+## Simplicity
+
+The Functional Set should contain only the information needed to identify the bounded work and relate its Planning outputs.
+
+Its representation should remain as simple as practicable while preserving scope, Design traceability, correctness, and necessary agent control.

@@ -96,6 +96,17 @@ Planning also does not own ordinary implementation correctness. Build realizes t
 
 A downstream Build, Validation task, or Semantic Review finding does not independently create or amend normative requirements.
 
+## Further Design
+
+Planning is decomposed into the following child Design documents:
+
+- DP-021 — Functional Set Architecture
+- DP-022 — Plan Architecture
+- DP-023 — Normative Requirements Architecture
+- DP-024 — Requirement Evaluation Architecture
+
+These documents refine the major Planning outputs without prescribing concrete storage schemas or repository paths.
+
 ## Planning Review
 
 Planning Review evaluates the complete Planning result against Design.
