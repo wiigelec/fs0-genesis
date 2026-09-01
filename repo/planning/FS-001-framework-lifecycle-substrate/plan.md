@@ -108,11 +108,11 @@ This preserves historical Planning without requiring a global normative-requirem
 
 ## Requirement Evaluation Classification
 
-Each requirement records one of:
+Each requirement records one classification encoded as:
 
-- `mechanical`
-- `semantic`
-- `both`
+- `M` — mechanical;
+- `S` — semantic; or
+- `B` — both mechanical and semantic.
 
 The classification belongs to Planning.
 
