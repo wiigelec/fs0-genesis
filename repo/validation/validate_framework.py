@@ -34,7 +34,7 @@ TASKS = (
 
 FS_BASENAME_RE = re.compile(r"^(FS-\d{3})-(.+)$")
 REQ_HEADING_RE = re.compile(r"^### (FS-\d{3}-NR-\d{3}) — .+$", re.MULTILINE)
-REQ_LIKE_HEADING_RE = re.compile(r"^### (FS-[^\n ]*-NR-[^\n ]*) — .+$", re.MULTILINE)
+ALL_H3_RE = re.compile(r"^### (.+)$", re.MULTILINE)
 REQ_RECORD_RE = re.compile(
     r"^### (FS-\d{3}-NR-\d{3}) — .+\n\n\*\*Classification: ([MSB])\*\*$",
     re.MULTILINE,
@@ -129,11 +129,15 @@ def parse_specification(spec_path: Path, fs_id: str) -> dict[str, str]:
     if not title or title.group(1) != fs_id:
         fail(f"{spec_path.name} specification identity does not match {fs_id}")
 
-    requirement_like = REQ_LIKE_HEADING_RE.findall(text)
+    all_h3 = ALL_H3_RE.findall(text)
     headings = REQ_HEADING_RE.findall(text)
-    malformed = sorted(set(requirement_like) - set(headings))
-    if malformed:
-        fail(f"{spec_path.name} contains malformed normative requirement identity: {malformed}")
+    if len(all_h3) != len(headings):
+        malformed = [
+            heading
+            for heading in all_h3
+            if not re.fullmatch(r"FS-\d{3}-NR-\d{3} — .+", heading)
+        ]
+        fail(f"{spec_path.name} contains malformed normative requirement heading: {malformed}")
 
     records = REQ_RECORD_RE.findall(text)
     if len(headings) != len(records):
@@ -547,16 +551,23 @@ def task_framework_regression() -> None:
             fail("descriptive Functional Set suffix must not create a second identity grammar")
 
         spec_path = specs / "FS-998-Fixture_Name.md"
-        spec_text = spec_path.read_text(encoding="utf-8")
-        spec_path.write_text(
-            spec_text + "\n### FS-998-NR-01 — Malformed requirement\n\n"
-            "**Classification: M**\n\nMalformed.\n",
-            encoding="utf-8",
-        )
-        expect_failure(
-            lambda: collect_requirements(planning, specs),
-            "malformed normative requirement identity",
-        )
+        base_spec = spec_path.read_text(encoding="utf-8")
+        for malformed_heading in (
+            "FS-998-NR-01 — Malformed requirement",
+            "FS-998-NR001 — Malformed requirement",
+            "FS998-NR-001 — Malformed requirement",
+            "FS-998-REQ-001 — Malformed requirement",
+        ):
+            spec_path.write_text(
+                base_spec
+                + f"\n### {malformed_heading}\n\n"
+                + "**Classification: M**\n\nMalformed.\n",
+                encoding="utf-8",
+            )
+            expect_failure(
+                lambda: collect_requirements(planning, specs),
+                "malformed normative requirement heading",
+            )
 
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
