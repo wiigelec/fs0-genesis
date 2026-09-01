@@ -13,7 +13,7 @@ depends_on:
 
 Build is the physical manifestation of Design and Planning.
 
-Build transforms the accepted Planning result for a Functional Set into actual repository state.
+Build transforms the reviewed Planning result for a Functional Set into actual repository state.
 
 ## Inputs
 
@@ -29,22 +29,28 @@ Build owns implementation correctness and ordinary code-level decisions.
 
 Build may make local implementation choices needed to realize the Plan correctly, including refactoring and integration decisions that do not change intended semantics, architecture, Functional Set scope, or normative obligations.
 
+Build should prefer the simplest implementation that faithfully realizes the reviewed Planning result and Design intent.
+
 ## Boundaries
 
 Build does not own missing Design meaning.
 
 Build does not invent consequential architecture or technical intent that Planning should have resolved.
 
+Build does not create or amend normative requirements merely through implementation behavior.
+
 Build does not broaden the Functional Set merely because additional work appears convenient.
 
 When implementation exposes a defect in an upstream decision, the work is routed back to the stage that owns that decision rather than silently repaired downstream.
 
-A semantic defect returns to Design. A technical specification defect returns to Planning. An implementation defect remains in Build.
+A semantic defect returns to Design. A technical specification or normative distillation defect returns to Planning. An implementation defect remains in Build.
 
 ## Build Review
 
 Build Review evaluates the realized repository state against both Planning and Design.
 
-The review determines whether the Build faithfully realizes the Plan, satisfies the Functional Set's intended meaning, stays within scope, and avoids accidental semantic or architectural drift.
+The review determines whether the Build faithfully realizes the Plan and normative requirements, preserves the underlying Design meaning, stays within Functional Set scope, and avoids accidental semantic or architectural drift.
+
+Build Review is also the semantic evaluation point for normative requirements routed to Semantic Review when those requirements concern the realized Build.
 
 Build Review is iterative. Implementation findings are corrected in Build, while upstream defects are routed back to Planning or Design.

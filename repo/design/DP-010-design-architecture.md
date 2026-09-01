@@ -57,6 +57,8 @@ Planning is not required to decompose or implement the entire Design corpus in o
 
 A Design document may depend semantically on other Design documents when those documents are required to interpret its meaning.
 
+Document dependencies describe semantic interpretation, not lifecycle execution order.
+
 ## Planning Boundary
 
 Design does not originate from a Functional Set.
@@ -74,6 +76,8 @@ If Planning discovers that a consequential semantic decision is missing or ambig
 Design Review evaluates Design for semantic completeness before that Design is relied upon by Planning.
 
 Review looks for missing meaning, ambiguity, contradiction, unresolved consequential decisions, unnecessary complexity, and failure to faithfully represent human intent.
+
+Design Review should also ask whether the Design contains machinery that can be removed or simplified without losing intended meaning, required behavior, correctness, necessary constraints, or necessary agent control.
 
 Design Review is iterative. Findings are corrected in Design and reviewed again until the relevant Design is sufficiently complete and coherent for Planning.
 

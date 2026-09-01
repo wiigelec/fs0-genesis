@@ -24,6 +24,10 @@ Planning may select only part of the available Design corpus for one Functional 
 
 A Functional Set provides the context that groups the Planning outputs for one bounded change.
 
+A Functional Set must identify the exact Design revision or revisions consumed by Planning. Later Design changes must not silently change the meaning of an already-developed Functional Set.
+
+Repository-native Git revision identity is sufficient when it uniquely identifies and preserves the consumed Design state.
+
 ## Planning Outputs
 
 Planning develops several related outputs for a Functional Set.
@@ -36,13 +40,15 @@ It translates selected Design into concrete technical structure, interfaces, beh
 
 The Plan should resolve consequential technical decisions while leaving ordinary code-level implementation decisions to Build.
 
+Planning should prefer the least complex technical specification and supporting machinery that faithfully realizes the selected Design.
+
 The Plan should not become exhaustive pseudocode or file-by-file instruction unless that level of detail is materially necessary to preserve correctness or intended architecture.
 
 ### Normative Requirements
 
 Planning develops normative requirements for the selected Functional Set.
 
-Normative requirements express precise obligations that Build and Validation can be held against. They are derived from Design and Planning's technical interpretation of that Design.
+Normative requirements express precise obligations that Build can be held against. They are derived from Design and Planning's technical interpretation of that Design.
 
 Normative requirements do not live in the Plan. They are a distinct Planning output.
 
@@ -50,15 +56,27 @@ Planning may derive zero, one, or multiple normative requirements from a Design 
 
 Normative requirement identities are assigned during Planning, not Design.
 
-### Validation Mapping
+A normative requirement may be mechanically decidable, semantically decidable, or contain both mechanical and semantic evaluation needs.
 
-Planning develops the intended mapping between normative requirements and their mechanical enforcement.
+Every normative requirement must identify how it is evaluated.
 
-The canonical relationship is:
+### Requirement Evaluation Manifest
 
-    normative requirement <-> validation task(s)
+Planning develops a simple canonical manifest that identifies how each normative requirement is evaluated.
 
-The mapping should be simple enough that a reader of a requirement can determine how it is enforced and a reader of an enforcement task can determine which requirement justifies it.
+A requirement may map to:
+
+    mechanical validation task(s)
+    semantic review
+    both
+
+Mechanical mappings identify the executable Validation task or tasks that enforce the mechanically decidable portion of the requirement.
+
+Semantic mappings identify only that the requirement must be evaluated by Semantic Review. They do not create review-case identities, rubrics, evidence manifests, finding records, or a separate semantic-review artifact hierarchy.
+
+A requirement must have at least one evaluation path.
+
+The manifest should allow a reader of a requirement to determine how it is evaluated and a reader of a mechanical enforcement task to determine which requirement justifies its existence.
 
 ## Design Traceability
 
@@ -66,20 +84,24 @@ Planning must remain traceable to the Design meaning it realizes.
 
 Traceability should be sufficient to answer where a Functional Set and its normative requirements came from without forcing Design into normative requirement syntax or requiring statement identities on every Design sentence.
 
-The exact mechanism for Design-to-Planning traceability may be refined later, but it should remain direct and lightweight.
+The exact Design revision binding identifies the Design state consumed by Planning. Additional traceability should remain direct and lightweight and should be added only when it materially improves understanding or control.
 
 ## Planning Boundary
 
-Planning owns technical specification, normative distillation, and Functional Set scope.
+Planning owns technical specification, normative distillation, requirement evaluation routing, and Functional Set scope.
 
 Planning does not own unresolved product meaning. If a consequential semantic choice is missing or ambiguous, work returns to Design.
 
 Planning also does not own ordinary implementation correctness. Build realizes the Plan and may choose ordinary code-level details that do not alter the intended technical or semantic result.
 
+A downstream Build, Validation task, or Semantic Review finding does not independently create or amend normative requirements.
+
 ## Plan Review
 
 Plan Review evaluates the complete Planning result against Design.
 
-Review determines whether the Functional Set is appropriately bounded, the Plan faithfully translates the selected Design, the normative requirements capture the obligations needed to realize that Design, and the planned validation is sufficient for mechanically enforceable requirements.
+Review determines whether the Functional Set is appropriately bounded, the Plan faithfully translates the selected Design, the normative requirements capture the obligations needed to realize that Design, and every normative requirement has an appropriate evaluation path.
+
+Plan Review also checks that mechanical evaluation is used only where an obligation is reliably mechanically decidable and that semantic obligations are not forced into artificial mechanical checks.
 
 Plan Review is iterative. Findings are corrected in Planning or routed back to Design when the defect is semantic.

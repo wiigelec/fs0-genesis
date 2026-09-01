@@ -11,9 +11,9 @@ depends_on:
 
 ## Purpose
 
-Validation mechanically enforces normative requirements and helps bound the AI agent.
+Validation mechanically enforces the mechanically decidable portions of normative requirements and helps bound the AI agent.
 
-Validation provides executable evidence that the Build satisfies requirements that can be determined mechanically.
+Validation determines whether observable Build state satisfies obligations that Planning identified as reliably mechanically enforceable.
 
 ## Normative Basis
 
@@ -23,33 +23,37 @@ Validation does not invent normative intent. Every validation task that performs
 
 Supporting validation implementation such as helpers, fixtures, parsers, loaders, or shared utilities does not require independent normative ownership unless it itself performs enforcement.
 
-## Validation Manifest
+## Requirement Evaluation Manifest
 
-A simple manifest provides the canonical mapping between normative requirements and their mechanical enforcement.
+The Requirement Evaluation Manifest is the canonical routing source for normative requirement evaluation.
 
-The core relationship is:
+For mechanical evaluation, the manifest maps a normative requirement to the Validation task or tasks that enforce its mechanically decidable obligations.
 
-    normative requirement <-> validation task(s)
+For semantic evaluation, the manifest defers the requirement to Semantic Review.
 
-The manifest should allow a reader of a requirement to determine how it is enforced and a reader of an enforcement task to determine which requirement justifies its existence.
+A requirement may use both paths when its meaning legitimately requires both mechanical enforcement and semantic judgment.
 
-The manifest should remain a direct mapping rather than becoming a second validation ontology or provenance graph.
+Semantic routing does not create a separate review artifact hierarchy.
 
 ## Scope of Validation
 
-Validation should enforce requirements that are meaningfully and reliably mechanically decidable.
+Validation should enforce only obligations that are meaningfully and reliably mechanically decidable.
+
+Semantic obligations must not be converted into artificial mechanical predicates merely to make them executable.
 
 Validation should remain proportional to the behavior and risk it protects. It should not become more complicated than the project merely to prove that its own framework is internally complete.
 
-Validation infrastructure should be introduced only when it materially improves enforcement, understandability, reuse, or reliability.
+Validation infrastructure should be introduced only when it materially improves enforcement, understandability, reuse, reliability, or necessary agent control.
 
 ## Organization
 
 Validation should remain understandable when inspected locally.
 
-An enforcement task should have a clear purpose, descriptive behavior, and obvious relationship to the requirement it enforces.
+An enforcement task should have a clear purpose, descriptive behavior, and direct relationship to the requirement it enforces.
 
 Validation code should be organized around the behavior being protected rather than around framework metadata categories.
+
+The canonical manifest provides requirement traceability. Supporting helpers do not need independent provenance records merely because they participate in Validation.
 
 ## Execution
 
@@ -63,4 +67,6 @@ Passing validation is a gate condition, not a separately accepted or documented 
 
 Mechanical validation cannot determine every semantic property of a system.
 
-Questions of completeness, faithful interpretation, unnecessary complexity, scope meaning, and semantic alignment belong to Semantic Review rather than being forced into mechanical validation.
+Requirements routed to Semantic Review are evaluated semantically rather than being forced into mechanical Validation.
+
+Questions of completeness, faithful interpretation, unnecessary complexity, scope meaning, and semantic alignment belong to Semantic Review.
