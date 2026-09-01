@@ -17,7 +17,7 @@ Validation does not define normative intent. Its enforcement basis comes from Pl
 
 ## Architecture
 
-Planning owns each normative requirement's active/inactive state and classifies each active requirement as mechanical, semantic, or both. Inactive requirements carry no current Validation or Semantic Review obligation.
+Planning owns each normative requirement's active/inactive state and classifies each requirement as mechanical, semantic, or both. Classification is retained while inactive, but inactive requirements carry no current Validation or Semantic Review obligation.
 
 Build constructs the concrete mechanical enforcement and records exact requirement-to-task bindings in the durable Requirement Evaluation Manifest.
 

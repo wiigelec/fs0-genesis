@@ -24,7 +24,7 @@ For each Functional Set, Planning produces:
 - a Plan describing consequential technical intent;
 - normative requirements stating precise obligations;
 - current normative requirement state, active or inactive; and
-- evaluation classification identifying each active requirement as mechanical, semantic, or both.
+- evaluation classification identifying each requirement as mechanical, semantic, or both.
 
 Planning does not need to identify exact mechanical validation tasks before Build constructs them.
 
