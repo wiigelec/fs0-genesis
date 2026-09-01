@@ -20,7 +20,7 @@ Validation execution consumes:
 
 - candidate Build state;
 - mechanical enforcement tasks; and
-- the direct requirement-to-task bindings produced during Build.
+- the durable Requirement Evaluation Manifest containing the direct mechanical requirement-to-task bindings produced during Build.
 
 The mechanical enforcement tasks are the executable implementation of obligations Planning classified for mechanical evaluation.
 

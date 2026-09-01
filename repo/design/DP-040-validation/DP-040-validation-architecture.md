@@ -17,13 +17,13 @@ Validation does not define normative intent. Its enforcement basis comes from Pl
 
 ## Architecture
 
-The Requirement Evaluation Manifest identifies how normative requirements are evaluated.
+Planning classifies each normative requirement as mechanical, semantic, or both.
 
-Planning classifies each requirement as mechanical, semantic, or both.
+Build constructs the concrete mechanical enforcement and records exact requirement-to-task bindings in the durable Requirement Evaluation Manifest.
 
-Build records the exact requirement-to-task bindings for mechanically evaluated obligations.
+The manifest is repository state outside the lifecycle document hierarchy. It exists to make concrete mechanical enforcement traceable, not to contain or own Planning intent.
 
-Validation executes those tasks against candidate repository state and interprets their mechanical pass or fail result.
+Validation consumes the manifest and the referenced enforcement tasks, executes the applicable checks against candidate repository state, and interprets their mechanical pass or fail result.
 
 Only reliably mechanically decidable obligations belong in mechanical Validation.
 
@@ -32,11 +32,8 @@ Only reliably mechanically decidable obligations belong in mechanical Validation
 Validation is decomposed into:
 
 - DP-041 — Validation Execution Architecture
-- DP-042 — Validation Gate Architecture
 
-DP-041 defines execution and failure routing.
-
-DP-042 defines the mechanical gate that must be satisfied before acceptance is possible.
+DP-041 defines execution, result meaning, and failure routing.
 
 ## Boundaries
 
@@ -47,3 +44,5 @@ Project-native test and validation mechanisms should be reused when they can enf
 Semantic completeness, faithful interpretation, unnecessary complexity, scope meaning, and other non-mechanical judgments remain with Semantic Review.
 
 Passing Validation is a gate condition, not acceptance and not a separate durable lifecycle result.
+
+All required mechanical validation applicable to the candidate must pass before the candidate is eligible for acceptance. Optional diagnostic, exploratory, performance, development, or informational checks do not become acceptance gates unless Planning establishes a normative obligation that makes them required.

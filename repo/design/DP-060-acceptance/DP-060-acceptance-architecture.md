@@ -27,7 +27,7 @@ The development branch contains candidate work.
 
 ## Preconditions
 
-Applicable mechanical Validation must pass and required Semantic Review must converge before a candidate is eligible for acceptance.
+All required mechanical Validation applicable to the candidate must pass and required Semantic Review must converge before a candidate is eligible for acceptance.
 
 If a prerequisite is unsatisfied, the owning stage is corrected and the candidate remains on the development branch.
 

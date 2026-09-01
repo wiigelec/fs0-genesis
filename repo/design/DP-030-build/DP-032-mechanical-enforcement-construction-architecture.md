@@ -44,7 +44,9 @@ The binding should be direct enough to answer both directions:
 - which Validation task enforces this requirement?; and
 - which normative requirement justifies this Validation task?
 
-This direct mapping is the mechanical portion of the Requirement Evaluation Manifest.
+Build records this direct mapping in the durable Requirement Evaluation Manifest.
+
+The manifest is repository state outside the Build hierarchy. Build is responsible for creating and maintaining the mechanical bindings it contributes, but the artifact itself is not a child or owned storage location of Build.
 
 The direct requirement-to-task mapping is sufficient unless a concrete enforcement need requires additional structure.
 
