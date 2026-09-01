@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import importlib.util
+import json
+import os
+import sys
+from pathlib import Path
+
+sys.dont_write_bytecode = True
+os.environ["PYTHONDONTWRITEBYTECODE"] = "1"
+
+ROOT = Path(__file__).resolve().parents[2]
+ENGINE = ROOT / "repo/runtime/repo_spec/conformance.py"
+
+
+def load_engine():
+    spec = importlib.util.spec_from_file_location("fs0_conformance_engine", ENGINE)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"unable to load canonical Conformance engine: {ENGINE}")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--verbose", action="store_true")
+    parser.add_argument("--json", action="store_true")
+    args = parser.parse_args()
+
+    try:
+        engine = load_engine()
+        report = engine.run(ROOT)
+    except Exception as exc:
+        report = {
+            "schema_version": "1",
+            "disposition": "INCOMPLETE",
+            "configuration_errors": [str(exc)],
+            "results": [],
+        }
+
+    if args.json:
+        print(json.dumps(report, indent=2))
+    elif args.verbose:
+        print(f"FS0 Conformance: {report['disposition']}")
+        for result in report.get("results", []):
+            print(f"{result['status'].upper():4} {result['assertion_id']} {result['detail']}")
+        for error in report.get("configuration_errors", []):
+            print(f"ERROR {error}")
+    else:
+        failed = [
+            result
+            for result in report.get("results", [])
+            if result.get("status") != "pass"
+        ]
+        suffix = f" ({len(failed)} failed)" if failed else ""
+        print(f"FS0 Conformance: {report['disposition']}{suffix}")
+        for result in failed:
+            print(
+                f"{result.get('status', 'fail').upper():4} "
+                f"{result.get('assertion_id', '<unknown>')} "
+                f"{result.get('detail', '')}"
+            )
+        for error in report.get("configuration_errors", []):
+            print(f"ERROR {error}")
+
+    return {"PASS": 0, "FAIL": 1, "INCOMPLETE": 2}[report["disposition"]]
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
