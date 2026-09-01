@@ -51,6 +51,14 @@ The framework does not maintain a parallel acceptance history when Git already r
 
 The current `main` state is the current accepted state.
 
+## Further Design
+
+Acceptance is decomposed into the following child Design document:
+
+- DP-061 — Branch Integration Acceptance Architecture
+
+This document refines the candidate-to-accepted branch-state transition and its prerequisites without introducing a parallel acceptance record system.
+
 ## Boundaries
 
 Repository activity other than intentional integration into `main` does not need to be modeled as a separate acceptance concept.
