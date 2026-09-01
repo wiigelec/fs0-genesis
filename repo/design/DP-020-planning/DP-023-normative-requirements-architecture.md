@@ -24,6 +24,8 @@ One Design concept may produce zero, one, or multiple normative requirements, an
 
 Requirement identities are assigned during Planning.
 
+Once created, a normative requirement's identity and normative text are stable. Planning does not change the meaning of an existing requirement in place. If the obligation itself changes, Planning creates a new normative requirement and may inactivate the earlier requirement.
+
 ## Content
 
 A normative requirement should state one coherent obligation precisely enough to determine whether the realized work satisfies it.
@@ -32,18 +34,27 @@ A requirement should preserve the intended meaning of its Design source without 
 
 A requirement may express behavior, structure, constraints, invariants, compatibility, or other obligations that must hold for the Functional Set.
 
+## Requirement State
+
+Every normative requirement has a current Planning-owned state.
+
+A requirement is active by default. Planning may mark it inactive and may later reactivate it.
+
+Inactive state is represented separately from evaluation classification. An inactive requirement remains defined but carries no current implementation, mechanical-evaluation, or semantic-evaluation obligation.
+
+Changing active/inactive state does not change the requirement's identity or normative text.
+
 ## Evaluation Classification
 
-Every normative requirement must have one current Planning classification:
+Every normative requirement has one current Planning evaluation classification:
 
 - mechanical evaluation;
-- semantic evaluation;
-- both mechanical and semantic evaluation; or
-- inactive.
+- semantic evaluation; or
+- both mechanical and semantic evaluation.
 
-The mechanical, semantic, and both classifications describe how an active obligation is judged. They do not require Planning to design the exact implementation of a mechanical validator.
+Evaluation classification is independent of requirement state. For an active requirement, the classification determines how the current obligation is judged. For an inactive requirement, the classification is retained but creates no current mechanical-evaluation or semantic-evaluation obligation.
 
-Inactive means the requirement remains defined but carries no current mechanical or semantic evaluation obligation. Planning owns the decision to make a requirement inactive and must represent that state consistently in the Planning artifacts consumed by Build and Validation.
+Evaluation classification does not represent requirement lifecycle state and does not require Planning to design the exact implementation of a mechanical validator.
 
 ## Boundaries
 

@@ -17,7 +17,7 @@ Validation does not define normative intent. Its enforcement basis comes from Pl
 
 ## Architecture
 
-Planning classifies each normative requirement as mechanical, semantic, or both.
+Planning owns each normative requirement's active/inactive state and classifies each requirement as mechanical, semantic, or both. Classification is retained while inactive, but inactive requirements carry no current Validation or Semantic Review obligation.
 
 Build constructs the concrete mechanical enforcement and records exact requirement-to-task bindings in the durable Requirement Evaluation Manifest.
 
@@ -29,7 +29,7 @@ Only reliably mechanically decidable obligations belong in mechanical Validation
 
 ## Execution
 
-Validation runs each required mechanical enforcement task applicable to the candidate.
+Validation runs each required mechanical enforcement task justified by active normative requirements and applicable to the candidate.
 
 It may use ordinary test runners, scripts, linters, build commands, repository checks, or other project-native mechanisms. A universal validation runner is not required when existing tooling can execute the required checks reliably.
 

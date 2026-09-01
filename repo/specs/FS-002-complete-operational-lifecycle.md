@@ -36,17 +36,17 @@ Canonical Validation shall parse normative requirements for every discovered Fun
 
 Every current normative requirement shall have a unique identity of the form `FS-NNN-NR-NNN` whose Functional Set prefix matches its owning specification.
 
-### FS-002-NR-007 — Evaluation Classification
+### FS-002-NR-007 — Evaluation Classification and Requirement State
 
 **Classification: M**
 
-Every current normative requirement shall record exactly one evaluation classification encoded as `M`, `S`, `B`, or `I`, where `I` means Inactive.
+Every current normative requirement shall record exactly one evaluation classification encoded as `M`, `S`, or `B`. A normative requirement shall be active by default and may be marked `Inactive` separately from its evaluation classification.
 
-### FS-002-NR-008 — Current Mechanical Applicability Representation
+### FS-002-NR-008 — Current Requirement State and Mechanical Applicability
 
 **Classification: B**
 
-A normative requirement classified `I` (Inactive) in its canonical specification shall also be marked by the exact line `I FS-NNN-NR-NNN` in its owning Functional Set Plan, and every such Plan marker shall correspond to an `I` classification in that specification. Requirements classified `M` or `B` shall have a Requirement Evaluation Manifest binding for their mechanically decidable portion. Requirements classified `S` or `I` shall have no manifest binding.
+A normative requirement marked `**State: Inactive**` in its canonical specification shall remain defined but shall have no current implementation, mechanical-evaluation, or semantic-evaluation obligation and no Requirement Evaluation Manifest binding. A requirement without that marker is active. Every active requirement classified `M` or `B` shall have a Requirement Evaluation Manifest binding for its mechanically decidable portion, while active requirements classified `S` shall have no manifest binding.
 
 ### FS-002-NR-009 — Manifest Requirement Resolution
 

@@ -37,10 +37,11 @@ A Functional Set groups:
 
 - the selected Design scope;
 - the Plan;
-- normative requirements; and
+- normative requirements;
+- current normative requirement active/inactive state; and
 - normative requirement evaluation classification.
 
-Build later creates the exact mechanical requirement-to-validation-task bindings needed to realize the Functional Set. Those bindings are repository state, not part of the Planning output.
+Planning may later inactivate or reactivate a normative requirement without changing its identity or normative text. Build later creates the exact mechanical requirement-to-validation-task bindings needed to realize the currently active obligations of the Functional Set. Those bindings are repository state, not part of the Planning output.
 
 ## Boundaries
 
