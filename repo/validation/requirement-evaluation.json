@@ -92,6 +92,117 @@
       "tasks": [
         "validation-gate"
       ]
+    },
+    {
+      "requirement": "FS-002-NR-001",
+      "tasks": [
+        "planning-structure",
+        "framework-regression"
+      ]
+    },
+    {
+      "requirement": "FS-002-NR-002",
+      "tasks": [
+        "planning-structure",
+        "framework-regression"
+      ]
+    },
+    {
+      "requirement": "FS-002-NR-003",
+      "tasks": [
+        "planning-structure",
+        "framework-regression"
+      ]
+    },
+    {
+      "requirement": "FS-002-NR-004",
+      "tasks": [
+        "planning-structure",
+        "framework-regression"
+      ]
+    },
+    {
+      "requirement": "FS-002-NR-005",
+      "tasks": [
+        "planning-structure",
+        "framework-regression"
+      ]
+    },
+    {
+      "requirement": "FS-002-NR-006",
+      "tasks": [
+        "planning-structure"
+      ]
+    },
+    {
+      "requirement": "FS-002-NR-007",
+      "tasks": [
+        "planning-structure"
+      ]
+    },
+    {
+      "requirement": "FS-002-NR-008",
+      "tasks": [
+        "manifest-integrity",
+        "framework-regression"
+      ]
+    },
+    {
+      "requirement": "FS-002-NR-009",
+      "tasks": [
+        "manifest-integrity",
+        "framework-regression"
+      ]
+    },
+    {
+      "requirement": "FS-002-NR-010",
+      "tasks": [
+        "manifest-integrity",
+        "framework-regression"
+      ]
+    },
+    {
+      "requirement": "FS-002-NR-011",
+      "tasks": [
+        "manifest-integrity"
+      ]
+    },
+    {
+      "requirement": "FS-002-NR-012",
+      "tasks": [
+        "framework-regression"
+      ]
+    },
+    {
+      "requirement": "FS-002-NR-013",
+      "tasks": [
+        "validation-entrypoint"
+      ]
+    },
+    {
+      "requirement": "FS-002-NR-014",
+      "tasks": [
+        "validation-gate"
+      ]
+    },
+    {
+      "requirement": "FS-002-NR-015",
+      "tasks": [
+        "ci-delegation"
+      ]
+    },
+    {
+      "requirement": "FS-002-NR-016",
+      "tasks": [
+        "planning-structure",
+        "manifest-integrity"
+      ]
+    },
+    {
+      "requirement": "FS-002-NR-021",
+      "tasks": [
+        "docs-alignment"
+      ]
     }
   ]
 }

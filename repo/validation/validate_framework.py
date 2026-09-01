@@ -6,23 +6,41 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from typing import Callable
 
 ROOT = Path(__file__).resolve().parents[2]
 DESIGN = ROOT / "repo" / "design"
-PLANNING = ROOT / "repo" / "planning" / "FS-001-framework-lifecycle-substrate"
-FUNCTIONAL_SET = PLANNING / "functional-set.md"
-PLAN = PLANNING / "plan.md"
-SPEC = ROOT / "repo" / "specs" / "FS-001-framework-lifecycle-substrate.md"
+PLANNING_ROOT = ROOT / "repo" / "planning"
+SPECS_ROOT = ROOT / "repo" / "specs"
 MANIFEST = ROOT / "repo" / "validation" / "requirement-evaluation.json"
 ENTRYPOINT = ROOT / "repo" / "scripts" / "validate"
 README = ROOT / "README.md"
 AGENTS = ROOT / "AGENTS.md"
 OLD_WORKFLOW = ROOT / ".github" / "workflows" / "fs0-conformance.yml"
 WORKFLOW = ROOT / ".github" / "workflows" / "validation.yml"
-EXPECTED_DESIGN_REVISION = "c1012693f67584ec723c572fcce8d4c5ae7e12a8"
-TASKS = ("design-corpus", "planning-structure", "manifest-integrity", "validation-entrypoint", "docs-alignment", "ci-delegation", "validation-gate")
+
+TASKS = (
+    "design-corpus",
+    "planning-structure",
+    "manifest-integrity",
+    "validation-entrypoint",
+    "docs-alignment",
+    "ci-delegation",
+    "validation-gate",
+    "framework-regression",
+)
+
+FS_BASENAME_RE = re.compile(r"^(FS-\d{3})-[a-z0-9][a-z0-9-]*$")
+REQ_HEADING_RE = re.compile(r"^### (FS-\d{3}-NR-\d{3}) — .+$", re.MULTILINE)
+REQ_RECORD_RE = re.compile(
+    r"^### (FS-\d{3}-NR-\d{3}) — .+\n\n\*\*Classification: ([MSB])\*\*$",
+    re.MULTILINE,
+)
+
+# FS-001 has an explicit mechanical requirement naming the exact Design revision.
+FS001_DESIGN_REVISION = "c1012693f67584ec723c572fcce8d4c5ae7e12a8"
 
 
 def fail(message: str) -> None:
@@ -31,20 +49,195 @@ def fail(message: str) -> None:
 
 def read(path: Path) -> str:
     if not path.is_file():
-        fail(f"missing file: {path.relative_to(ROOT)}")
+        try:
+            rel = path.relative_to(ROOT)
+        except ValueError:
+            rel = path
+        fail(f"missing file: {rel}")
     return path.read_text(encoding="utf-8")
 
 
-def parse_requirements() -> dict[str, str]:
-    text = read(SPEC)
-    matches = list(re.finditer(r"^### (FS-001-NR-\d{3}) — .+\n\n\*\*Classification: ([MSB])\*\*$", text, flags=re.MULTILINE))
-    result = {m.group(1): m.group(2) for m in matches}
-    if len(matches) != 28 or len(result) != 28:
-        fail("expected 28 unique FS-001 normative requirements")
-    expected = {f"FS-001-NR-{i:03d}" for i in range(1, 29)}
-    if set(result) != expected:
-        fail("FS-001 requirement identities must be exactly FS-001-NR-001..028")
+def git_commit_exists(revision: str) -> bool:
+    cp = subprocess.run(
+        ["git", "cat-file", "-e", f"{revision}^{{commit}}"],
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    return cp.returncode == 0
+
+
+def discover_functional_sets(
+    planning_root: Path = PLANNING_ROOT,
+    specs_root: Path = SPECS_ROOT,
+) -> list[tuple[str, str, Path, Path]]:
+    planning: dict[str, tuple[str, Path]] = {}
+    specs: dict[str, tuple[str, Path]] = {}
+
+    if not planning_root.is_dir():
+        fail("repo/planning must exist")
+    if not specs_root.is_dir():
+        fail("repo/specs must exist")
+
+    for path in planning_root.iterdir():
+        if not path.is_dir() or not path.name.startswith("FS-"):
+            continue
+        match = FS_BASENAME_RE.fullmatch(path.name)
+        if not match:
+            fail(f"invalid Functional Set Planning directory name: {path.name}")
+        fs_id = match.group(1)
+        if fs_id in planning:
+            fail(f"duplicate Functional Set Planning identity: {fs_id}")
+        planning[fs_id] = (path.name, path)
+
+    for path in specs_root.iterdir():
+        if not path.is_file() or path.suffix != ".md" or not path.name.startswith("FS-"):
+            continue
+        match = FS_BASENAME_RE.fullmatch(path.stem)
+        if not match:
+            fail(f"invalid Functional Set specification name: {path.name}")
+        fs_id = match.group(1)
+        if fs_id in specs:
+            fail(f"duplicate Functional Set specification identity: {fs_id}")
+        specs[fs_id] = (path.stem, path)
+
+    if set(planning) != set(specs):
+        fail(
+            "Functional Set Planning/specification correspondence mismatch; "
+            f"planning_only={sorted(set(planning)-set(specs))}, "
+            f"spec_only={sorted(set(specs)-set(planning))}"
+        )
+
+    result = []
+    for fs_id in sorted(planning):
+        planning_name, planning_dir = planning[fs_id]
+        spec_name, spec_path = specs[fs_id]
+        if planning_name != spec_name:
+            fail(
+                f"Functional Set Planning/specification basename mismatch for {fs_id}: "
+                f"{planning_name} != {spec_name}"
+            )
+        result.append((fs_id, planning_name, planning_dir, spec_path))
     return result
+
+
+def parse_specification(spec_path: Path, fs_id: str) -> dict[str, str]:
+    text = read(spec_path)
+    title = re.search(r"^# (FS-\d{3})\b", text, flags=re.MULTILINE)
+    if not title or title.group(1) != fs_id:
+        fail(f"{spec_path.name} specification identity does not match {fs_id}")
+
+    headings = REQ_HEADING_RE.findall(text)
+    records = REQ_RECORD_RE.findall(text)
+    if len(headings) != len(records):
+        fail(f"{spec_path.name} contains a requirement with missing or invalid Classification")
+
+    result: dict[str, str] = {}
+    for req, classification in records:
+        if not req.startswith(fs_id + "-NR-"):
+            fail(f"{spec_path.name} requirement identity does not match owning Functional Set: {req}")
+        if req in result:
+            fail(f"duplicate normative requirement identity: {req}")
+        result[req] = classification
+
+    if not result:
+        fail(f"{spec_path.name} contains no normative requirements")
+    return result
+
+
+def validate_functional_set(
+    fs_id: str,
+    planning_dir: Path,
+    spec_path: Path,
+) -> dict[str, str]:
+    functional_set = planning_dir / "functional-set.md"
+    plan = planning_dir / "plan.md"
+    for path in (functional_set, plan):
+        if not path.is_file():
+            fail(f"missing {fs_id} Planning artifact: {path.name}")
+
+    fs_text = read(functional_set)
+    id_match = re.search(r"^functional_set:\s*(FS-\d{3})\s*$", fs_text, flags=re.MULTILINE)
+    if not id_match or id_match.group(1) != fs_id:
+        fail(f"{fs_id} functional-set.md identity mismatch")
+
+    revision_match = re.search(
+        r"^design_revision:\s*([0-9a-f]{40})\s*$",
+        fs_text,
+        flags=re.MULTILINE,
+    )
+    if not revision_match:
+        fail(f"{fs_id} Design revision is missing or not a well-formed 40-character lowercase Git SHA")
+    revision = revision_match.group(1)
+    if not git_commit_exists(revision):
+        fail(f"{fs_id} Design revision does not resolve to a Git commit: {revision}")
+
+    if fs_id == "FS-001" and revision != FS001_DESIGN_REVISION:
+        fail("FS-001 does not identify its exact normative Design revision")
+
+    return parse_specification(spec_path, fs_id)
+
+
+def collect_requirements(
+    planning_root: Path = PLANNING_ROOT,
+    specs_root: Path = SPECS_ROOT,
+) -> dict[str, str]:
+    requirements: dict[str, str] = {}
+    for fs_id, _, planning_dir, spec_path in discover_functional_sets(planning_root, specs_root):
+        parsed = validate_functional_set(fs_id, planning_dir, spec_path)
+        overlap = set(requirements) & set(parsed)
+        if overlap:
+            fail(f"duplicate normative requirement identities across specifications: {sorted(overlap)}")
+        requirements.update(parsed)
+    return requirements
+
+
+def load_manifest(path: Path = MANIFEST) -> dict:
+    try:
+        data = json.loads(read(path))
+    except json.JSONDecodeError as exc:
+        fail(f"invalid Requirement Evaluation Manifest JSON: {exc}")
+    if data.get("version") != 1 or not isinstance(data.get("bindings"), list):
+        fail("invalid Requirement Evaluation Manifest structure")
+    return data
+
+
+def validate_manifest_data(
+    requirements: dict[str, str],
+    data: dict,
+    tasks: tuple[str, ...] = TASKS,
+) -> None:
+    bindings = data["bindings"]
+    seen: set[str] = set()
+    task_to_requirements = {task: set() for task in tasks}
+
+    for binding in bindings:
+        if not isinstance(binding, dict):
+            fail("manifest binding must be an object")
+        req = binding.get("requirement")
+        bound_tasks = binding.get("tasks")
+        if req not in requirements:
+            fail(f"manifest references unknown requirement: {req}")
+        if requirements[req] not in {"M", "B"}:
+            fail(f"manifest references semantic-only requirement: {req}")
+        if req in seen:
+            fail(f"duplicate manifest binding for requirement: {req}")
+        seen.add(req)
+        if (
+            not isinstance(bound_tasks, list)
+            or not bound_tasks
+            or len(bound_tasks) != len(set(bound_tasks))
+        ):
+            fail(f"invalid task list for {req}")
+        for task in bound_tasks:
+            if task not in tasks:
+                fail(f"manifest references unknown Validation task: {task}")
+            task_to_requirements[task].add(req)
+
+    unjustified = sorted(task for task, reqs in task_to_requirements.items() if not reqs)
+    if unjustified:
+        fail(f"Validation tasks without current normative justification: {unjustified}")
 
 
 def task_design_corpus() -> None:
@@ -59,67 +252,12 @@ def task_design_corpus() -> None:
 
 
 def task_planning_structure() -> None:
-    for path in (FUNCTIONAL_SET, PLAN):
-        if not path.is_file():
-            fail(f"missing FS-001 Planning artifact: {path.relative_to(ROOT)}")
-    if not SPEC.is_file():
-        fail(f"missing FS-001 normative specification: {SPEC.relative_to(ROOT)}")
-    fs_text = read(FUNCTIONAL_SET)
-    match = re.search(r"^design_revision:\s*([0-9a-f]{40})\s*$", fs_text, flags=re.MULTILINE)
-    if not match:
-        fail("FS-001 Design revision is missing or not a well-formed 40-character lowercase Git SHA")
-    declared_revision = match.group(1)
-    cp = subprocess.run(
-        ["git", "cat-file", "-e", f"{declared_revision}^{{commit}}"],
-        cwd=ROOT,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-    if cp.returncode != 0:
-        fail(f"FS-001 Design revision does not resolve to a Git commit: {declared_revision}")
-    if declared_revision != EXPECTED_DESIGN_REVISION or f"`{EXPECTED_DESIGN_REVISION}`" not in fs_text:
-        fail("FS-001 does not bind the exact reviewed Design revision")
-    parse_requirements()
-
-
-def load_manifest() -> dict:
-    try:
-        data = json.loads(read(MANIFEST))
-    except json.JSONDecodeError as exc:
-        fail(f"invalid Requirement Evaluation Manifest JSON: {exc}")
-    if data.get("version") != 1 or not isinstance(data.get("bindings"), list):
-        fail("invalid Requirement Evaluation Manifest structure")
-    return data
+    collect_requirements()
 
 
 def task_manifest_integrity() -> None:
-    requirements = parse_requirements()
-    bindings = load_manifest()["bindings"]
-    seen = set()
-    task_to_requirements = {task: set() for task in TASKS}
-    for binding in bindings:
-        if not isinstance(binding, dict):
-            fail("manifest binding must be an object")
-        req = binding.get("requirement")
-        tasks = binding.get("tasks")
-        if req not in requirements:
-            fail(f"manifest references unknown requirement: {req}")
-        if req in seen:
-            fail(f"duplicate manifest binding for requirement: {req}")
-        seen.add(req)
-        if not isinstance(tasks, list) or not tasks or len(tasks) != len(set(tasks)):
-            fail(f"invalid task list for {req}")
-        for task in tasks:
-            if task not in TASKS:
-                fail(f"manifest references unknown Validation task: {task}")
-            task_to_requirements[task].add(req)
-    mechanical = {req for req, cls in requirements.items() if cls in {"M", "B"}}
-    if seen != mechanical:
-        fail(f"manifest binding set mismatch; missing={sorted(mechanical-seen)}, extra={sorted(seen-mechanical)}")
-    unbound = sorted(task for task, reqs in task_to_requirements.items() if not reqs)
-    if unbound:
-        fail(f"Validation tasks without normative justification: {unbound}")
+    requirements = collect_requirements()
+    validate_manifest_data(requirements, load_manifest())
 
 
 def task_validation_entrypoint() -> None:
@@ -128,7 +266,13 @@ def task_validation_entrypoint() -> None:
         fail("repo/scripts/validate must be executable")
     if "repo/validation/validate_framework.py" not in text:
         fail("repo/scripts/validate must delegate to the project-native validator")
-    cp = subprocess.run([str(ENTRYPOINT), "--task", "__invalid_required_task__"], cwd=ROOT, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    cp = subprocess.run(
+        [str(ENTRYPOINT), "--task", "__invalid_required_task__"],
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
     if cp.returncode == 0:
         fail("canonical Validation did not fail for an invalid required task")
 
@@ -147,7 +291,15 @@ def task_docs_alignment() -> None:
             fail(f"AGENTS.md missing defect route: {route}")
     if "Do not infer current normative intent from `repo_old/`" not in agents:
         fail("AGENTS.md must deny repo_old normative intent")
-    retired = ("canonical mechanical Conformance", "accepted Governance", "Governance acceptance", "FS0 Conformance", "Assurance —", "Conformance —", "Authority —")
+    retired = (
+        "canonical mechanical Conformance",
+        "accepted Governance",
+        "Governance acceptance",
+        "FS0 Conformance",
+        "Assurance —",
+        "Conformance —",
+        "Authority —",
+    )
     combined = readme + "\n" + agents
     for phrase in retired:
         if phrase in combined:
@@ -181,6 +333,135 @@ def task_validation_gate() -> None:
         fail("Validation aggregation must pass when all required tasks pass")
 
 
+def write_fixture_fs(
+    planning_root: Path,
+    specs_root: Path,
+    basename: str,
+    fs_id: str,
+    revision: str,
+    requirement_id: str,
+    classification: str,
+) -> None:
+    planning_dir = planning_root / basename
+    planning_dir.mkdir(parents=True)
+    (planning_dir / "functional-set.md").write_text(
+        f"---\nfunctional_set: {fs_id}\ntitle: Fixture\ndesign_revision: {revision}\n---\n",
+        encoding="utf-8",
+    )
+    (planning_dir / "plan.md").write_text("# Fixture Plan\n", encoding="utf-8")
+    (specs_root / f"{basename}.md").write_text(
+        f"# {fs_id} — Fixture\n\n"
+        f"### {requirement_id} — Fixture requirement\n\n"
+        f"**Classification: {classification}**\n\nFixture obligation.\n",
+        encoding="utf-8",
+    )
+
+
+def expect_failure(fn: Callable[[], object], contains: str) -> None:
+    try:
+        fn()
+    except Exception as exc:
+        if contains not in str(exc):
+            fail(f"regression expected diagnostic containing {contains!r}, observed: {exc}")
+    else:
+        fail(f"regression expected failure containing {contains!r}")
+
+
+def task_framework_regression() -> None:
+    head = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=True,
+    ).stdout.strip()
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        planning = root / "planning"
+        specs = root / "specs"
+        planning.mkdir()
+        specs.mkdir()
+
+        write_fixture_fs(
+            planning,
+            specs,
+            "FS-998-fixture",
+            "FS-998",
+            head,
+            "FS-998-NR-001",
+            "S",
+        )
+        reqs = collect_requirements(planning, specs)
+        if reqs != {"FS-998-NR-001": "S"}:
+            fail("generic later Functional Set discovery/parsing regression failed")
+
+        (specs / "FS-998-fixture.md").unlink()
+        expect_failure(
+            lambda: collect_requirements(planning, specs),
+            "correspondence mismatch",
+        )
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        planning = root / "planning"
+        specs = root / "specs"
+        planning.mkdir()
+        specs.mkdir()
+
+        write_fixture_fs(
+            planning,
+            specs,
+            "FS-998-fixture",
+            "FS-998",
+            "0" * 40,
+            "FS-998-NR-001",
+            "M",
+        )
+        expect_failure(
+            lambda: collect_requirements(planning, specs),
+            "does not resolve to a Git commit",
+        )
+
+        fs_path = planning / "FS-998-fixture" / "functional-set.md"
+        text = fs_path.read_text(encoding="utf-8").replace(
+            "functional_set: FS-998",
+            "functional_set: FS-997",
+        )
+        fs_path.write_text(text.replace("0" * 40, head), encoding="utf-8")
+        expect_failure(
+            lambda: collect_requirements(planning, specs),
+            "identity mismatch",
+        )
+
+    requirements = {
+        "FS-998-NR-001": "M",
+        "FS-998-NR-002": "S",
+    }
+    expect_failure(
+        lambda: validate_manifest_data(
+            requirements,
+            {"version": 1, "bindings": [{"requirement": "FS-998-NR-999", "tasks": ["planning-structure"]}]},
+        ),
+        "unknown requirement",
+    )
+    expect_failure(
+        lambda: validate_manifest_data(
+            requirements,
+            {"version": 1, "bindings": [{"requirement": "FS-998-NR-002", "tasks": ["planning-structure"]}]},
+        ),
+        "semantic-only requirement",
+    )
+    expect_failure(
+        lambda: validate_manifest_data(
+            requirements,
+            {"version": 1, "bindings": [{"requirement": "FS-998-NR-001", "tasks": ["missing-task"]}]},
+        ),
+        "unknown Validation task",
+    )
+
+
 TASK_FUNCTIONS: dict[str, Callable[[], None]] = {
     "design-corpus": task_design_corpus,
     "planning-structure": task_planning_structure,
@@ -189,6 +470,7 @@ TASK_FUNCTIONS: dict[str, Callable[[], None]] = {
     "docs-alignment": task_docs_alignment,
     "ci-delegation": task_ci_delegation,
     "validation-gate": task_validation_gate,
+    "framework-regression": task_framework_regression,
 }
 
 
@@ -211,6 +493,7 @@ def main(argv: list[str]) -> int:
     except KeyError:
         print(f"unknown Validation task: {argv[1]}", file=sys.stderr)
         return 2
+
     results = []
     for name in selected:
         try:
