@@ -34,13 +34,16 @@ A requirement may express behavior, structure, constraints, invariants, compatib
 
 ## Evaluation Classification
 
-Every normative requirement must be classified during Planning as requiring:
+Every normative requirement must have one current Planning classification:
 
 - mechanical evaluation;
-- semantic evaluation; or
-- both.
+- semantic evaluation;
+- both mechanical and semantic evaluation; or
+- inactive.
 
-Classification describes how the obligation can be judged. It does not require Planning to design the exact implementation of a mechanical validator.
+The mechanical, semantic, and both classifications describe how an active obligation is judged. They do not require Planning to design the exact implementation of a mechanical validator.
+
+Inactive means the requirement remains defined but carries no current mechanical or semantic evaluation obligation. Planning owns the decision to make a requirement inactive and must represent that state consistently in the Planning artifacts consumed by Build and Validation.
 
 ## Boundaries
 
