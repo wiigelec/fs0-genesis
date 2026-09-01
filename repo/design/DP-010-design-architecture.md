@@ -59,6 +59,15 @@ A Design document may depend semantically on other Design documents when those d
 
 Document dependencies describe semantic interpretation, not lifecycle execution order.
 
+## Further Design
+
+Design is decomposed into the following child Design documents:
+
+- DP-011 — Semantic Decomposition Architecture
+- DP-012 — Design Corpus Architecture
+
+These documents separate how meaning is hierarchically decomposed from how the resulting Markdown corpus is identified, related, and maintained.
+
 ## Planning Boundary
 
 Design does not originate from a Functional Set.
