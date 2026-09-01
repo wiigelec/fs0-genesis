@@ -435,6 +435,66 @@ def task_framework_regression() -> None:
             "identity mismatch",
         )
 
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        planning = root / "planning"
+        specs = root / "specs"
+        planning.mkdir()
+        specs.mkdir()
+
+        write_fixture_fs(
+            planning, specs, "FS-998-fixture", "FS-998", head,
+            "FS-997-NR-001", "M",
+        )
+        expect_failure(
+            lambda: collect_requirements(planning, specs),
+            "requirement identity does not match owning Functional Set",
+        )
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        planning = root / "planning"
+        specs = root / "specs"
+        planning.mkdir()
+        specs.mkdir()
+
+        write_fixture_fs(
+            planning, specs, "FS-998-fixture", "FS-998", head,
+            "FS-998-NR-001", "M",
+        )
+        spec_path = specs / "FS-998-fixture.md"
+        spec_text = spec_path.read_text(encoding="utf-8")
+        spec_path.write_text(
+            spec_text.replace("**Classification: M**", "**Classification: X**"),
+            encoding="utf-8",
+        )
+        expect_failure(
+            lambda: collect_requirements(planning, specs),
+            "missing or invalid Classification",
+        )
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        planning = root / "planning"
+        specs = root / "specs"
+        planning.mkdir()
+        specs.mkdir()
+
+        write_fixture_fs(
+            planning, specs, "FS-998-fixture", "FS-998", head,
+            "FS-998-NR-001", "M",
+        )
+        spec_path = specs / "FS-998-fixture.md"
+        with spec_path.open("a", encoding="utf-8") as handle:
+            handle.write(
+                "\n### FS-998-NR-001 — Duplicate fixture requirement\n\n"
+                "**Classification: M**\n\nDuplicate obligation.\n"
+            )
+        expect_failure(
+            lambda: collect_requirements(planning, specs),
+            "duplicate normative requirement identity",
+        )
+
     requirements = {
         "FS-998-NR-001": "M",
         "FS-998-NR-002": "S",
@@ -459,6 +519,23 @@ def task_framework_regression() -> None:
             {"version": 1, "bindings": [{"requirement": "FS-998-NR-001", "tasks": ["missing-task"]}]},
         ),
         "unknown Validation task",
+    )
+
+    # Historical M/B requirements remain discoverable without remaining
+    # permanently mechanically applicable.
+    historical_and_current = {
+        "FS-997-NR-001": "M",
+        "FS-998-NR-001": "M",
+    }
+    validate_manifest_data(
+        historical_and_current,
+        {
+            "version": 1,
+            "bindings": [
+                {"requirement": "FS-998-NR-001", "tasks": ["planning-structure"]}
+            ],
+        },
+        tasks=("planning-structure",),
     )
 
 
