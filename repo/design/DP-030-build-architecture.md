@@ -47,6 +47,15 @@ When implementation exposes a defect in an upstream decision, the work is routed
 
 A semantic defect returns to Design. A technical specification or normative distillation defect returns to Planning. An implementation defect remains in Build.
 
+## Further Design
+
+Build is decomposed into the following child Design documents:
+
+- DP-031 — Implementation Realization Architecture
+- DP-032 — Mechanical Enforcement Construction Architecture
+
+These documents separate physical implementation from construction and binding of mechanical enforcement while leaving execution to Validation.
+
 ## Build Review
 
 Build Review evaluates the realized repository state against both Planning and Design.

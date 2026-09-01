@@ -1,0 +1,79 @@
+---
+doc_id: DP-032
+title: Mechanical Enforcement Construction Architecture
+depends_on:
+  - DP-030
+  - DP-023
+  - DP-040
+---
+
+# Mechanical Enforcement Construction Architecture
+
+## Purpose
+
+Mechanical enforcement construction is the part of Build that creates the executable Validation tasks required by mechanically classified normative requirements.
+
+Build constructs the enforcement. Validation executes it.
+
+## Normative Basis
+
+Planning determines which normative requirements require mechanical evaluation.
+
+Build does not decide that a new obligation should exist merely because a test or validator would be useful.
+
+Every mechanical enforcement task must be justified by at least one normative requirement.
+
+Supporting helpers, fixtures, parsers, loaders, or shared utilities do not require independent requirement mappings unless they themselves perform normative enforcement.
+
+## Construction
+
+Build implements the smallest reliable mechanical check that can determine the mechanically decidable obligation.
+
+A task may enforce one or multiple normative requirements when that relationship remains understandable.
+
+A normative requirement may map to multiple tasks when multiple checks are genuinely needed.
+
+The architecture does not require a one-requirement-one-test structure.
+
+## Requirement Binding
+
+Build records the exact relationship between mechanically evaluated normative requirements and the Validation tasks that enforce them.
+
+The binding should be direct enough to answer both directions:
+
+- which Validation task enforces this requirement?; and
+- which normative requirement justifies this Validation task?
+
+This direct mapping is the mechanical portion of the Requirement Evaluation Manifest.
+
+The framework does not require a generalized provenance graph, validation ontology, assertion hierarchy, evidence hierarchy, or separate lifecycle database to represent that relationship.
+
+## Semantic Requirements
+
+Build does not construct artificial executable checks for obligations that Planning classified as semantic.
+
+A requirement classified for both mechanical and semantic evaluation receives mechanical enforcement only for the portion that can be decided reliably.
+
+Semantic satisfaction remains the responsibility of Semantic Review.
+
+## Organization
+
+Mechanical enforcement should remain understandable when inspected locally.
+
+A reader should be able to understand why an enforcement task exists and what behavior it protects without reconstructing a large validation framework.
+
+Validation code should be organized around the behavior being protected rather than around framework metadata categories.
+
+## Boundary with Validation
+
+Build owns creation and maintenance of mechanical enforcement tasks and their requirement bindings.
+
+Validation owns execution of those tasks against candidate Build state and interpretation of their mechanical pass or fail result.
+
+Passing a task does not create acceptance, semantic proof, or a durable lifecycle record.
+
+## Simplicity
+
+Mechanical enforcement construction should remain proportional to the behavior and risk being protected.
+
+The framework should prefer direct tests and mappings over additional abstraction unless abstraction materially improves enforcement, reuse, reliability, understandability, or necessary agent control.
