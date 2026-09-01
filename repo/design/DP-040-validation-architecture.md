@@ -65,6 +65,15 @@ A failing required validation task prevents merge to `main` until the Build, Pla
 
 Passing validation is a gate condition, not a separately accepted or documented lifecycle result.
 
+## Further Design
+
+Validation is decomposed into the following child Design documents:
+
+- DP-041 — Validation Execution Architecture
+- DP-042 — Validation Gate Architecture
+
+These documents separate execution of mechanical enforcement from the gate that prevents mechanically failing candidates from reaching acceptance.
+
 ## Limits
 
 Mechanical validation cannot determine every semantic property of a system.
