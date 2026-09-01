@@ -46,7 +46,7 @@ Every current normative requirement shall record exactly one evaluation classifi
 
 **Classification: B**
 
-The Requirement Evaluation Manifest shall represent the set of currently applicable mechanically evaluated normative requirements. Discovery of an accepted historical requirement classified `M` or `B` shall not by itself make that requirement permanently mechanically applicable.
+The Requirement Evaluation Manifest shall represent the set of currently applicable mechanically evaluated normative requirements. Every requirement classified `M` or `B` introduced by the Functional Set currently being realized shall be treated as currently mechanically applicable and shall have a manifest binding for its mechanically decidable portion. Discovery of an accepted historical requirement classified `M` or `B` shall not by itself make that requirement permanently mechanically applicable, and Build omission alone shall not retire an obligation established by Planning.
 
 ### FS-002-NR-009 — Manifest Requirement Resolution
 

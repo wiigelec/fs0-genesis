@@ -207,6 +207,7 @@ def validate_manifest_data(
     requirements: dict[str, str],
     data: dict,
     tasks: tuple[str, ...] = TASKS,
+    required_bindings: set[str] | None = None,
 ) -> None:
     bindings = data["bindings"]
     seen: set[str] = set()
@@ -235,9 +236,21 @@ def validate_manifest_data(
                 fail(f"manifest references unknown Validation task: {task}")
             task_to_requirements[task].add(req)
 
+    if required_bindings is not None:
+        missing = sorted(required_bindings - seen)
+        if missing:
+            fail(f"currently-being-realized mechanically evaluated requirements without manifest bindings: {missing}")
+
     unjustified = sorted(task for task, reqs in task_to_requirements.items() if not reqs)
     if unjustified:
         fail(f"Validation tasks without current normative justification: {unjustified}")
+
+
+def current_functional_set_id() -> str:
+    discovered = discover_functional_sets()
+    if not discovered:
+        fail("no Functional Sets discovered")
+    return max(fs_id for fs_id, _, _, _ in discovered)
 
 
 def task_design_corpus() -> None:
@@ -257,7 +270,17 @@ def task_planning_structure() -> None:
 
 def task_manifest_integrity() -> None:
     requirements = collect_requirements()
-    validate_manifest_data(requirements, load_manifest())
+    current_fs = current_functional_set_id()
+    required_bindings = {
+        req
+        for req, classification in requirements.items()
+        if req.startswith(current_fs + "-NR-") and classification in {"M", "B"}
+    }
+    validate_manifest_data(
+        requirements,
+        load_manifest(),
+        required_bindings=required_bindings,
+    )
 
 
 def task_validation_entrypoint() -> None:
@@ -499,6 +522,15 @@ def task_framework_regression() -> None:
         "FS-998-NR-001": "M",
         "FS-998-NR-002": "S",
     }
+    expect_failure(
+        lambda: validate_manifest_data(
+            requirements,
+            {"version": 1, "bindings": []},
+            tasks=(),
+            required_bindings={"FS-998-NR-001"},
+        ),
+        "without manifest bindings",
+    )
     expect_failure(
         lambda: validate_manifest_data(
             requirements,

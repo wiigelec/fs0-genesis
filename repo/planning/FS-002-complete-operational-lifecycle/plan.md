@@ -76,8 +76,13 @@ Manifest integrity should be checked against the aggregate normative requirement
 
 The manifest is the direct representation of currently applicable mechanical enforcement. Presence of an accepted historical `M` or `B` requirement in a discovered specification does not by itself require that requirement to remain mechanically bound forever.
 
+For the Functional Set currently being realized, every requirement classified `M` or `B` is presumed currently mechanically applicable and therefore requires a manifest binding for its mechanically decidable portion. A later Functional Set may change that applicability only through Planning; Build omission alone must not be interpreted as a Planning decision to retire an obligation.
+
+Because Functional Sets are introduced sequentially in this repository, canonical Validation may identify the currently-being-realized Functional Set as the greatest discovered `FS-NNN` identity for this completeness check. This is a project-local lifecycle convention, not a separate registry or source of normative authority.
+
 It must ensure:
 
+- every `M` or `B` requirement owned by the currently-being-realized Functional Set has a manifest binding;
 - every manifest requirement reference resolves to exactly one discovered normative requirement classified `M` or `B`;
 - duplicate requirement bindings are rejected;
 - every referenced task resolves to a registered required Validation task;
@@ -147,6 +152,7 @@ Build should provide focused regression coverage demonstrating at least:
 - manifest references to unknown requirements or semantic-only requirements fail manifest integrity;
 - unknown task references fail manifest integrity;
 - semantic-only requirements are not forced into mechanical binding;
+- omission of an `M` or `B` requirement introduced by the currently-being-realized Functional Set fails manifest integrity;
 - a later Planning change can remove an obsolete earlier mechanical binding while preserving the earlier requirement text and identity in its accepted specification;
 - a conforming later Functional Set can be added without adding FS-specific validator constants, paths, parsers, or requirement counts;
 - canonical Validation still executes all registered required tasks and propagates failure;
