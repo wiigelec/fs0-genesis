@@ -37,7 +37,7 @@ REQ_HEADING_RE = re.compile(r"^### (FS-\d{3}-NR-\d{3}) — .+$", re.MULTILINE)
 ALL_H3_RE = re.compile(r"^### (.+)$", re.MULTILINE)
 INACTIVE_REQ_RE = re.compile(r"^I (FS-\d{3}-NR-\d{3})$", re.MULTILINE)
 REQ_RECORD_RE = re.compile(
-    r"^### (FS-\d{3}-NR-\d{3}) — .+\n\n\*\*Classification: ([MSB])\*\*$",
+    r"^### (FS-\d{3}-NR-\d{3}) — .+\n\n\*\*Classification: ([MSBI])\*\*$",
     re.MULTILINE,
 )
 
@@ -162,8 +162,8 @@ def parse_specification(spec_path: Path, fs_id: str) -> dict[str, str]:
         block_end = heading_match.end() + (next_heading.start() if next_heading else len(text[heading_match.end():]))
         block = text[heading_match.end():block_end]
         classifications = re.findall(r"^\*\*Classification: ([^*\n]+)\*\*$", block, flags=re.MULTILINE)
-        if len(classifications) != 1 or classifications[0] not in {"M", "S", "B"}:
-            fail(f"{spec_path.name} requirement {req} must contain exactly one Classification of M, S, or B")
+        if len(classifications) != 1 or classifications[0] not in {"M", "S", "B", "I"}:
+            fail(f"{spec_path.name} requirement {req} must contain exactly one Classification of M, S, B, or I")
 
         result[req] = classification
 
@@ -211,7 +211,15 @@ def validate_functional_set(
     unknown = sorted(inactive - set(requirements))
     if unknown:
         fail(f"{fs_id} Plan marks unknown normative requirements inactive: {unknown}")
-    return requirements, inactive
+
+    spec_inactive = {req for req, classification in requirements.items() if classification == "I"}
+    missing_markers = sorted(spec_inactive - inactive)
+    if missing_markers:
+        fail(f"{fs_id} specification classifies requirements I without matching owning-Plan inactive markers: {missing_markers}")
+    invalid_markers = sorted(inactive - spec_inactive)
+    if invalid_markers:
+        fail(f"{fs_id} Plan marks requirements inactive whose specification classification is not I: {invalid_markers}")
+    return requirements, spec_inactive
 
 
 def collect_requirement_state(
@@ -267,7 +275,7 @@ def validate_manifest_data(
         if req not in requirements:
             fail(f"manifest references unknown requirement: {req}")
         if requirements[req] not in {"M", "B"}:
-            fail(f"manifest references semantic-only requirement: {req}")
+            fail(f"manifest references requirement without active mechanical evaluation: {req}")
         if req in seen:
             fail(f"duplicate manifest binding for requirement: {req}")
         seen.add(req)
@@ -317,7 +325,7 @@ def task_manifest_integrity() -> None:
     required_bindings = {
         req
         for req, classification in requirements.items()
-        if classification in {"M", "B"} and req not in inactive
+        if classification in {"M", "B"}
     }
     validate_manifest_data(
         requirements,
@@ -680,16 +688,24 @@ def task_framework_regression() -> None:
 
         write_fixture_fs(
             planning, specs, "FS-998-fixture", "FS-998", head,
-            "FS-998-NR-001", "M",
+            "FS-998-NR-001", "I",
         )
         plan_path = planning / "FS-998-fixture" / "plan.md"
+
+        expect_failure(
+            lambda: collect_requirement_state(planning, specs),
+            "without matching owning-Plan inactive markers",
+        )
+
         plan_path.write_text(
             "# Fixture Plan\n\nI FS-998-NR-001\n",
             encoding="utf-8",
         )
         fixture_requirements, fixture_inactive = collect_requirement_state(planning, specs)
+        if fixture_requirements != {"FS-998-NR-001": "I"}:
+            fail("inactive specification classification was not parsed")
         if fixture_inactive != {"FS-998-NR-001"}:
-            fail("owning Plan inactive marker was not discovered")
+            fail("owning Plan inactive marker was not aligned with specification")
         validate_manifest_data(
             fixture_requirements,
             {"version": 1, "bindings": []},
@@ -710,9 +726,21 @@ def task_framework_regression() -> None:
                 required_bindings=set(),
                 forbidden_bindings=fixture_inactive,
             ),
-            "inactive requirements must not have manifest bindings",
+            "without active mechanical evaluation",
         )
 
+        spec_path = specs / "FS-998-fixture.md"
+        spec_text = spec_path.read_text(encoding="utf-8")
+        spec_path.write_text(
+            spec_text.replace("**Classification: I**", "**Classification: M**"),
+            encoding="utf-8",
+        )
+        expect_failure(
+            lambda: collect_requirement_state(planning, specs),
+            "classification is not I",
+        )
+
+        spec_path.write_text(spec_text, encoding="utf-8")
         plan_path.write_text(
             "# Fixture Plan\n\nI FS-997-NR-001\n",
             encoding="utf-8",
@@ -756,7 +784,7 @@ def task_framework_regression() -> None:
             requirements,
             {"version": 1, "bindings": [{"requirement": "FS-998-NR-002", "tasks": ["planning-structure"]}]},
         ),
-        "semantic-only requirement",
+        "without active mechanical evaluation",
     )
     expect_failure(
         lambda: validate_manifest_data(

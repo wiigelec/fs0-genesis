@@ -40,13 +40,13 @@ Every current normative requirement shall have a unique identity of the form `FS
 
 **Classification: M**
 
-Every current normative requirement shall record exactly one evaluation classification encoded as `M`, `S`, or `B`.
+Every current normative requirement shall record exactly one evaluation classification encoded as `M`, `S`, `B`, or `I`, where `I` means Inactive.
 
 ### FS-002-NR-008 — Current Mechanical Applicability Representation
 
 **Classification: B**
 
-Current applicability shall be determined by the owning Functional Set Plan. A normative requirement is active unless that Plan marks its exact requirement identity `I` (Inactive). Every active requirement classified `M` or `B` in the canonical specification set shall have a Requirement Evaluation Manifest binding for its mechanically decidable portion. An inactive requirement shall have no active manifest binding.
+A normative requirement classified `I` (Inactive) in its canonical specification shall also be marked by the exact line `I FS-NNN-NR-NNN` in its owning Functional Set Plan, and every such Plan marker shall correspond to an `I` classification in that specification. Requirements classified `M` or `B` shall have a Requirement Evaluation Manifest binding for their mechanically decidable portion. Requirements classified `S` or `I` shall have no manifest binding.
 
 ### FS-002-NR-009 — Manifest Requirement Resolution
 

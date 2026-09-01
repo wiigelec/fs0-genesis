@@ -64,7 +64,7 @@ Validation should enforce:
 - valid `FS-NNN-NR-NNN` identity form;
 - Functional Set prefix agreement;
 - requirement identity uniqueness across current specifications;
-- classification exactly `M`, `S`, or `B`.
+- classification exactly `M`, `S`, `B`, or `I`.
 
 Validation must not carry a per-Functional-Set requirement-count constant merely to recognize a valid Functional Set.
 
@@ -74,21 +74,24 @@ Validation must not carry a per-Functional-Set requirement-count constant merely
 
 Manifest integrity is checked against the aggregate normative requirement set from all discovered Functional Sets together with the current applicability state recorded by each requirement's owning Plan.
 
-Normative specifications retain the durable requirement identity, requirement text, and evaluation classification (`M`, `S`, or `B`). Current applicability is a Planning concern.
+Normative specifications retain the durable requirement identity and requirement text and record the current evaluation classification as `M`, `S`, `B`, or `I`.
 
-An owning Plan may mark a normative requirement inactive with the exact line:
+`I` means Inactive. An inactive requirement remains defined in its normative specification but has no active mechanical or semantic evaluation obligation.
+
+The owning Plan must mark every requirement classified `I` with the exact line:
 
     I FS-NNN-NR-NNN
 
-`I` means Inactive. It is not a fourth specification evaluation classification and does not rewrite the requirement's specification. An inactive requirement has no active Validation task and therefore must not have a Requirement Evaluation Manifest binding. A requirement is active when its owning Plan does not mark it `I`.
+The specification classification and owning-Plan inactive marker must agree exactly: every `I` specification requirement must have the matching Plan marker, and no `M`, `S`, or `B` requirement may have one.
 
-The manifest is the direct representation of current mechanical enforcement. Every active normative requirement classified `M` or `B` requires a manifest binding for its mechanically decidable portion.
+The manifest is the direct representation of current mechanical enforcement. Every requirement classified `M` or `B` requires a manifest binding for its mechanically decidable portion. Requirements classified `S` or `I` have no manifest binding.
 
 It must ensure:
 
-- every active normative requirement classified `M` or `B` has a manifest binding;
-- every inactive normative requirement has no manifest binding;
-- every manifest requirement reference resolves to exactly one active normative requirement classified `M` or `B`;
+- every normative requirement classified `M` or `B` has a manifest binding;
+- every normative requirement classified `I` has the matching owning-Plan inactive marker and no manifest binding;
+- no requirement classified `M`, `S`, or `B` has an inactive marker;
+- every manifest requirement reference resolves to exactly one normative requirement classified `M` or `B`;
 - duplicate requirement bindings are rejected;
 - every referenced task resolves to a registered required Validation task;
 - every registered required Validation task remains justified by at least one currently applicable mechanically evaluated requirement represented in the manifest;
@@ -157,7 +160,9 @@ Build should provide focused regression coverage demonstrating at least:
 - manifest references to unknown requirements or semantic-only requirements fail manifest integrity;
 - unknown task references fail manifest integrity;
 - semantic-only requirements are not forced into mechanical binding;
-- omission of any active `M` or `B` requirement fails manifest integrity;
+- omission of any `M` or `B` requirement fails manifest integrity;
+- an `I` specification classification without its matching owning-Plan marker fails Planning validation;
+- an owning-Plan `I` marker for an `M`, `S`, or `B` requirement fails Planning validation;
 - an `I` requirement is excluded from active mechanical enforcement and a manifest binding for it fails manifest integrity;
 - an inactive marker must reference a requirement owned by that same Functional Set and present in its canonical specification;
 - a conforming later Functional Set can be added without adding FS-specific validator constants, paths, parsers, or requirement counts;
