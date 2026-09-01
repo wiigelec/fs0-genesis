@@ -10,14 +10,25 @@ depends_on: []
 
 This repository framework exists to turn conversational human intent into correct working software while keeping the process understandable, bounded, and simple.
 
-The lifecycle has six major concerns:
+The framework has six major concerns: Design, Planning, Build, Validation, Semantic Review, and Acceptance.
 
-1. Design
-2. Planning
-3. Build
-4. Validation
-5. Semantic Review
-6. Acceptance
+Their lifecycle relationship is:
+
+    Design
+      ↓
+    Design Review
+      ↓
+    Planning
+      ↓
+    Planning Review
+      ↓
+    Build
+      ↓
+    Validation
+      ↓
+    Build Review
+      ↓
+    Acceptance
 
 Each concern exists only to support development of the actual project.
 
@@ -71,7 +82,7 @@ Semantic Review evaluates alignment and semantic sufficiency after each major li
 
 Design Review evaluates Design for semantic completeness.
 
-Plan Review evaluates the complete Planning result against Design.
+Planning Review evaluates the complete Planning result against Design.
 
 Build Review evaluates Build against both Planning and Design.
 

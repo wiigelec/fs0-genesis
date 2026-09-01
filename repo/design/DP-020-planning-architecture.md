@@ -96,12 +96,12 @@ Planning also does not own ordinary implementation correctness. Build realizes t
 
 A downstream Build, Validation task, or Semantic Review finding does not independently create or amend normative requirements.
 
-## Plan Review
+## Planning Review
 
-Plan Review evaluates the complete Planning result against Design.
+Planning Review evaluates the complete Planning result against Design.
 
 Review determines whether the Functional Set is appropriately bounded, the Plan faithfully translates the selected Design, the normative requirements capture the obligations needed to realize that Design, and every normative requirement has an appropriate evaluation mode.
 
-Plan Review also checks that mechanical evaluation is used only where an obligation is reliably mechanically decidable and that semantic obligations are not forced into artificial mechanical checks.
+Planning Review also checks that mechanical evaluation is used only where an obligation is reliably mechanically decidable and that semantic obligations are not forced into artificial mechanical checks.
 
-Plan Review is iterative. Findings are corrected in Planning or routed back to Design when the defect is semantic.
+Planning Review is iterative. Findings are corrected in Planning or routed back to Design when the defect is semantic.

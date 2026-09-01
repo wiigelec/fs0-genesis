@@ -55,4 +55,4 @@ The current `main` state is the current accepted state.
 
 Repository activity other than intentional integration into `main` does not need to be modeled as a separate acceptance concept.
 
-Acceptance does not replace Design Review, Plan Review, Build Review, or Validation. Those activities determine whether a candidate is ready to be merged; the merge itself is the acceptance action.
+Acceptance does not replace Design Review, Planning Review, Build Review, or Validation. Those activities determine whether a candidate is ready to be merged; the merge itself is the acceptance action.

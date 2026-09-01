@@ -29,9 +29,9 @@ It looks for missing meaning, ambiguity, contradiction, unresolved consequential
 
 When material issues are found, Design is revised and reviewed again.
 
-## Plan Review
+## Planning Review
 
-Plan Review evaluates the complete Planning result against Design.
+Planning Review evaluates the complete Planning result against Design.
 
 It checks whether the Functional Set is appropriately bounded, whether the Plan completely and faithfully translates the selected Design, whether normative requirements express the obligations needed to realize that Design, and whether each normative requirement is classified for an appropriate mechanical or semantic evaluation mode.
 
