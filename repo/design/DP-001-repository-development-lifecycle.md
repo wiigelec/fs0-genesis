@@ -1,3 +1,9 @@
+---
+doc_id: DP-001
+title: Repository Development Lifecycle
+depends_on: []
+---
+
 # Repository Development Lifecycle
 
 ## Purpose
