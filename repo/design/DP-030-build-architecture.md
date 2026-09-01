@@ -27,6 +27,8 @@ Build produces the source code, configuration, tests, generated artifacts, docum
 
 Build owns implementation correctness and ordinary code-level decisions.
 
+Build also implements the mechanical Validation tasks required by Planning's evaluation classification, binds those tasks to the normative requirements they enforce, and records the exact bindings in the canonical Requirement Evaluation Manifest.
+
 Build may make local implementation choices needed to realize the Plan correctly, including refactoring and integration decisions that do not change intended semantics, architecture, Functional Set scope, or normative obligations.
 
 Build should prefer the simplest implementation that faithfully realizes the reviewed Planning result and Design intent.
@@ -49,7 +51,7 @@ A semantic defect returns to Design. A technical specification or normative dist
 
 Build Review evaluates the realized repository state against both Planning and Design.
 
-The review determines whether the Build faithfully realizes the Plan and normative requirements, preserves the underlying Design meaning, stays within Functional Set scope, and avoids accidental semantic or architectural drift.
+The review determines whether the Build faithfully realizes the Plan and normative requirements, preserves the underlying Design meaning, stays within Functional Set scope, avoids accidental semantic or architectural drift, and completes required mechanical requirement-to-task bindings.
 
 Build Review is also the semantic evaluation point for normative requirements routed to Semantic Review when those requirements concern the realized Build.
 

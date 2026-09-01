@@ -39,7 +39,7 @@ See DP-010.
 
 Planning is the technical bridge between Design and Build.
 
-Planning consumes Design and existing repository state, selects a bounded Functional Set, and develops the technical specification, normative requirements, and requirement evaluation mapping needed to implement that work.
+Planning consumes Design and existing repository state, selects a bounded Functional Set, and develops the technical specification and normative requirements needed to implement that work. Planning also classifies each normative requirement for mechanical evaluation, semantic evaluation, or both.
 
 Planning owns Functional Set scope, technical specification, and normative distillation while leaving ordinary code-level implementation decisions to Build.
 
@@ -51,7 +51,7 @@ Build is the physical manifestation of Design and Planning.
 
 Build transforms the reviewed Planning result into actual repository state while preserving intended meaning, technical constraints, normative obligations, and Functional Set scope.
 
-Build owns implementation correctness and ordinary code-level decisions.
+Build owns implementation correctness, ordinary code-level decisions, implementation of mechanical validation tasks, and the exact binding from mechanical normative requirements to those tasks.
 
 See DP-030.
 

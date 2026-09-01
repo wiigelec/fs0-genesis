@@ -25,11 +25,13 @@ Supporting validation implementation such as helpers, fixtures, parsers, loaders
 
 ## Requirement Evaluation Manifest
 
-The Requirement Evaluation Manifest is the canonical routing source for normative requirement evaluation.
+The Requirement Evaluation Manifest is the canonical record of how normative requirements are evaluated.
 
-For mechanical evaluation, the manifest maps a normative requirement to the Validation task or tasks that enforce its mechanically decidable obligations.
+Planning establishes whether each requirement requires mechanical evaluation, semantic evaluation, or both.
 
-For semantic evaluation, the manifest defers the requirement to Semantic Review.
+During Build, each mechanically evaluated requirement is bound to the actual Validation task or tasks that enforce its mechanically decidable obligations.
+
+Semantic evaluation defers the requirement to Semantic Review and does not require an implementation-specific binding.
 
 A requirement may use both paths when its meaning legitimately requires both mechanical enforcement and semantic judgment.
 

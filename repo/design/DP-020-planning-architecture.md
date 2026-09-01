@@ -58,25 +58,25 @@ Normative requirement identities are assigned during Planning, not Design.
 
 A normative requirement may be mechanically decidable, semantically decidable, or contain both mechanical and semantic evaluation needs.
 
-Every normative requirement must identify how it is evaluated.
+Every normative requirement must identify its intended evaluation mode: mechanical, semantic, or both.
 
-### Requirement Evaluation Manifest
+### Requirement Evaluation Routing
 
-Planning develops a simple canonical manifest that identifies how each normative requirement is evaluated.
+Planning classifies each normative requirement by evaluation mode.
 
-A requirement may map to:
+A requirement may require:
 
-    mechanical validation task(s)
+    mechanical validation
     semantic review
     both
 
-Mechanical mappings identify the executable Validation task or tasks that enforce the mechanically decidable portion of the requirement.
+Planning does not need to identify exact mechanical validation tasks before Build creates them.
 
-Semantic mappings identify only that the requirement must be evaluated by Semantic Review. They do not create review-case identities, rubrics, evidence manifests, finding records, or a separate semantic-review artifact hierarchy.
+Semantic routing identifies only that the requirement must be evaluated by Semantic Review. It does not create review-case identities, rubrics, evidence manifests, finding records, or a separate semantic-review artifact hierarchy.
 
-A requirement must have at least one evaluation path.
+Every requirement must have at least one evaluation mode.
 
-The manifest should allow a reader of a requirement to determine how it is evaluated and a reader of a mechanical enforcement task to determine which requirement justifies its existence.
+Build owns the exact binding from mechanical requirements to the Validation tasks that implement them and records those bindings in the canonical Requirement Evaluation Manifest.
 
 ## Design Traceability
 
@@ -88,7 +88,7 @@ The exact Design revision binding identifies the Design state consumed by Planni
 
 ## Planning Boundary
 
-Planning owns technical specification, normative distillation, requirement evaluation routing, and Functional Set scope.
+Planning owns technical specification, normative distillation, requirement evaluation classification, and Functional Set scope.
 
 Planning does not own unresolved product meaning. If a consequential semantic choice is missing or ambiguous, work returns to Design.
 
@@ -100,7 +100,7 @@ A downstream Build, Validation task, or Semantic Review finding does not indepen
 
 Plan Review evaluates the complete Planning result against Design.
 
-Review determines whether the Functional Set is appropriately bounded, the Plan faithfully translates the selected Design, the normative requirements capture the obligations needed to realize that Design, and every normative requirement has an appropriate evaluation path.
+Review determines whether the Functional Set is appropriately bounded, the Plan faithfully translates the selected Design, the normative requirements capture the obligations needed to realize that Design, and every normative requirement has an appropriate evaluation mode.
 
 Plan Review also checks that mechanical evaluation is used only where an obligation is reliably mechanically decidable and that semantic obligations are not forced into artificial mechanical checks.
 

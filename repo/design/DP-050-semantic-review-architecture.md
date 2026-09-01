@@ -33,7 +33,7 @@ When material issues are found, Design is revised and reviewed again.
 
 Plan Review evaluates the complete Planning result against Design.
 
-It checks whether the Functional Set is appropriately bounded, whether the Plan completely and faithfully translates the selected Design, whether normative requirements express the obligations needed to realize that Design, and whether each normative requirement is routed to an appropriate mechanical or semantic evaluation path.
+It checks whether the Functional Set is appropriately bounded, whether the Plan completely and faithfully translates the selected Design, whether normative requirements express the obligations needed to realize that Design, and whether each normative requirement is classified for an appropriate mechanical or semantic evaluation mode.
 
 A semantic defect is routed back to Design. A technical Planning or normative distillation defect is corrected in Planning.
 
