@@ -1,11 +1,11 @@
 # Agent and Contributor Guidance
 
-This file is operational guidance. It does not create Design meaning or normative requirements and cannot override the reviewed Design and Planning artifacts under `repo/`.
+This file is operational guidance. It does not create Design meaning or normative requirements and cannot override the reviewed Design, Planning artifacts, or normative specifications under `repo/`.
 
 ## Responsibility boundaries
 
 - **Design owns semantic meaning.**
-- **Planning owns Functional Set scope, consequential technical intent, normative requirements, and evaluation classification.**
+- **Planning owns Functional Set scope, consequential technical intent, normative requirements, and evaluation classification; the resulting normative specifications live under `repo/specs/`.**
 - **Build owns implementation correctness, ordinary code-level decisions, and construction of required mechanical enforcement.**
 - **Validation executes mechanically decidable checks; it does not create normative intent.**
 - **Semantic Review identifies discrepancies without taking ownership of the decisions being reviewed.**
@@ -20,7 +20,7 @@ Do not conceal an upstream defect by inventing intent, changing scope, or redefi
 
 ## Build discipline
 
-Build consumes one reviewed Functional Set Planning result and its bound Design revision.
+Build consumes one reviewed Functional Set Planning result, its normative specification, and its bound Design revision.
 
 Build may make ordinary implementation decisions that preserve Design meaning, Functional Set scope, Plan intent, normative requirements, and required agent control.
 
@@ -52,7 +52,7 @@ A passing Validation result proves only the mechanically checked conditions. It 
 
 ## Semantic Review and Acceptance
 
-After Build and required Validation, perform Build Review against both the complete Planning result and the Design revision it consumed.
+After Build and required Validation, perform Build Review against the complete Planning result, the normative specification, and the Design revision it consumed.
 
 Review should challenge scope drift, missing behavior, unintended additions, accidental architecture changes, and unnecessary complexity.
 

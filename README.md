@@ -18,13 +18,14 @@ The lifecycle describes responsibilities and control flow. It does not require e
 ## Repository surfaces
 
 - `repo/design/` — canonical human-readable Design corpus.
-- `repo/planning/` — durable Functional Set Planning artifacts.
+- `repo/planning/` — durable Functional Set scope and technical Planning artifacts.
+- `repo/specs/` — canonical human-readable, machine-parseable normative specifications.
 - `repo/validation/requirement-evaluation.json` — current mechanical requirement-to-Validation-task bindings.
 - `repo/scripts/validate` — canonical mechanical Validation entry point.
 - `repo_old/` — historical implementation material; it is not a source of current normative intent.
 - `user/` — user-owned operational material outside the repository framework.
 
-Planning artifacts preserve the exact Design revision they consumed. Build and Validation do not create new Design meaning or normative requirements merely through implementation behavior.
+Planning artifacts preserve the exact Design revision they consumed. Normative specifications under `repo/specs/` are the normative source for requirement text and evaluation classification. Build, parsers, manifests, and Validation do not create new Design meaning or normative requirements merely through implementation behavior.
 
 ## Validation
 

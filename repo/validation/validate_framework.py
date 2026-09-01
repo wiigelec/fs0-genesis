@@ -14,7 +14,7 @@ DESIGN = ROOT / "repo" / "design"
 PLANNING = ROOT / "repo" / "planning" / "FS-001-framework-lifecycle-substrate"
 FUNCTIONAL_SET = PLANNING / "functional-set.md"
 PLAN = PLANNING / "plan.md"
-REQUIREMENTS = PLANNING / "requirements.md"
+SPEC = ROOT / "repo" / "specs" / "FS-001-framework-lifecycle-substrate.md"
 MANIFEST = ROOT / "repo" / "validation" / "requirement-evaluation.json"
 ENTRYPOINT = ROOT / "repo" / "scripts" / "validate"
 README = ROOT / "README.md"
@@ -36,7 +36,7 @@ def read(path: Path) -> str:
 
 
 def parse_requirements() -> dict[str, str]:
-    text = read(REQUIREMENTS)
+    text = read(SPEC)
     matches = list(re.finditer(r"^### (FS-001-NR-\d{3}) — .+\n\n\*\*Classification: ([MSB])\*\*$", text, flags=re.MULTILINE))
     result = {m.group(1): m.group(2) for m in matches}
     if len(matches) != 28 or len(result) != 28:
@@ -59,9 +59,11 @@ def task_design_corpus() -> None:
 
 
 def task_planning_structure() -> None:
-    for path in (FUNCTIONAL_SET, PLAN, REQUIREMENTS):
+    for path in (FUNCTIONAL_SET, PLAN):
         if not path.is_file():
             fail(f"missing FS-001 Planning artifact: {path.relative_to(ROOT)}")
+    if not SPEC.is_file():
+        fail(f"missing FS-001 normative specification: {SPEC.relative_to(ROOT)}")
     fs_text = read(FUNCTIONAL_SET)
     if f"design_revision: {EXPECTED_DESIGN_REVISION}" not in fs_text or f"`{EXPECTED_DESIGN_REVISION}`" not in fs_text:
         fail("FS-001 does not bind the exact reviewed Design revision")
@@ -124,7 +126,7 @@ def task_docs_alignment() -> None:
     for term in ("Design", "Planning", "Build", "Validation", "Semantic Review", "Acceptance"):
         if term not in readme:
             fail(f"README missing lifecycle term: {term}")
-    for value in ("repo/design/", "repo/planning/", "repo/scripts/validate", "main"):
+    for value in ("repo/design/", "repo/planning/", "repo/specs/", "repo/scripts/validate", "main"):
         if value not in readme:
             fail(f"README missing active surface: {value}")
     for route in ("→ **Design**", "→ **Planning**", "→ **Build**"):
