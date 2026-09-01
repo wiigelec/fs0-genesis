@@ -36,9 +36,9 @@ Every lifecycle artifact, process, and mechanism should be kept as simple as pra
 
 A downstream artifact or process may realize, validate, or review upstream intent, but it does not create new persistent intent merely by existing. Implementation behavior, validation behavior, review findings, generated artifacts, and historical repository behavior do not independently become Design or normative requirements.
 
-Lifecycle stages describe development intent, decisions, responsibilities, and control flow. They do not define a storage hierarchy for durable implementation artifacts.
+Lifecycle stages describe development intent, decisions, responsibilities, and control flow. They do not define the storage hierarchy of implemented repository state.
 
-Durable repository artifacts such as source, configuration, tests, validation definitions, manifests, and generated project artifacts exist as repository state outside the Design/Planning/Build document hierarchy. A lifecycle stage may create, modify, consume, validate, or review such an artifact without making that artifact a child of the stage.
+Durable implementation artifacts such as source, configuration, tests, validation definitions, manifests, and generated project artifacts exist as repository state outside the lifecycle document hierarchy. A lifecycle stage may create, modify, consume, validate, or review such an artifact without making that artifact a child of the stage.
 
 ## Design
 

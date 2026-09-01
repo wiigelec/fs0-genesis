@@ -50,9 +50,9 @@ Validation does not silently modify Design, Planning, Build, or normative requir
 
 A passing mechanical task establishes only that the task's mechanically decidable condition passed for the candidate state that was checked.
 
-Mechanical success does not prove semantic completeness, faithful interpretation, or overall acceptance.
+Mechanical success does not prove semantic completeness, faithful interpretation, or acceptance.
 
-Those questions remain subject to Semantic Review and the lifecycle gate.
+Semantic questions remain with Semantic Review, and acceptance remains governed by DP-060.
 
 ## Simplicity
 
