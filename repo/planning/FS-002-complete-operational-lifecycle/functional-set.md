@@ -1,7 +1,7 @@
 ---
 functional_set: FS-002
 title: Complete Operational Lifecycle
-design_revision: 939f0d8535e93b315cc1d7abae987bdda86b0ec6
+design_revision: 70be6472ee3f77ecc8f91ef325af4a855679b6bf
 ---
 
 # FS-002 — Complete Operational Lifecycle
@@ -16,7 +16,7 @@ The goal is not to add another framework layer. The goal is to finish the smalle
 
 ## Selected Design
 
-Planning consumes Design at repository revision `939f0d8535e93b315cc1d7abae987bdda86b0ec6`.
+Planning consumes Design at repository revision `70be6472ee3f77ecc8f91ef325af4a855679b6bf`.
 
 Selected Design scope:
 
