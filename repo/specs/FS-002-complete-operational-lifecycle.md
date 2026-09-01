@@ -46,7 +46,7 @@ Every current normative requirement shall record exactly one evaluation classifi
 
 **Classification: B**
 
-The Requirement Evaluation Manifest shall represent current mechanical enforcement. Every normative requirement classified `M` or `B` in the current canonical specification set shall have a manifest binding for its mechanically decidable portion. A binding shall not be removed while its owning requirement remains present and mechanically classified in current canonical Planning; changing or removing the obligation requires a consistent change to its owning Planning/specification state.
+Current applicability shall be determined by the owning Functional Set Plan. A normative requirement is active unless that Plan marks its exact requirement identity `I` (Inactive). Every active requirement classified `M` or `B` in the canonical specification set shall have a Requirement Evaluation Manifest binding for its mechanically decidable portion. An inactive requirement shall have no active manifest binding.
 
 ### FS-002-NR-009 — Manifest Requirement Resolution
 

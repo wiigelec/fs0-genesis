@@ -72,18 +72,23 @@ Validation must not carry a per-Functional-Set requirement-count constant merely
 
 `repo/validation/requirement-evaluation.json` remains the direct current mapping from mechanically applicable requirements to project-native Validation tasks.
 
-Manifest integrity should be checked against the aggregate normative requirement set from all discovered Functional Sets while distinguishing historical requirement existence from current mechanical applicability.
+Manifest integrity is checked against the aggregate normative requirement set from all discovered Functional Sets together with the current applicability state recorded by each requirement's owning Plan.
 
-The manifest is the direct representation of current mechanical enforcement.
+Normative specifications retain the durable requirement identity, requirement text, and evaluation classification (`M`, `S`, or `B`). Current applicability is a Planning concern.
 
-Canonical Planning and normative specifications represent the obligations applicable to the current repository state. Therefore every normative requirement classified `M` or `B` in the current canonical specification set requires a manifest binding for its mechanically decidable portion.
+An owning Plan may mark a normative requirement inactive with the exact line:
 
-A mechanical binding shall not be removed while its owning normative requirement remains present and mechanically classified in current canonical Planning. If an obligation legitimately changes or is removed, the Planning/specification state that owns that requirement must be changed consistently in the same candidate; Git history preserves the earlier accepted meaning.
+    I FS-NNN-NR-NNN
+
+`I` means Inactive. It is not a fourth specification evaluation classification and does not rewrite the requirement's specification. An inactive requirement has no active Validation task and therefore must not have a Requirement Evaluation Manifest binding. A requirement is active when its owning Plan does not mark it `I`.
+
+The manifest is the direct representation of current mechanical enforcement. Every active normative requirement classified `M` or `B` requires a manifest binding for its mechanically decidable portion.
 
 It must ensure:
 
-- every current canonical normative requirement classified `M` or `B` has a manifest binding;
-- every manifest requirement reference resolves to exactly one current canonical normative requirement classified `M` or `B`;
+- every active normative requirement classified `M` or `B` has a manifest binding;
+- every inactive normative requirement has no manifest binding;
+- every manifest requirement reference resolves to exactly one active normative requirement classified `M` or `B`;
 - duplicate requirement bindings are rejected;
 - every referenced task resolves to a registered required Validation task;
 - every registered required Validation task remains justified by at least one currently applicable mechanically evaluated requirement represented in the manifest;
@@ -152,8 +157,9 @@ Build should provide focused regression coverage demonstrating at least:
 - manifest references to unknown requirements or semantic-only requirements fail manifest integrity;
 - unknown task references fail manifest integrity;
 - semantic-only requirements are not forced into mechanical binding;
-- omission of any current canonical `M` or `B` requirement fails manifest integrity;
-- changing or removing an obligation requires a consistent change to its owning Planning/specification state rather than manifest omission alone;
+- omission of any active `M` or `B` requirement fails manifest integrity;
+- an `I` requirement is excluded from active mechanical enforcement and a manifest binding for it fails manifest integrity;
+- an inactive marker must reference a requirement owned by that same Functional Set and present in its canonical specification;
 - a conforming later Functional Set can be added without adding FS-specific validator constants, paths, parsers, or requirement counts;
 - canonical Validation still executes all registered required tasks and propagates failure;
 - CI continues to delegate to `repo/scripts/validate`;

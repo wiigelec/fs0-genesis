@@ -35,6 +35,7 @@ TASKS = (
 FS_BASENAME_RE = re.compile(r"^(FS-\d{3})-(.+)$")
 REQ_HEADING_RE = re.compile(r"^### (FS-\d{3}-NR-\d{3}) — .+$", re.MULTILINE)
 ALL_H3_RE = re.compile(r"^### (.+)$", re.MULTILINE)
+INACTIVE_REQ_RE = re.compile(r"^I (FS-\d{3}-NR-\d{3})$", re.MULTILINE)
 REQ_RECORD_RE = re.compile(
     r"^### (FS-\d{3}-NR-\d{3}) — .+\n\n\*\*Classification: ([MSB])\*\*$",
     re.MULTILINE,
@@ -175,7 +176,7 @@ def validate_functional_set(
     fs_id: str,
     planning_dir: Path,
     spec_path: Path,
-) -> dict[str, str]:
+) -> tuple[dict[str, str], set[str]]:
     functional_set = planning_dir / "functional-set.md"
     plan = planning_dir / "plan.md"
     for path in (functional_set, plan):
@@ -201,20 +202,39 @@ def validate_functional_set(
     if fs_id == "FS-001" and revision != FS001_DESIGN_REVISION:
         fail("FS-001 does not identify its exact normative Design revision")
 
-    return parse_specification(spec_path, fs_id)
+    requirements = parse_specification(spec_path, fs_id)
+    plan_text = read(plan)
+    inactive = set(INACTIVE_REQ_RE.findall(plan_text))
+    wrong_owner = sorted(req for req in inactive if not req.startswith(fs_id + "-NR-"))
+    if wrong_owner:
+        fail(f"{fs_id} Plan marks requirements owned by another Functional Set inactive: {wrong_owner}")
+    unknown = sorted(inactive - set(requirements))
+    if unknown:
+        fail(f"{fs_id} Plan marks unknown normative requirements inactive: {unknown}")
+    return requirements, inactive
+
+
+def collect_requirement_state(
+    planning_root: Path = PLANNING_ROOT,
+    specs_root: Path = SPECS_ROOT,
+) -> tuple[dict[str, str], set[str]]:
+    requirements: dict[str, str] = {}
+    inactive: set[str] = set()
+    for fs_id, _, planning_dir, spec_path in discover_functional_sets(planning_root, specs_root):
+        parsed, parsed_inactive = validate_functional_set(fs_id, planning_dir, spec_path)
+        overlap = set(requirements) & set(parsed)
+        if overlap:
+            fail(f"duplicate normative requirement identities across specifications: {sorted(overlap)}")
+        requirements.update(parsed)
+        inactive.update(parsed_inactive)
+    return requirements, inactive
 
 
 def collect_requirements(
     planning_root: Path = PLANNING_ROOT,
     specs_root: Path = SPECS_ROOT,
 ) -> dict[str, str]:
-    requirements: dict[str, str] = {}
-    for fs_id, _, planning_dir, spec_path in discover_functional_sets(planning_root, specs_root):
-        parsed = validate_functional_set(fs_id, planning_dir, spec_path)
-        overlap = set(requirements) & set(parsed)
-        if overlap:
-            fail(f"duplicate normative requirement identities across specifications: {sorted(overlap)}")
-        requirements.update(parsed)
+    requirements, _ = collect_requirement_state(planning_root, specs_root)
     return requirements
 
 
@@ -233,6 +253,7 @@ def validate_manifest_data(
     data: dict,
     tasks: tuple[str, ...] = TASKS,
     required_bindings: set[str] | None = None,
+    forbidden_bindings: set[str] | None = None,
 ) -> None:
     bindings = data["bindings"]
     seen: set[str] = set()
@@ -264,7 +285,12 @@ def validate_manifest_data(
     if required_bindings is not None:
         missing = sorted(required_bindings - seen)
         if missing:
-            fail(f"currently-being-realized mechanically evaluated requirements without manifest bindings: {missing}")
+            fail(f"active mechanically evaluated requirements without manifest bindings: {missing}")
+
+    if forbidden_bindings is not None:
+        forbidden = sorted(forbidden_bindings & seen)
+        if forbidden:
+            fail(f"inactive requirements must not have manifest bindings: {forbidden}")
 
     unjustified = sorted(task for task, reqs in task_to_requirements.items() if not reqs)
     if unjustified:
@@ -287,16 +313,17 @@ def task_planning_structure() -> None:
 
 
 def task_manifest_integrity() -> None:
-    requirements = collect_requirements()
+    requirements, inactive = collect_requirement_state()
     required_bindings = {
         req
         for req, classification in requirements.items()
-        if classification in {"M", "B"}
+        if classification in {"M", "B"} and req not in inactive
     }
     validate_manifest_data(
         requirements,
         load_manifest(),
         required_bindings=required_bindings,
+        forbidden_bindings=inactive,
     )
 
 
@@ -642,6 +669,66 @@ def task_framework_regression() -> None:
         expect_failure(
             lambda: collect_requirements(planning, specs),
             "exactly one well-formed",
+        )
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        planning = root / "planning"
+        specs = root / "specs"
+        planning.mkdir()
+        specs.mkdir()
+
+        write_fixture_fs(
+            planning, specs, "FS-998-fixture", "FS-998", head,
+            "FS-998-NR-001", "M",
+        )
+        plan_path = planning / "FS-998-fixture" / "plan.md"
+        plan_path.write_text(
+            "# Fixture Plan\n\nI FS-998-NR-001\n",
+            encoding="utf-8",
+        )
+        fixture_requirements, fixture_inactive = collect_requirement_state(planning, specs)
+        if fixture_inactive != {"FS-998-NR-001"}:
+            fail("owning Plan inactive marker was not discovered")
+        validate_manifest_data(
+            fixture_requirements,
+            {"version": 1, "bindings": []},
+            tasks=(),
+            required_bindings=set(),
+            forbidden_bindings=fixture_inactive,
+        )
+        expect_failure(
+            lambda: validate_manifest_data(
+                fixture_requirements,
+                {
+                    "version": 1,
+                    "bindings": [
+                        {"requirement": "FS-998-NR-001", "tasks": ["planning-structure"]}
+                    ],
+                },
+                tasks=("planning-structure",),
+                required_bindings=set(),
+                forbidden_bindings=fixture_inactive,
+            ),
+            "inactive requirements must not have manifest bindings",
+        )
+
+        plan_path.write_text(
+            "# Fixture Plan\n\nI FS-997-NR-001\n",
+            encoding="utf-8",
+        )
+        expect_failure(
+            lambda: collect_requirement_state(planning, specs),
+            "owned by another Functional Set",
+        )
+
+        plan_path.write_text(
+            "# Fixture Plan\n\nI FS-998-NR-999\n",
+            encoding="utf-8",
+        )
+        expect_failure(
+            lambda: collect_requirement_state(planning, specs),
+            "unknown normative requirements inactive",
         )
 
     requirements = {
