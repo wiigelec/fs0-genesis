@@ -16,7 +16,7 @@ Evaluation classifications:
 
 ### FS-001-NR-001 — Canonical Design
 
-**Classification: M**
+**Classification: B**
 
 The canonical active Design corpus shall remain human-readable Markdown under `repo/design/`.
 
@@ -84,7 +84,7 @@ For every mechanically enforced normative requirement applicable to FS-001, it s
 
 **Classification: M**
 
-Every FS-001 requirement classified as mechanical or both for which a required acceptance-gating mechanical condition is realizable shall have the required exact Validation-task binding before Acceptance.
+Every FS-001 normative requirement classified as mechanical shall have at least one exact Validation-task binding before Acceptance. Every requirement classified as both shall have at least one exact Validation-task binding for its mechanically decidable portion before Acceptance.
 
 ### FS-001-NR-013 — Semantic Evaluation Boundary
 
