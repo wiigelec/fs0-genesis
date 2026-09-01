@@ -54,7 +54,7 @@ Normative specification headings use:
 ```text
 ### FS-NNN-NR-NNN — <title>
 
-**Classification: M|S|B**
+**Classification: M|S|B|I**
 ```
 
 The parser should operate generically over every discovered current specification.
