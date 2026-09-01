@@ -1,10 +1,10 @@
 ---
 functional_set: FS-001
-artifact: normative-requirements
-title: Framework Lifecycle Substrate Requirements
+artifact: normative-specification
+title: Framework Lifecycle Substrate Specification
 ---
 
-# FS-001 — Normative Requirements
+# FS-001 — Normative Specification
 
 Evaluation classifications:
 

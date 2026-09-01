@@ -22,7 +22,8 @@ Use the following active framework structure:
         FS-NNN-<name>/
           functional-set.md
           plan.md
-          requirements.md
+      specs/
+        FS-NNN-<name>.md
       validation/
         requirement-evaluation.json
       scripts/
@@ -50,9 +51,9 @@ No generalized registry of Functional Sets is required initially.
 
 Git and the filesystem provide sufficient discovery until demonstrated otherwise.
 
-## Planning Artifact Representation
+## Planning and Specification Representation
 
-Each Functional Set contains three Markdown Planning artifacts:
+Each Functional Set retains two Markdown Planning artifacts under `repo/planning/FS-NNN-<name>/`:
 
 ### `functional-set.md`
 
@@ -72,9 +73,18 @@ Contains the consequential technical decisions Build must preserve.
 
 No universal section template beyond what is needed to make the technical intent unambiguous is required.
 
-### `requirements.md`
+Normative specifications live separately under:
 
-Contains normative requirements and their evaluation classifications.
+    repo/specs/FS-NNN-<name>.md
+
+The specification is canonical structured Markdown. It remains human-readable while using a small stable grammar that tooling can parse deterministically:
+
+- one Functional Set specification per file;
+- normative requirement headings use `### FS-NNN-NR-NNN — <title>`;
+- each requirement records exactly one `Classification` value of `M`, `S`, or `B`; and
+- the normative prose following that classification is the requirement text.
+
+The Markdown specification is the normative source. Parsers, manifests, generated data, and Validation code may consume it but do not independently create or reinterpret normative meaning.
 
 A separate database or generated normative-authority representation is not required.
 
@@ -149,13 +159,13 @@ A requirement may bind to multiple tasks and one task may enforce multiple requi
 
 ## Requirement Persistence
 
-Accepted `requirements.md` files remain immutable historical Planning records except where ordinary correction before Acceptance requires modification.
+Accepted specification files under `repo/specs/` remain immutable historical normative records except where ordinary correction before Acceptance requires modification.
 
 Current mechanical applicability is represented through the accepted Requirement Evaluation Manifest and the actual Validation tasks.
 
-Removing a requirement-to-task binding in later accepted work does not rewrite historical Planning.
+Removing a requirement-to-task binding in later accepted work does not rewrite historical specifications.
 
-Semantic requirements remain available through their accepted Functional Set Planning artifacts and are evaluated when applicable to Semantic Review.
+Semantic requirements remain available through their accepted Functional Set specification and are evaluated when applicable to Semantic Review.
 
 No global current-semantic-requirements database is introduced in FS-001.
 
@@ -193,7 +203,7 @@ At minimum Build should construct checks capable of mechanically deciding:
 - normative requirement identities within FS-001 are unique;
 - every FS-001 normative requirement has a valid evaluation classification;
 - the Requirement Evaluation Manifest is syntactically valid;
-- every mechanical or `both` requirement that requires an FS-001 acceptance-gating mechanical check has an exact manifest binding;
+- every FS-001 normative requirement classified as mechanical or `both` has at least one exact manifest binding;
 - every manifest requirement reference resolves to an existing normative requirement;
 - every manifest task reference resolves to an executable/valid project-native Validation task; and
 - the canonical Validation entry point executes the required tasks and returns failure when a required task fails.
@@ -279,13 +289,13 @@ A later cleanup Functional Set may remove it when historical comparison is no lo
 
 Build should proceed in this order where practical:
 
-1. create the active Planning and Validation repository structure;
+1. create the active Planning, specification, and Validation repository structure;
 2. add the canonical Validation entry point and minimum direct checks;
 3. create the Requirement Evaluation Manifest bindings;
 4. update README and AGENTS guidance;
 5. replace the obsolete CI workflow;
 6. run complete Validation;
-7. perform Build Review against FS-001 Planning and the bound Design revision.
+7. perform Build Review against FS-001 Planning, the normative specification, and the bound Design revision.
 
 The sequence is intended to allow the final candidate to validate itself using the newly established mechanism.
 
