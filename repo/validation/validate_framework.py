@@ -448,48 +448,293 @@ def task_framework_regression() -> None:
         cwd=ROOT,
         text=True,
         stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
         check=True,
     ).stdout.strip()
 
     with tempfile.TemporaryDirectory() as tmp:
-        base = Path(tmp)
-        planning = base / "planning"
-        specs = base / "specs"
+        root = Path(tmp)
+        planning = root / "planning"
+        specs = root / "specs"
         planning.mkdir()
         specs.mkdir()
+
+        write_fixture_fs(
+            planning,
+            specs,
+            "FS-998-fixture",
+            "FS-998",
+            head,
+            "FS-998-NR-001",
+            "S",
+        )
+        reqs = collect_requirements(planning, specs)
+        if reqs != {"FS-998-NR-001": "S"}:
+            fail("generic later Functional Set discovery/parsing regression failed")
+
+        (specs / "FS-998-fixture.md").unlink()
+        expect_failure(
+            lambda: collect_requirements(planning, specs),
+            "correspondence mismatch",
+        )
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        planning = root / "planning"
+        specs = root / "specs"
+        planning.mkdir()
+        specs.mkdir()
+
+        write_fixture_fs(
+            planning,
+            specs,
+            "FS-998-fixture",
+            "FS-998",
+            "0" * 40,
+            "FS-998-NR-001",
+            "M",
+        )
+        expect_failure(
+            lambda: collect_requirements(planning, specs),
+            "does not resolve to a Git commit",
+        )
+
+        fs_path = planning / "FS-998-fixture" / "functional-set.md"
+        text = fs_path.read_text(encoding="utf-8").replace(
+            "functional_set: FS-998",
+            "functional_set: FS-997",
+        )
+        fs_path.write_text(text.replace("0" * 40, head), encoding="utf-8")
+        expect_failure(
+            lambda: collect_requirements(planning, specs),
+            "identity mismatch",
+        )
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        planning = root / "planning"
+        specs = root / "specs"
+        planning.mkdir()
+        specs.mkdir()
+
+        write_fixture_fs(
+            planning, specs, "FS-998-fixture", "FS-998", head,
+            "FS-997-NR-001", "M",
+        )
+        expect_failure(
+            lambda: collect_requirements(planning, specs),
+            "requirement identity does not match owning Functional Set",
+        )
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        planning = root / "planning"
+        specs = root / "specs"
+        planning.mkdir()
+        specs.mkdir()
+
         write_fixture_fs(
             planning, specs, "FS-998-fixture", "FS-998", head,
             "FS-998-NR-001", "M",
         )
-        reqs, inactive = collect_requirement_state(planning, specs)
-        if reqs != {"FS-998-NR-001": "M"} or inactive:
-            fail("active requirement parsing regression failed")
+        spec_path = specs / "FS-998-fixture.md"
+        spec_text = spec_path.read_text(encoding="utf-8")
+        spec_path.write_text(
+            spec_text.replace("**Classification: M**", "**Classification: X**"),
+            encoding="utf-8",
+        )
+        expect_failure(
+            lambda: collect_requirements(planning, specs),
+            "Classification of M, S, or B",
+        )
 
-        spec = specs / "FS-998-fixture.md"
-        active_text = spec.read_text(encoding="utf-8")
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        planning = root / "planning"
+        specs = root / "specs"
+        planning.mkdir()
+        specs.mkdir()
+
+        write_fixture_fs(
+            planning, specs, "FS-998-fixture", "FS-998", head,
+            "FS-998-NR-001", "M",
+        )
+        spec_path = specs / "FS-998-fixture.md"
+        with spec_path.open("a", encoding="utf-8") as handle:
+            handle.write(
+                "\n### FS-998-NR-001 — Duplicate fixture requirement\n\n"
+                "**Classification: M**\n\nDuplicate obligation.\n"
+            )
+        expect_failure(
+            lambda: collect_requirements(planning, specs),
+            "duplicate normative requirement identity",
+        )
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        planning = root / "planning"
+        specs = root / "specs"
+        planning.mkdir()
+        specs.mkdir()
+
+        write_fixture_fs(
+            planning, specs, "FS-998-Fixture_Name", "FS-998", head,
+            "FS-998-NR-001", "M",
+        )
+        reqs = collect_requirements(planning, specs)
+        if reqs != {"FS-998-NR-001": "M"}:
+            fail("descriptive Functional Set suffix must not create a second identity grammar")
+
+        spec_path = specs / "FS-998-Fixture_Name.md"
+        base_spec = spec_path.read_text(encoding="utf-8")
+        for malformed_heading in (
+            "FS-998-NR-01 — Malformed requirement",
+            "FS-998-NR001 — Malformed requirement",
+            "FS998-NR-001 — Malformed requirement",
+            "FS-998-REQ-001 — Malformed requirement",
+        ):
+            spec_path.write_text(
+                base_spec
+                + f"\n### {malformed_heading}\n\n"
+                + "**Classification: M**\n\nMalformed.\n",
+                encoding="utf-8",
+            )
+            expect_failure(
+                lambda: collect_requirements(planning, specs),
+                "malformed normative requirement heading",
+            )
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        planning = root / "planning"
+        specs = root / "specs"
+        planning.mkdir()
+        specs.mkdir()
+
+        write_fixture_fs(
+            planning, specs, "FS-998-fixture", "FS-998", head,
+            "FS-998-NR-001", "M",
+        )
+        spec_path = specs / "FS-998-fixture.md"
+        spec_text = spec_path.read_text(encoding="utf-8")
+        spec_path.write_text(
+            spec_text.replace(
+                "**Classification: M**\n\nFixture obligation.",
+                "**Classification: M**\n\n**Classification: S**\n\nFixture obligation.",
+            ),
+            encoding="utf-8",
+        )
+        expect_failure(
+            lambda: collect_requirements(planning, specs),
+            "exactly one Classification",
+        )
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        planning = root / "planning"
+        specs = root / "specs"
+        planning.mkdir()
+        specs.mkdir()
+
+        write_fixture_fs(
+            planning, specs, "FS-998-fixture", "FS-998", head,
+            "FS-998-NR-001", "M",
+        )
+        fs_path = planning / "FS-998-fixture" / "functional-set.md"
+        fs_text = fs_path.read_text(encoding="utf-8")
+        fs_path.write_text(
+            fs_text.replace(
+                "functional_set: FS-998",
+                "functional_set: FS-998\nfunctional_set: FS-998",
+            ),
+            encoding="utf-8",
+        )
+        expect_failure(
+            lambda: collect_requirements(planning, specs),
+            "exactly one matching functional_set",
+        )
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        planning = root / "planning"
+        specs = root / "specs"
+        planning.mkdir()
+        specs.mkdir()
+
+        write_fixture_fs(
+            planning, specs, "FS-998-fixture", "FS-998", head,
+            "FS-998-NR-001", "M",
+        )
+        fs_path = planning / "FS-998-fixture" / "functional-set.md"
+        fs_text = fs_path.read_text(encoding="utf-8")
+        fs_path.write_text(
+            fs_text.replace(
+                f"design_revision: {head}",
+                f"design_revision: {head}\ndesign_revision: {head}",
+            ),
+            encoding="utf-8",
+        )
+        expect_failure(
+            lambda: collect_requirements(planning, specs),
+            "exactly one well-formed",
+        )
+
+    # Retired I evaluation classification is invalid.
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        planning = root / "planning"
+        specs = root / "specs"
+        planning.mkdir()
+        specs.mkdir()
+
+        write_fixture_fs(
+            planning, specs, "FS-998-fixture", "FS-998", head,
+            "FS-998-NR-001", "I",
+        )
+        expect_failure(
+            lambda: collect_requirement_state(planning, specs),
+            "Classification of M, S, or B",
+        )
+
+    # Requirement state is separate from evaluation classification.
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        planning = root / "planning"
+        specs = root / "specs"
+        planning.mkdir()
+        specs.mkdir()
+
+        write_fixture_fs(
+            planning, specs, "FS-998-fixture", "FS-998", head,
+            "FS-998-NR-001", "M",
+        )
+        spec_path = specs / "FS-998-fixture.md"
+        active_text = spec_path.read_text(encoding="utf-8")
         inactive_text = active_text.replace(
             "**Classification: M**",
             "**Classification: M**\n\n**State: Inactive**",
             1,
         )
-        spec.write_text(inactive_text, encoding="utf-8")
+        spec_path.write_text(inactive_text, encoding="utf-8")
 
-        reqs, inactive = collect_requirement_state(planning, specs)
-        if reqs != {"FS-998-NR-001": "M"}:
-            fail("inactive requirement lost its evaluation classification")
-        if inactive != {"FS-998-NR-001"}:
+        fixture_requirements, fixture_inactive = collect_requirement_state(
+            planning, specs
+        )
+        if fixture_requirements != {"FS-998-NR-001": "M"}:
+            fail("inactive requirement must retain its evaluation classification")
+        if fixture_inactive != {"FS-998-NR-001"}:
             fail("inactive requirement state was not parsed")
 
         validate_manifest_data(
-            reqs,
+            fixture_requirements,
             {"version": 1, "bindings": []},
             tasks=(),
             required_bindings=set(),
-            forbidden_bindings=inactive,
+            forbidden_bindings=fixture_inactive,
         )
         expect_failure(
             lambda: validate_manifest_data(
-                reqs,
+                fixture_requirements,
                 {
                     "version": 1,
                     "bindings": [
@@ -501,33 +746,19 @@ def task_framework_regression() -> None:
                 },
                 tasks=("planning-structure",),
                 required_bindings=set(),
-                forbidden_bindings=inactive,
+                forbidden_bindings=fixture_inactive,
             ),
             "inactive requirements must not have manifest bindings",
         )
 
-        spec.write_text(active_text, encoding="utf-8")
-        reqs, inactive = collect_requirement_state(planning, specs)
-        if reqs != {"FS-998-NR-001": "M"} or inactive:
-            fail("reactivation by removing inactive state marker failed")
+        spec_path.write_text(active_text, encoding="utf-8")
+        reactivated, reactivated_inactive = collect_requirement_state(
+            planning, specs
+        )
+        if reactivated != {"FS-998-NR-001": "M"} or reactivated_inactive:
+            fail("reactivation by removing State: Inactive failed")
 
-    for bad_class in ("I", "X"):
-        with tempfile.TemporaryDirectory() as tmp:
-            base = Path(tmp)
-            planning = base / "planning"
-            specs = base / "specs"
-            planning.mkdir()
-            specs.mkdir()
-            write_fixture_fs(
-                planning, specs, "FS-998-fixture", "FS-998", head,
-                "FS-998-NR-001", bad_class,
-            )
-            expect_failure(
-                lambda: collect_requirement_state(planning, specs),
-                "Classification of M, S, or B",
-            )
-
-    for marker, diagnostic in (
+    for state_marker, diagnostic in (
         ("**State: Active**", "State must be Inactive"),
         (
             "**State: Inactive**\n\n**State: Inactive**",
@@ -535,21 +766,22 @@ def task_framework_regression() -> None:
         ),
     ):
         with tempfile.TemporaryDirectory() as tmp:
-            base = Path(tmp)
-            planning = base / "planning"
-            specs = base / "specs"
+            root = Path(tmp)
+            planning = root / "planning"
+            specs = root / "specs"
             planning.mkdir()
             specs.mkdir()
+
             write_fixture_fs(
                 planning, specs, "FS-998-fixture", "FS-998", head,
                 "FS-998-NR-001", "M",
             )
-            spec = specs / "FS-998-fixture.md"
-            fixture = spec.read_text(encoding="utf-8")
-            spec.write_text(
-                fixture.replace(
+            spec_path = specs / "FS-998-fixture.md"
+            fixture_text = spec_path.read_text(encoding="utf-8")
+            spec_path.write_text(
+                fixture_text.replace(
                     "**Classification: M**",
-                    "**Classification: M**\n\n" + marker,
+                    "**Classification: M**\n\n" + state_marker,
                     1,
                 ),
                 encoding="utf-8",
@@ -558,37 +790,6 @@ def task_framework_regression() -> None:
                 lambda: collect_requirement_state(planning, specs),
                 diagnostic,
             )
-
-    with tempfile.TemporaryDirectory() as tmp:
-        base = Path(tmp)
-        planning = base / "planning"
-        specs = base / "specs"
-        planning.mkdir()
-        specs.mkdir()
-        write_fixture_fs(
-            planning, specs, "FS-998-fixture", "FS-998", head,
-            "FS-998-NR-001", "S",
-        )
-        (specs / "FS-998-fixture.md").unlink()
-        expect_failure(
-            lambda: collect_requirements(planning, specs),
-            "correspondence mismatch",
-        )
-
-    with tempfile.TemporaryDirectory() as tmp:
-        base = Path(tmp)
-        planning = base / "planning"
-        specs = base / "specs"
-        planning.mkdir()
-        specs.mkdir()
-        write_fixture_fs(
-            planning, specs, "FS-998-fixture", "FS-998", "0" * 40,
-            "FS-998-NR-001", "M",
-        )
-        expect_failure(
-            lambda: collect_requirements(planning, specs),
-            "does not resolve to a Git commit",
-        )
 
     requirements = {
         "FS-998-NR-001": "M",
@@ -606,33 +807,42 @@ def task_framework_regression() -> None:
     expect_failure(
         lambda: validate_manifest_data(
             requirements,
-            {
-                "version": 1,
-                "bindings": [
-                    {
-                        "requirement": "FS-998-NR-002",
-                        "tasks": ["planning-structure"],
-                    }
-                ],
-            },
-            tasks=("planning-structure",),
+            {"version": 1, "bindings": [{"requirement": "FS-998-NR-999", "tasks": ["planning-structure"]}]},
+        ),
+        "unknown requirement",
+    )
+    expect_failure(
+        lambda: validate_manifest_data(
+            requirements,
+            {"version": 1, "bindings": [{"requirement": "FS-998-NR-002", "tasks": ["planning-structure"]}]},
         ),
         "without active mechanical evaluation",
     )
     expect_failure(
         lambda: validate_manifest_data(
             requirements,
+            {"version": 1, "bindings": [{"requirement": "FS-998-NR-001", "tasks": ["missing-task"]}]},
+        ),
+        "unknown Validation task",
+    )
+
+    all_current = {
+        "FS-997-NR-001": "M",
+        "FS-998-NR-001": "M",
+    }
+    expect_failure(
+        lambda: validate_manifest_data(
+            all_current,
             {
                 "version": 1,
                 "bindings": [
-                    {
-                        "requirement": "FS-998-NR-001",
-                        "tasks": ["missing-task"],
-                    }
+                    {"requirement": "FS-998-NR-001", "tasks": ["planning-structure"]}
                 ],
             },
+            tasks=("planning-structure",),
+            required_bindings=set(all_current),
         ),
-        "unknown Validation task",
+        "without manifest bindings",
     )
 
 TASK_FUNCTIONS: dict[str, Callable[[], None]] = {
